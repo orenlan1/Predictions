@@ -1,6 +1,5 @@
 package world.rule;
 
-import generated.PRDRule;
 import world.action.Action;
 import world.entity.Entity;
 
@@ -8,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Rule {
-    private String name;
+    private String ruleName;
     private List<Action> actions;
     private double probability;
     private int everyXTicks;
@@ -25,4 +24,11 @@ public class Rule {
                 action.activate(entity);
         }
     }
+
+
+    public void addAction(Action action) {
+        actions.add(action);
+    }
 }
+
+

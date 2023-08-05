@@ -17,4 +17,7 @@ public class Entity {
         string2property = new HashMap<>();
 
     }
+
+
+
 }
