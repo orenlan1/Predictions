@@ -3,6 +3,7 @@ package world.rule;
 import world.action.Action;
 import world.entity.Entity;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,8 +14,20 @@ public class Rule {
     private int everyXTicks;
 
 
-    public Rule(Object some_bullshit) {
+    public Rule(String name, double prob, int numTicks) {
+        this.ruleName = name;
+        if (prob < 0) {
+            probability = 1;
+        } else {
+            probability = prob;
+        }
 
+        if (numTicks < 0) {
+            everyXTicks = 1;
+        } else {
+            everyXTicks = numTicks;
+        }
+        actions = new ArrayList<>();
     }
 
     public void performRule(Entity entity, int ticks){
