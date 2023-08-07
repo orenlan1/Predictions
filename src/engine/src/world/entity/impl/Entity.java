@@ -1,13 +1,13 @@
-package world.entity;
+package world.entity.impl;
 
-import world.properties.Property;
+import world.property.impl.IntegerProperty;
 import generated.PRDEntity;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Entity {
     private String name;
-    private Map<String, Property> string2property;
+    private Map<String, IntegerProperty> string2property;
 
 
 

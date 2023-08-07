@@ -1,10 +1,9 @@
 package world.rule;
 
 import world.action.Action;
-import world.entity.Entity;
+import world.entity.impl.Entity;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Rule {

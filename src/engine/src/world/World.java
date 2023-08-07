@@ -2,7 +2,7 @@ package world;
 
 import java.util.List;
 import java.util.Map;
-import world.entity.Entity;
+import world.entity.impl.Entity;
 
 public class World {
     private static int ticks = 0;

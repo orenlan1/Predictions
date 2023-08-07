@@ -1,6 +1,6 @@
 package world.action;
 
-import world.entity.Entity;
+import world.entity.impl.Entity;
 
 public interface Action {
     public void activate(Entity entity);
