@@ -2,7 +2,7 @@ package world.rule.impl;
 
 import world.World;
 import world.action.api.Action;
-import world.rule.api.Activation;
+import world.rule.activation.Activation;
 import world.rule.api.Rule;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class RuleImpl implements Rule, Activation {
     public String getName() {return name; }
 
     @Override
-    public Activation getActivation() {
+    public Activation getActivation() {                 //ADD IMPLEMENTATION!!!!!
         return null;
     }
 
