@@ -5,7 +5,7 @@ import java.util.Map;
 import world.entity.impl.EntityInstanceImpl;
 
 public class World {
-    private static int ticks = 0;
+    public static int ticks = 0;
     private Map<String, List<EntityInstanceImpl>> string2entity;
 
 

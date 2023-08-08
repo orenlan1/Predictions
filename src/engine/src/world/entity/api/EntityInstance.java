@@ -8,6 +8,7 @@ import world.property.impl.PropertyInstanceImpl;
 public interface EntityInstance {
     PropertyInstance getPropertyByName(String name);
     void addPropertyInstance(PropertyInstance propertyInstance);
+
     //static EntityInstance createEntityInstance(EntityDefinition entityDefinition);
     static EntityInstance createEntityInstance(EntityDefinition entityDefinition){
         EntityInstance newEntityInstance = new EntityInstanceImpl(entityDefinition);
