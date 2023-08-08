@@ -1,7 +1,7 @@
 package world.rule;
 
 import world.action.Action;
-import world.entity.impl.Entity;
+import world.entity.impl.EntityInstanceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class Rule {
         actions = new ArrayList<>();
     }
 
-    public void performRule(Entity entity, int ticks){
+    public void performRule(EntityInstanceImpl entity, int ticks){
         double prob = Math.random();
         if ((ticks % everyXTicks == 0) && prob < probability) {
             for (Action action : actions)

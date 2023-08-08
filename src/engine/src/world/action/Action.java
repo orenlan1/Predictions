@@ -1,8 +1,8 @@
 package world.action;
 
-import world.entity.impl.Entity;
+import world.entity.impl.EntityInstanceImpl;
 
 public interface Action {
-    public void activate(Entity entity);
+    public void activate(EntityInstanceImpl entity);
     public String show();
 }
