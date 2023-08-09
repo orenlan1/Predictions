@@ -41,6 +41,14 @@ public class Main {
             activeEnvironment.addPropertyInstance(new PropertyInstanceImpl(cigarettesCritical, newValueFromUser));
         }
 
+        Expression exp = new ExpressionImpl("2", age);
+        Action action = new IncreaseAction(smoker, exp, age);
+
+        try {
+            action.activate(smokersInstances.get(0));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
 
 

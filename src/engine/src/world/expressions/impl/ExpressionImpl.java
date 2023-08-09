@@ -26,22 +26,15 @@ public class ExpressionImpl implements Expression {
             return expression;
         } else { //WILDCARD
             AbstractPropertyDefinition.PropertyType type = propertyDefinition.getType();
-            try {
-                if (type.equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
-                    return Integer.parseInt(expression);
-                } else if (type.equals(AbstractPropertyDefinition.PropertyType.FLOAT)) {
-                    return Float.parseFloat(expression);
-                } else if (type.equals(AbstractPropertyDefinition.PropertyType.BOOLEAN)) {
-                    return Boolean.parseBoolean(expression);
-                } else if (type.equals(AbstractPropertyDefinition.PropertyType.STRING)) {
-                    return expression;
-                } else {
-                    throw new Exception("Invalid shit, idiot");
-                }
-            } catch (NumberFormatException e){
-                //throw new
+            if (type.equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
+                return Integer.parseInt(expression);
+            } else if (type.equals(AbstractPropertyDefinition.PropertyType.FLOAT)) {
+                return Float.parseFloat(expression);
+            } else if (type.equals(AbstractPropertyDefinition.PropertyType.BOOLEAN)) {
+                return Boolean.parseBoolean(expression);
+            } else if (type.equals(AbstractPropertyDefinition.PropertyType.STRING)) {
+                return expression;
             }
-
         }
 
 }

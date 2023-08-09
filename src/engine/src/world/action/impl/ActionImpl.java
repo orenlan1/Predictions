@@ -11,9 +11,10 @@ public abstract class ActionImpl implements Action {
     private EntityDefinition entityDefinition;
     private PropertyDefinition propertyDefinition;
 
-    protected ActionImpl(ActionType actionType, EntityDefinition entityDefinition) {
+    protected ActionImpl(ActionType actionType, EntityDefinition entityDefinition,PropertyDefinition propertyDefinition) {
         this.actionType = actionType;
         this.entityDefinition = entityDefinition;
+        this.propertyDefinition = propertyDefinition;
     }
 
     @Override

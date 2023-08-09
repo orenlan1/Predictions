@@ -17,8 +17,6 @@ public class PropertyInstanceImpl implements PropertyInstance {
         this.value = value;
     }
 
-
-
     @Override
     public PropertyDefinition getPropertyDefinition() {
         return propertyDefinition;
@@ -27,5 +25,10 @@ public class PropertyInstanceImpl implements PropertyInstance {
     @Override
     public Object getValue() {
         return value;
+    }
+
+    @Override
+    public void updateValue(Object value) {
+        this.value = value;
     }
 }

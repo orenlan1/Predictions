@@ -37,7 +37,6 @@ public class EntityInstanceImpl implements EntityInstance {
 
     @Override
     public void addPropertyInstance(PropertyInstance propertyInstance) {
-        nameToProperty.put(entityDefinition.getName(), propertyInstance);
-
+        nameToProperty.put(propertyInstance.getPropertyDefinition().getName(), propertyInstance);
     }
 }
