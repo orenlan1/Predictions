@@ -5,6 +5,7 @@ import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 import world.property.impl.PropertyInstanceImpl;
 
+
 public interface EntityInstance {
     PropertyInstance getPropertyByName(String name);
     void addPropertyInstance(PropertyInstance propertyInstance);

@@ -8,6 +8,7 @@ import world.property.impl.PropertyInstanceImpl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class EntityInstanceImpl implements EntityInstance {
     private final EntityDefinition entityDefinition;
