@@ -5,7 +5,7 @@ import world.property.api.PropertyInstance;
 
 public class PropertyInstanceImpl implements PropertyInstance {
     private final PropertyDefinition propertyDefinition;
-    private Object value;
+    protected Object value;
 
     public PropertyInstanceImpl(PropertyDefinition propertyDefinition) { // Ctor for entity property
         this.propertyDefinition = propertyDefinition;

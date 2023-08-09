@@ -11,5 +11,5 @@ public interface EntityDefinition {
     void addEntityInstance(EntityInstance entityInstance);
     void addPropertyDefinition(PropertyDefinition propertyDefinition);
     void createEntityInstancesPopulation();
-
+    public List<EntityInstance> getEntityInstances();
 }

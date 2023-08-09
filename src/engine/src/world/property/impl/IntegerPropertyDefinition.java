@@ -7,5 +7,4 @@ public class IntegerPropertyDefinition extends AbstractPropertyDefinition<Intege
     public IntegerPropertyDefinition(String name, ValueGenerator<Integer> valueGenerator) {
         super(name, PropertyType.DECIMAL, valueGenerator);
     }
-
 }

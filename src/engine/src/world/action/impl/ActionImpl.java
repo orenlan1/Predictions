@@ -7,9 +7,9 @@ import world.property.api.PropertyDefinition;
 
 public abstract class ActionImpl implements Action {
     public enum ActionType {INCREASE, DECREASE, CALCULATION ,CONDITION, SET, KILL}
-    private final ActionType actionType;
-    private EntityDefinition entityDefinition;
-    private PropertyDefinition propertyDefinition;
+    protected final ActionType actionType;
+    protected EntityDefinition entityDefinition;
+    protected PropertyDefinition propertyDefinition;
 
     protected ActionImpl(ActionType actionType, EntityDefinition entityDefinition,PropertyDefinition propertyDefinition) {
         this.actionType = actionType;

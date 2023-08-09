@@ -51,4 +51,9 @@ public class EntityDefinitionImpl implements EntityDefinition {
             entityInstances.add(EntityInstance.createEntityInstance(this));
         }
     }
+
+    @Override
+    public List<EntityInstance> getEntityInstances() {
+        return entityInstances;
+    }
 }

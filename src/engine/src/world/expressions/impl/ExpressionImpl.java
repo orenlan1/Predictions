@@ -19,9 +19,13 @@ public class ExpressionImpl implements Expression {
     }
 
     @Override
-    public Object evaluate(EntityInstance entityInstance) {
-        if (helperFunction) {
+    public Object evaluate(EntityInstance entityInstance) throws NumberFormatException {
+        if (expression.contains("random")) {
             //implement
+            return null;
+        } else if (expression.contains("environment")) {
+            //implement
+            return null;
         } else if (entityInstance.getPropertyByName(expression) != null) {
             return expression;
         } else { //WILDCARD
@@ -36,5 +40,6 @@ public class ExpressionImpl implements Expression {
                 return expression;
             }
         }
-
+        return null;
+    }
 }

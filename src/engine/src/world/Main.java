@@ -1,7 +1,13 @@
 package world;
 
+import world.action.api.Action;
+import world.action.impl.IncreaseAction;
 import world.entity.api.EntityDefinition;
+import world.entity.api.EntityInstance;
 import world.entity.impl.EntityDefinitionImpl;
+import world.entity.impl.EntityInstanceImpl;
+import world.expressions.api.Expression;
+import world.expressions.impl.ExpressionImpl;
 import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
@@ -13,6 +19,8 @@ import world.environment.api.EnvironmentVariablesManager;
 import world.environment.api.ActiveEnvironment;
 import world.environment.impl.ActiveEnvironmentImpl;
 import world.environment.impl.EnvironmentVariablesManagerImpl;
+
+import java.util.List;
 
 
 public class Main {
@@ -31,7 +39,7 @@ public class Main {
         smoker.addPropertyDefinition(age);
         smoker.createEntityInstancesPopulation();
 
-
+        List<EntityInstance> smokersInstances = smoker.getEntityInstances();
 
         EnvironmentVariablesManager environmentVariablesManager = new EnvironmentVariablesManagerImpl();
         ActiveEnvironment activeEnvironment = environmentVariablesManager.createActiveEnvironment();
@@ -49,9 +57,6 @@ public class Main {
         } catch (Exception e) {
             System.out.println(e);
         }
-
-
-
 
 
     }

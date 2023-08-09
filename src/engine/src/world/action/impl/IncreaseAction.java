@@ -3,15 +3,19 @@ package world.action.impl;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.expressions.api.Expression;
+import world.expressions.impl.ExpressionImpl;
+import world.property.api.AbstractPropertyDefinition;
+import world.property.api.PropertyDefinition;
+import world.property.api.PropertyInstance;
 
 public class IncreaseAction extends ActionImpl {
     Expression expression;
 
-    public IncreaseAction(EntityDefinition entityDefinition) {
-        super(ActionType.INCREASE, entityDefinition);
-        expression = new ExpressionImpl();
-    }
 
+    public IncreaseAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition) {
+        super(ActionType.INCREASE, entityDefinition, propertyDefinition);
+        this.expression = expression;
+    }
 
     @Override
     public void activate(EntityInstance entityInstance) throws Exception {
@@ -36,5 +40,4 @@ public class IncreaseAction extends ActionImpl {
             throw new Exception("Invalid expression, expected " + propertyDefinition.getType().toString());
         }
     }
-
 }
