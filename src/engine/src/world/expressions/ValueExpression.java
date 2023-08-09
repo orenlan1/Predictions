@@ -1,6 +1,8 @@
 package world.expressions;
 
-public class ValueExpression implements Expression{
+import world.expressions.api.Expression;
+
+public class ValueExpression implements Expression {
     @Override
     public Object evaluate() {
         return null;

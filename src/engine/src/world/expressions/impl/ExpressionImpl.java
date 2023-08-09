@@ -1,0 +1,47 @@
+package world.expressions.impl;
+
+import world.entity.api.EntityInstance;
+import world.expressions.api.Expression;
+import world.property.api.AbstractPropertyDefinition;
+import world.property.api.PropertyDefinition;
+
+import java.util.List;
+import java.util.Optional;
+
+public class ExpressionImpl implements Expression {
+    private final String expression;
+    private final PropertyDefinition propertyDefinition;
+
+
+    public ExpressionImpl(String expression, PropertyDefinition propertyDefinition) {
+        this.expression = expression;
+        this.propertyDefinition = propertyDefinition;
+    }
+
+    @Override
+    public Object evaluate(EntityInstance entityInstance) {
+        if (helperFunction) {
+            //implement
+        } else if (entityInstance.getPropertyByName(expression) != null) {
+            return expression;
+        } else { //WILDCARD
+            AbstractPropertyDefinition.PropertyType type = propertyDefinition.getType();
+            try {
+                if (type.equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
+                    return Integer.parseInt(expression);
+                } else if (type.equals(AbstractPropertyDefinition.PropertyType.FLOAT)) {
+                    return Float.parseFloat(expression);
+                } else if (type.equals(AbstractPropertyDefinition.PropertyType.BOOLEAN)) {
+                    return Boolean.parseBoolean(expression);
+                } else if (type.equals(AbstractPropertyDefinition.PropertyType.STRING)) {
+                    return expression;
+                } else {
+                    throw new Exception("Invalid shit, idiot");
+                }
+            } catch (NumberFormatException e){
+                //throw new
+            }
+
+        }
+
+}

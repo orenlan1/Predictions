@@ -1,6 +1,6 @@
 package world.expressions;
 
-import java.util.Set;
+import world.expressions.api.Expression;
 
 public class HelperFunctionExpression implements Expression {
 
