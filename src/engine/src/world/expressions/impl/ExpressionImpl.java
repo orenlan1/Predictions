@@ -1,7 +1,10 @@
 package world.expressions.impl;
 
 import world.entity.api.EntityInstance;
+import world.environment.api.ActiveEnvironment;
 import world.expressions.api.Expression;
+import world.helper.function.impl.EnvironmentFunction;
+import world.helper.function.impl.RandomFunction;
 import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 
@@ -11,21 +14,22 @@ import java.util.Optional;
 public class ExpressionImpl implements Expression {
     private final String expression;
     private final PropertyDefinition propertyDefinition;
+    private final ActiveEnvironment activeEnvironment;
 
-
-    public ExpressionImpl(String expression, PropertyDefinition propertyDefinition) {
+    public ExpressionImpl(String expression, PropertyDefinition propertyDefinition, ActiveEnvironment activeEnvironment) {
         this.expression = expression;
         this.propertyDefinition = propertyDefinition;
+        this.activeEnvironment = activeEnvironment;
     }
 
     @Override
     public Object evaluate(EntityInstance entityInstance) throws NumberFormatException {
         if (expression.contains("random")) {
-            //implement
-            return null;
+            String arg = expression.split("\\(")[1].split("\\)")[0];
+            return new RandomFunction().invoke(arg, activeEnvironment);
         } else if (expression.contains("environment")) {
-            //implement
-            return null;
+            String arg = expression.split("\\(")[1].split("\\)")[0];
+            return new EnvironmentFunction().invoke(arg, activeEnvironment);
         } else if (entityInstance.getPropertyByName(expression) != null) {
             return expression;
         } else { //WILDCARD

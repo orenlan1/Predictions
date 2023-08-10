@@ -3,7 +3,6 @@ package world.action.impl;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.expressions.api.Expression;
-import world.expressions.impl.ExpressionImpl;
 import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
@@ -34,7 +33,9 @@ public class IncreaseAction extends ActionImpl {
                     newValue = (Float) property.getValue() + (Float) value;
                 }
             }
-            property.updateValue(newValue);
+            if (newValue != null) {
+                property.updateValue(newValue);
+            }
         }
         catch (NumberFormatException e) {
             throw new Exception("Invalid expression, expected " + propertyDefinition.getType().toString());

@@ -43,20 +43,28 @@ public class Main {
 
         EnvironmentVariablesManager environmentVariablesManager = new EnvironmentVariablesManagerImpl();
         ActiveEnvironment activeEnvironment = environmentVariablesManager.createActiveEnvironment();
+
         for (PropertyDefinition propertyDefinition : environmentVariablesManager.getEnvironmentVariables()) {
             //collect data from user
             int newValueFromUser = 10;
             activeEnvironment.addPropertyInstance(new PropertyInstanceImpl(cigarettesCritical, newValueFromUser));
         }
 
-        Expression exp = new ExpressionImpl("2", age);
-        Action action = new IncreaseAction(smoker, exp, age);
+        PropertyDefinition tax = new IntegerPropertyDefinition("tax", ValueGeneratorFactory.createFixed(17));
+        PropertyInstance taxIntance = new PropertyInstanceImpl(tax);
 
-        try {
-            action.activate(smokersInstances.get(0));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        activeEnvironment.addPropertyInstance(taxIntance);
+
+        Expression exp = new ExpressionImpl("random(4)", tax, activeEnvironment);
+        Object obj = exp.evaluate(smokersInstances.get(0));
+
+        //Action action = new IncreaseAction(smoker, exp, age);
+//
+        //try {
+        //    action.activate(smokersInstances.get(0));
+        //} catch (Exception e) {
+        //    System.out.println(e);
+        //}
 
 
     }
