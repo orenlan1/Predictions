@@ -9,7 +9,7 @@ import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 
 public class IncreaseAction extends ActionImpl {
-    Expression expression;
+    private final Expression expression;
 
 
     public IncreaseAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition) {
