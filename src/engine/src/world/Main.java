@@ -6,11 +6,8 @@ import world.action.impl.IncreaseAction;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.entity.impl.EntityDefinitionImpl;
-import world.entity.impl.EntityInstanceImpl;
-import world.expressions.ExpressionDecoder;
 import world.expressions.api.Expression;
 import world.expressions.impl.ExpressionImpl;
-import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 import world.property.impl.IntegerPropertyDefinition;
@@ -36,7 +33,6 @@ public class Main {
 
 
         PropertyDefinition age = new IntegerPropertyDefinition("age",ValueGeneratorFactory.createRandomInteger(15,50));
-        //PropertyInstance ageInstance = new PropertyInstanceImpl(age);
         EntityDefinition smoker = new EntityDefinitionImpl("smoker",100);
         smoker.addPropertyDefinition(age);
         smoker.createEntityInstancesPopulation();
@@ -49,24 +45,17 @@ public class Main {
         for (PropertyDefinition propertyDefinition : environmentVariablesManager.getEnvironmentVariables()) {
             //collect data from user
             int newValueFromUser = 10;
-            activeEnvironment.addPropertyInstance(new PropertyInstanceImpl(cigarettesCritical, newValueFromUser));
+            activeEnvironment.addPropertyInstance(new PropertyInstanceImpl(propertyDefinition, newValueFromUser));
         }
 
         PropertyDefinition tax = new IntegerPropertyDefinition("tax", ValueGeneratorFactory.createFixed(17));
-        PropertyInstance taxIntance = new PropertyInstanceImpl(tax);
+        PropertyInstance taxInstance = new PropertyInstanceImpl(tax);
 
-        activeEnvironment.addPropertyInstance(taxIntance);
+        activeEnvironment.addPropertyInstance(taxInstance);
 
         Expression exp = new ExpressionImpl("random(4)", tax, activeEnvironment, smoker, ActionType.INCREASE);
         Object obj = exp.evaluate(smokersInstances.get(0));
 
-        //Action action = new IncreaseAction(smoker, exp, age);
-
-        //try {
-        //    action.activate(smokersInstances.get(0));
-        //} catch (Exception e) {
-        //    System.out.println(e);
-        //}
 
     }
 }

@@ -1,13 +1,14 @@
 package world;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
+import generated.PRDProperties;
+import generated.PRDProperty;
 import world.entity.api.EntityInstance;
 import world.entity.impl.EntityInstanceImpl;
 import world.environment.api.ActiveEnvironment;
+import world.property.api.PropertyDefinition;
+import world.translator.PropertyTranslator;
 
 public class World {
     private Map<String, List<EntityInstance>> nameToEntityList;
@@ -39,4 +40,12 @@ public class World {
     }
 
     public void tick() { ticks++; }
+
+    public List<PropertyDefinition> translateProperties(PRDProperties prdPropertiesList) throws Exception {
+        List<PropertyDefinition> propertyDefinitions = new LinkedList<>();
+        for (PRDProperty prdProperty : prdPropertiesList.getPRDProperty()) {
+            propertyDefinitions.add(PropertyTranslator.TranslatePropertyDefinition(prdProperty));
+        }
+        return propertyDefinitions;
+    }
 }
