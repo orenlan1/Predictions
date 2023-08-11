@@ -2,6 +2,7 @@ package world.rule.impl;
 
 import world.World;
 import world.action.api.Action;
+import world.entity.api.EntityInstance;
 import world.rule.activation.Activation;
 import world.rule.api.Rule;
 
@@ -43,42 +44,10 @@ public class RuleImpl implements Rule, Activation {
         return ((World.ticks % tickNumber == 0) && (random.nextFloat() < probability));
     }
 
-
-    /*
-    private String ruleName;
-    private List<Action> actions;
-    private double probability;
-    private int everyXTicks;
-
-
-    public RuleImpl(String name, double prob, int numTicks) {
-        this.ruleName = name;
-        if (prob < 0) {
-            probability = 1;
-        } else {
-            probability = prob;
-        }
-
-        if (numTicks < 0) {
-            everyXTicks = 1;
-        } else {
-            everyXTicks = numTicks;
-        }
-        actions = new ArrayList<>();
-    }
-
-    public void performRule(EntityInstanceImpl entity, int ticks){
-        double prob = Math.random();
-        if ((ticks % everyXTicks == 0) && prob < probability) {
-            for (Action action : actions)
-                action.activate(entity);
+    @Override
+    public void performAction(EntityInstance entityInstance) throws Exception {
+        for (Action action : actions) {
+            action.activate(entityInstance);
         }
     }
-
-
-    public void addAction(Action action) {
-        actions.add(action);
-    }
-
-*/
 }

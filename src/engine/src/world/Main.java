@@ -6,6 +6,7 @@ import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.entity.impl.EntityDefinitionImpl;
 import world.entity.impl.EntityInstanceImpl;
+import world.expressions.ExpressionDecoder;
 import world.expressions.api.Expression;
 import world.expressions.impl.ExpressionImpl;
 import world.property.api.AbstractPropertyDefinition;
@@ -65,7 +66,6 @@ public class Main {
         //} catch (Exception e) {
         //    System.out.println(e);
         //}
-
 
     }
 }

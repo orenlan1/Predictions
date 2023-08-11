@@ -6,6 +6,6 @@ import world.entity.api.EntityInstance;
 
 public interface Action {
     void activate(EntityInstance entityInstance) throws Exception;
-    ActionImpl.ActionType getActionType();
+    ActionType getActionType();
     EntityDefinition getEntityDefinition();
 }

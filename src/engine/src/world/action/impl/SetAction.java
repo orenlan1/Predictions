@@ -1,5 +1,6 @@
 package world.action.impl;
 
+import world.action.api.ActionType;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.expressions.api.Expression;
