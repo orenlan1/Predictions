@@ -1,6 +1,7 @@
 package world;
 
 import world.action.api.Action;
+import world.action.api.ActionType;
 import world.action.impl.IncreaseAction;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
@@ -56,11 +57,11 @@ public class Main {
 
         activeEnvironment.addPropertyInstance(taxIntance);
 
-        Expression exp = new ExpressionImpl("random(4)", tax, activeEnvironment);
+        Expression exp = new ExpressionImpl("random(4)", tax, activeEnvironment, smoker, ActionType.INCREASE);
         Object obj = exp.evaluate(smokersInstances.get(0));
 
         //Action action = new IncreaseAction(smoker, exp, age);
-//
+
         //try {
         //    action.activate(smokersInstances.get(0));
         //} catch (Exception e) {
