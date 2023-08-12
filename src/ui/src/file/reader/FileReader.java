@@ -15,7 +15,7 @@ public class FileReader {
         do {
             try {
                 String xmlFileName = scanner.nextLine();
-                if (xmlFileName.split("\\.")[1].equals("xml")) {
+                if (xmlFileName.contains(".") && xmlFileName.split("\\.")[1].equals("xml")) {
                     dto = EngineFileReader.checkFileValidation(xmlFileName);
                     validFile = dto.isValid();
                     if (!validFile)
@@ -26,6 +26,9 @@ public class FileReader {
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+            } finally {
+                if (!validFile && firstTime)
+                    System.out.println("Please try again: ");
             }
         } while (!validFile && firstTime);
 

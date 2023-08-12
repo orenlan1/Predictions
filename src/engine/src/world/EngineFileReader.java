@@ -4,7 +4,9 @@ import dto.FileReaderDTO;
 import generated.PRDEvironment;
 import generated.PRDProperty;
 import generated.PRDWorld;
+import world.entity.api.EntityDefinition;
 import world.property.api.PropertyDefinition;
+import world.translator.EntityTranslator;
 import world.translator.PropertyTranslator;
 
 import javax.xml.bind.JAXBContext;
@@ -27,12 +29,12 @@ public class EngineFileReader {
             JAXBContext jc = JAXBContext.newInstance(JAXB_XML_PACKAGE_NAME);
             Unmarshaller u = jc.createUnmarshaller();
             PRDWorld prdWorld = (PRDWorld) u.unmarshal(inputStream);
-            PropertyDefinition propertyDefinition = PropertyTranslator.TranslatePropertyDefinition(prdWorld.getPRDEntities().getPRDEntity().get(0).getPRDProperties().getPRDProperty().get(0));
+            EntityDefinition entityDefinition = EntityTranslator.TranslateEntityDefinition(prdWorld.getPRDEntities().getPRDEntity().get(0));
             int x = 5;
         } catch (Exception e) {
             return new FileReaderDTO(Boolean.FALSE, e.getMessage());
         }
-        return null;
+        return new FileReaderDTO(Boolean.TRUE, null);
     }
 
 

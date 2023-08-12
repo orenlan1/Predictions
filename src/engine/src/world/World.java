@@ -42,14 +42,6 @@ public class World {
 
     public void tick() { ticks++; }
 
-    public List<PropertyDefinition> translateProperties(PRDProperties prdPropertiesList) throws Exception {
-        List<PropertyDefinition> propertyDefinitions = new LinkedList<>();
-        for (PRDProperty prdProperty : prdPropertiesList.getPRDProperty()) {
-            propertyDefinitions.add(PropertyTranslator.TranslatePropertyDefinition(prdProperty));
-        }
-        return propertyDefinitions;
-    }
-
 
 
 

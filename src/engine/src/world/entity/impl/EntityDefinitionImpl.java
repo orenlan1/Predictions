@@ -44,9 +44,9 @@ public class EntityDefinitionImpl implements EntityDefinition {
 
     public void addPropertyDefinition(PropertyDefinition propertyDefinition) throws EntityPropertyNameExistException {
         String propertyName = propertyDefinition.getName();
-        for ( PropertyDefinition propertyDefinition1 : propertiesList)
+        for ( PropertyDefinition existingPropertyDefinition : propertiesList)
         {
-            if (propertyDefinition.getName().equals(propertyName))
+            if (existingPropertyDefinition.getName().equals(propertyName))
             {
                 throw new EntityPropertyNameExistException(name, propertyName);
             }

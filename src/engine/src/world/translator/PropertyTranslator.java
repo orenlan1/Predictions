@@ -1,5 +1,6 @@
 package world.translator;
 
+import generated.PRDProperties;
 import generated.PRDProperty;
 import world.property.api.PropertyDefinition;
 import world.property.impl.BooleanPropertyDefinition;
@@ -7,6 +8,9 @@ import world.property.impl.FloatPropertyDefinition;
 import world.property.impl.IntegerPropertyDefinition;
 import world.property.impl.StringPropertyDefinition;
 import world.value.generator.api.ValueGeneratorFactory;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class PropertyTranslator {
     public static PropertyDefinition TranslatePropertyDefinition(PRDProperty prdProperty) throws Exception {
@@ -50,5 +54,14 @@ public class PropertyTranslator {
                 throw new Exception("failed translation");
         }
         return propertyDefinition;
+    }
+
+
+    public static List<PropertyDefinition> translateProperties(PRDProperties prdPropertiesList) throws Exception {
+        List<PropertyDefinition> propertyDefinitions = new LinkedList<>();
+        for (PRDProperty prdProperty : prdPropertiesList.getPRDProperty()) {
+            propertyDefinitions.add(PropertyTranslator.TranslatePropertyDefinition(prdProperty));
+        }
+        return propertyDefinitions;
     }
 }
