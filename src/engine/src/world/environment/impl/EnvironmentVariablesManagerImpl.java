@@ -2,6 +2,7 @@ package world.environment.impl;
 
 import world.environment.api.ActiveEnvironment;
 import world.environment.api.EnvironmentVariablesManager;
+import world.exceptions.EnvironmentVariableNameExistException;
 import world.property.api.PropertyDefinition;
 
 import java.util.Collection;
@@ -16,7 +17,12 @@ public class EnvironmentVariablesManagerImpl implements EnvironmentVariablesMana
     }
 
     @Override
-    public void addEnvironmentVariable(PropertyDefinition propertyDefinition) {
+    public void addEnvironmentVariable(PropertyDefinition propertyDefinition) throws  EnvironmentVariableNameExistException{
+        if ( nameToPropertyDefinition.containsKey(propertyDefinition.getName()))
+        {
+            throw new EnvironmentVariableNameExistException(propertyDefinition.getName());
+
+        }
         nameToPropertyDefinition.put(propertyDefinition.getName(), propertyDefinition);
     }
 

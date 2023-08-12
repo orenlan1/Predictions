@@ -4,6 +4,7 @@ import java.util.*;
 
 import generated.PRDProperties;
 import generated.PRDProperty;
+import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.entity.impl.EntityInstanceImpl;
 import world.environment.api.ActiveEnvironment;
@@ -22,9 +23,9 @@ public class World {
     }
     public int getPopulation() { return population; }
 
-    public void addEntityInstanceList(String name, List<EntityInstance> lst) {
-        nameToEntityList.put(name, lst);
-        population += lst.size();
+    public void addEntityInstanceList(String name, EntityDefinition entityDefinition) {
+        nameToEntityDefinition.put(name, entityDefinition);
+        population += entityDefinition.getPopulation();
     }
 
     public Optional<List<EntityInstance>> getListOfEntityInstance(String name) {
@@ -48,4 +49,8 @@ public class World {
         }
         return propertyDefinitions;
     }
+
+
+
+
 }

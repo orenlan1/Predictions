@@ -2,6 +2,7 @@ package world.entity.impl;
 
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
+import world.exceptions.EntityPropertyNameExistException;
 import world.property.api.PropertyDefinition;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -41,7 +42,15 @@ public class EntityDefinitionImpl implements EntityDefinition {
         this.entityInstances.add(entityInstance);
     }
 
-    public void addPropertyDefinition(PropertyDefinition propertyDefinition) {
+    public void addPropertyDefinition(PropertyDefinition propertyDefinition) throws EntityPropertyNameExistException {
+        String propertyName = propertyDefinition.getName();
+        for ( PropertyDefinition propertyDefinition1 : propertiesList)
+        {
+            if (propertyDefinition.getName().equals(propertyName))
+            {
+                throw new EntityPropertyNameExistException(name, propertyName);
+            }
+        }
         this.propertiesList.add(propertyDefinition);
     }
 

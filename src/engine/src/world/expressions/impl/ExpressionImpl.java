@@ -29,20 +29,20 @@ public class ExpressionImpl implements Expression {
         this.actionType = actionType;
     }
 
-    @Override
-    public void checkExpressionValidation() {
-        AbstractPropertyDefinition.PropertyType propertyType = propertyDefinition.getType();
-        if (actionType.equals(actionType.INCREASE) || actionType.equals(actionType.DECREASE)) {
-            if (propertyType.equals(AbstractPropertyDefinition.PropertyType.DECIMAL) || propertyType.equals(AbstractPropertyDefinition.PropertyType.FLOAT))
-        }
-
-
-
-
-
-
-
-    }
+//    @Override
+//    public void checkExpressionValidation() {
+//        AbstractPropertyDefinition.PropertyType propertyType = propertyDefinition.getType();
+//        if (actionType.equals(actionType.INCREASE) || actionType.equals(actionType.DECREASE)) {
+//            if (propertyType.equals(AbstractPropertyDefinition.PropertyType.DECIMAL) || propertyType.equals(AbstractPropertyDefinition.PropertyType.FLOAT))
+//        }
+//
+//
+//
+//
+//
+//
+//
+//    }
 
 
     @Override
