@@ -6,6 +6,7 @@ import world.action.impl.IncreaseAction;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.entity.impl.EntityDefinitionImpl;
+import world.exceptions.EntityPropertyNameExistException;
 import world.expressions.api.Expression;
 import world.expressions.impl.ExpressionImpl;
 import world.property.api.PropertyDefinition;
@@ -34,7 +35,11 @@ public class Main {
 
         PropertyDefinition age = new IntegerPropertyDefinition("age",ValueGeneratorFactory.createRandomInteger(15,50));
         EntityDefinition smoker = new EntityDefinitionImpl("smoker",100);
-        smoker.addPropertyDefinition(age);
+        try {
+            smoker.addPropertyDefinition(age);
+        } catch (EntityPropertyNameExistException e) {
+            System.out.println(e.getMessage());
+        }
         smoker.createEntityInstancesPopulation();
 
         List<EntityInstance> smokersInstances = smoker.getEntityInstances();
@@ -55,7 +60,5 @@ public class Main {
 
         Expression exp = new ExpressionImpl("random(4)", tax, activeEnvironment, smoker, ActionType.INCREASE);
         Object obj = exp.evaluate(smokersInstances.get(0));
-
-
     }
 }

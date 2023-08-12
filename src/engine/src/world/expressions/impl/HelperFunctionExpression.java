@@ -17,8 +17,8 @@ public class HelperFunctionExpression extends ExpressionImpl {
     }
 
 
-    @Override
-    public Object evaluate() {
-        return null;
-    }
+   //@Override
+   //public Object evaluate() {
+   //    return null;
+   //}
 }

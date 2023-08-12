@@ -12,14 +12,14 @@ import world.property.api.PropertyDefinition;
 import world.translator.PropertyTranslator;
 
 public class World {
-    private Map<String, List<EntityInstance>> nameToEntityList;
+    private Map<String, EntityDefinition> nameToEntityDefinition;
     private int population;
     private ActiveEnvironment activeEnvironment;
     public static int ticks = 0;
 
     public World() {
         population = 0;
-        nameToEntityList = new HashMap<>();
+        nameToEntityDefinition = new HashMap<>();
     }
     public int getPopulation() { return population; }
 
@@ -28,8 +28,8 @@ public class World {
         population += entityDefinition.getPopulation();
     }
 
-    public Optional<List<EntityInstance>> getListOfEntityInstance(String name) {
-        return Optional.ofNullable(nameToEntityList.get(name));
+    public static Optional<EntityDefinition> getEntityDefinitionByName(String name) {
+        return Optional.ofNullable(nameToEntityDefinition.get(name));
     }
 
     public void setActiveEnvironment(ActiveEnvironment activeEnvironment) {
