@@ -2,11 +2,12 @@ package file.reader;
 
 import java.util.Scanner;
 import dto.FileReaderDTO;
+import predictions.api.PredictionsService;
 import world.EngineFileReader;
 
 
 public class FileReader {
-    public static void ReadFile(boolean firstTime) {
+    public static void ReadFile(PredictionsService admin, boolean firstTime) {
         Scanner scanner = new Scanner(System.in);
         FileReaderDTO dto = null;
         boolean validFile = false;
@@ -16,7 +17,7 @@ public class FileReader {
             try {
                 String xmlFileName = scanner.nextLine();
                 if (xmlFileName.contains(".") && xmlFileName.split("\\.")[1].equals("xml")) {
-                    dto = EngineFileReader.checkFileValidation(xmlFileName);
+                    dto = admin.readFileAndLoad(xmlFileName);
                     validFile = dto.isValid();
                     if (!validFile)
                         System.out.println(dto.getError());

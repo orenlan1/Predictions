@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface HelperFunction {
     String getName();
-    Object invoke(Object arg, ActiveEnvironment activeEnvironment);
+    Object invoke() throws RuntimeException;
     int getNumOfArgs();
     List<String> getTypeOfArgs();
 }

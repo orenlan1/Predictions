@@ -49,14 +49,14 @@ public abstract class ExpressionImpl implements Expression {
 //    }
 
 
-    @Override
+    /*@Override
     public Object evaluate(EntityInstance entityInstance) throws NumberFormatException {
         if (expression.contains("random")) {
             String arg = expression.split("\\(")[1].split("\\)")[0];
-            return new RandomFunction().invoke(arg, activeEnvironment);
+            return new RandomFunction().invoke(arg);
         } else if (expression.contains("environment")) {
             String arg = expression.split("\\(")[1].split("\\)")[0];
-            return new EnvironmentFunction().invoke(arg, activeEnvironment);
+            return new EnvironmentFunction(activeEnvironment).invoke(arg);
         } else if (entityInstance.getPropertyByName(expression) != null) {
             return expression;
         } else { //WILDCARD
@@ -72,7 +72,7 @@ public abstract class ExpressionImpl implements Expression {
             }
         }
         return null;
-    }
+    }*/
 
     //@Override
     //public Object evaluate(EntityInstance entityInstance) throws NumberFormatException {

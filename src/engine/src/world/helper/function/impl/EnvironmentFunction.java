@@ -1,21 +1,18 @@
 package world.helper.function.impl;
 
 import world.environment.api.ActiveEnvironment;
+import world.property.api.PropertyInstance;
 
 public class EnvironmentFunction extends HelperFunctionImpl {
+    private PropertyInstance propertyInstance;
 
-    public EnvironmentFunction() {
+    public EnvironmentFunction(PropertyInstance propertyInstance) {
         super("environment", 1, "String");
+        this.propertyInstance = propertyInstance;
     }
 
     @Override
-    public Object invoke(Object arg, ActiveEnvironment activeEnvironment) {
-        String envPropertyName = null;
-        if (arg instanceof String)
-            envPropertyName = (String) arg;
-        //else
-        //    throw new Exception();
-
-        return activeEnvironment.getProperty(envPropertyName).orElseThrow(() -> new RuntimeException("Something")).getValue();
+    public Object invoke() {
+        return propertyInstance.getValue();
     }
 }

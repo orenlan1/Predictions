@@ -2,6 +2,7 @@ package world.expressions.impl;
 
 import world.action.api.ActionType;
 import world.entity.api.EntityDefinition;
+import world.entity.api.EntityInstance;
 import world.environment.api.ActiveEnvironment;
 import world.expressions.api.Expression;
 import world.expressions.impl.ExpressionImpl;

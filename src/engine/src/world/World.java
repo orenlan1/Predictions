@@ -8,20 +8,25 @@ import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.entity.impl.EntityInstanceImpl;
 import world.environment.api.ActiveEnvironment;
+import world.exceptions.RuleNameExistException;
 import world.property.api.PropertyDefinition;
+import world.rule.api.Rule;
 import world.translator.PropertyTranslator;
 
 public class World {
-    private Map<String, EntityDefinition> nameToEntityDefinition;
-    private int population;
+    private final Map<String, EntityDefinition> nameToEntityDefinition;
     private ActiveEnvironment activeEnvironment;
+    private final List<Rule> rules;
     public static int ticks = 0;
+    private int population;
 
     public World() {
         population = 0;
         nameToEntityDefinition = new HashMap<>();
+        rules = new ArrayList<>();
     }
-    public int getPopulation() { return population; }
+
+    public int getTotalPopulation() { return population; }
 
     public void addEntityInstanceList(String name, EntityDefinition entityDefinition) {
         nameToEntityDefinition.put(name, entityDefinition);

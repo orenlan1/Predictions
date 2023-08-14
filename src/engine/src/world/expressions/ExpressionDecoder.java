@@ -26,10 +26,8 @@ public class ExpressionDecoder {
         if (expression != null)
             return expression;
 
-
-
-
-        return null;
+        expression = ExpressionDecoder.freeValue(expressionName, actionName, type);
+        return expression;
     }
 
     public static Expression isHelperFunction(String expressionName, ActiveEnvironment activeEnvironment) throws Exception
@@ -90,4 +88,6 @@ public class ExpressionDecoder {
             return new ValueExpression(expressionName, "string");
     }
 }
+
+
 

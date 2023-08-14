@@ -24,16 +24,16 @@ public class PropertyTranslator {
         switch (propertyType) {
             case "decimal":
                 if (randomInit) {
-                    propertyDefinition = new IntegerPropertyDefinition(name, ValueGeneratorFactory.createRandomInteger((int) from, (int) to));
+                    propertyDefinition = new IntegerPropertyDefinition(name, ValueGeneratorFactory.createRandomInteger((int) from, (int) to), (int) from, (int) to);
                 } else {
-                    propertyDefinition = new IntegerPropertyDefinition(name, ValueGeneratorFactory.createFixed(Integer.parseInt(initValue)));
+                    propertyDefinition = new IntegerPropertyDefinition(name, ValueGeneratorFactory.createFixed(Integer.parseInt(initValue)), (int) from, (int) to);
                 }
                 break;
             case "float":
                 if (randomInit) {
-                    propertyDefinition = new FloatPropertyDefinition(name, ValueGeneratorFactory.createRandomFloat((float) from, (float) to));
+                    propertyDefinition = new FloatPropertyDefinition(name, ValueGeneratorFactory.createRandomFloat((float) from, (float) to), (float) from, (float) to);
                 } else {
-                    propertyDefinition = new FloatPropertyDefinition(name, ValueGeneratorFactory.createFixed(Float.parseFloat(initValue)));
+                    propertyDefinition = new FloatPropertyDefinition(name, ValueGeneratorFactory.createFixed(Float.parseFloat(initValue)), (float) from, (float) to);
                 }
                 break;
             case "boolean":

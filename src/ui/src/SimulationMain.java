@@ -1,15 +1,18 @@
 import file.reader.FileReader;
+import predictions.api.PredictionsService;
+import predictions.impl.PredictionsServiceImpl;
 
 import java.io.File;
 import java.util.Scanner;
 
 public class SimulationMain {
     public static void main(String[] args) {
+        PredictionsService admin = new PredictionsServiceImpl();
         Scanner scanner = new Scanner(System.in);
         int userChoice = 0;
 
         System.out.println("Hello and welcome to our simulator!");
-        FileReader.ReadFile(Boolean.TRUE);
+        FileReader.ReadFile(admin, Boolean.TRUE);
 
         do {
             System.out.println("\nPlease select an option:");
@@ -18,7 +21,7 @@ public class SimulationMain {
 
             switch (userChoice){
                 case 1:
-                    FileReader.ReadFile(Boolean.FALSE);
+                    FileReader.ReadFile(admin, Boolean.FALSE);
                     break;
                 case 2:
                     //something
