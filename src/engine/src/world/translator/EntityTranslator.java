@@ -1,10 +1,12 @@
 package world.translator;
 
+import generated.PRDEntities;
 import generated.PRDEntity;
 import world.entity.api.EntityDefinition;
 import world.entity.impl.EntityDefinitionImpl;
 import world.property.api.PropertyDefinition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntityTranslator {
@@ -17,7 +19,14 @@ public class EntityTranslator {
         for (PropertyDefinition propertyDefinition : lst) {
             entityDefinition.addPropertyDefinition(propertyDefinition);
         }
-
         return entityDefinition;
+    }
+
+    public static List<EntityDefinition> translateEntities (PRDEntities prdEntities) throws Exception {
+        List<EntityDefinition> lst = new ArrayList<>();
+        for (PRDEntity prdEntity : prdEntities.getPRDEntity()) {
+            lst.add(EntityTranslator.TranslateEntityDefinition(prdEntity));
+        }
+        return lst;
     }
 }

@@ -1,5 +1,7 @@
 package world.translator;
 
+import generated.PRDEnvProperty;
+import generated.PRDEvironment;
 import generated.PRDProperties;
 import generated.PRDProperty;
 import world.property.api.PropertyDefinition;

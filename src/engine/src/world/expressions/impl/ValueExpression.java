@@ -6,15 +6,13 @@ import world.expressions.impl.ExpressionImpl;
 import world.property.api.AbstractPropertyDefinition;
 
 public class ValueExpression extends ExpressionImpl {
-    private final String type;
 
     public ValueExpression(String expression, String type) {
-        super(expression);
-        this.type = type;
+        super(expression, type);
     }
 
     @Override
-    public Object evaluate(EntityInstance entityInstance) {
+    public Object evaluate() {
         switch (type) {
             case "decimal":
                 return Integer.parseInt(expression);

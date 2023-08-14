@@ -15,17 +15,23 @@ import java.util.Optional;
 
 public abstract class ExpressionImpl implements Expression {
     protected final String expression;
+    protected final String type;
     //protected final PropertyDefinition propertyDefinition;
     //protected final ActiveEnvironment activeEnvironment;
     //private final EntityDefinition entityDefinition;
    // private final ActionType actionType;
-    public ExpressionImpl(String expression)
+    public ExpressionImpl(String expression, String type)
     {
         this.expression = expression;
+        this.type = type;
     }
 
+    @Override
+    public String getType() {
+        return type;
+    }
 
-//    public ExpressionImpl(String expression, PropertyDefinition propertyDefinition, ActiveEnvironment activeEnvironment, EntityDefinition entityDefinition,ActionType actionType) {
+    //    public ExpressionImpl(String expression, PropertyDefinition propertyDefinition, ActiveEnvironment activeEnvironment, EntityDefinition entityDefinition,ActionType actionType) {
 //        this.expression = expression;
 //        this.propertyDefinition = propertyDefinition;
 //        this.activeEnvironment = activeEnvironment;

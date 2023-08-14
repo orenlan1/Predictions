@@ -12,13 +12,13 @@ import world.property.api.PropertyDefinition;
 public class HelperFunctionExpression extends ExpressionImpl {
     private final HelperFunction helperFunction;
 
-    public HelperFunctionExpression(String expression, HelperFunction helperFunction) {
-        super(expression);
+    public HelperFunctionExpression(String expression, String type, HelperFunction helperFunction) {
+        super(expression, type);
         this.helperFunction = helperFunction;
     }
 
     @Override
-    public Object evaluate(EntityInstance entityInstance) throws NumberFormatException {
+    public Object evaluate() throws NumberFormatException {
         String arg = expression.split("\\(")[1].split("\\)")[0];
         return helperFunction.invoke();
     }

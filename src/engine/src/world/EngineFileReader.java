@@ -6,8 +6,10 @@ import generated.PRDProperty;
 import generated.PRDWorld;
 import predictions.api.PredictionsService;
 import world.entity.api.EntityDefinition;
+import world.environment.api.EnvironmentVariablesManager;
 import world.property.api.PropertyDefinition;
 import world.translator.EntityTranslator;
+import world.translator.EnvironmentTranslator;
 import world.translator.PropertyTranslator;
 
 import javax.xml.bind.JAXBContext;
@@ -16,6 +18,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EngineFileReader {
     private final static String JAXB_XML_PACKAGE_NAME = "generated";
@@ -31,11 +35,14 @@ public class EngineFileReader {
         PRDWorld prdWorld = (PRDWorld) u.unmarshal(inputStream);
 
         //translations
-
-        EntityDefinition entityDefinition = EntityTranslator.TranslateEntityDefinition(prdWorld.getPRDEntities().getPRDEntity().get(0));
+        EnvironmentVariablesManager environmentVariablesManager = EnvironmentTranslator.translateEnvironment(prdWorld.getPRDEvironment());
+        List<EntityDefinition> entityDefinitions = EntityTranslator.translateEntities(prdWorld.getPRDEntities());
 
         //updating world
-
+        world.setEnvironmentVariablesManager(environmentVariablesManager);
+        for (EntityDefinition entity : entityDefinitions) {
+            world.addEntityInstanceList(entity.getName(), entity);
+        }
         return world;
     }
 

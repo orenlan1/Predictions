@@ -8,6 +8,7 @@ import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.entity.impl.EntityInstanceImpl;
 import world.environment.api.ActiveEnvironment;
+import world.environment.api.EnvironmentVariablesManager;
 import world.exceptions.RuleNameExistException;
 import world.property.api.PropertyDefinition;
 import world.rule.api.Rule;
@@ -15,7 +16,8 @@ import world.translator.PropertyTranslator;
 
 public class World {
     private final Map<String, EntityDefinition> nameToEntityDefinition;
-    private ActiveEnvironment activeEnvironment;
+    private EnvironmentVariablesManager environmentVariablesManager;
+    //private ActiveEnvironment activeEnvironment;
     private final List<Rule> rules;
     public static int ticks = 0;
     private int population;
@@ -25,7 +27,6 @@ public class World {
         nameToEntityDefinition = new HashMap<>();
         rules = new ArrayList<>();
     }
-
     public int getTotalPopulation() { return population; }
 
     public void addEntityInstanceList(String name, EntityDefinition entityDefinition) {
@@ -35,6 +36,14 @@ public class World {
 
     public Optional<EntityDefinition> getEntityDefinitionByName(String name) {
         return Optional.ofNullable(nameToEntityDefinition.get(name));
+    }
+
+    public EnvironmentVariablesManager getEnvironmentVariablesManager() {
+        return environmentVariablesManager;
+    }
+
+    public void setEnvironmentVariablesManager(EnvironmentVariablesManager environmentVariablesManager) {
+        this.environmentVariablesManager = environmentVariablesManager;
     }
 
     public void setActiveEnvironment(ActiveEnvironment activeEnvironment) {

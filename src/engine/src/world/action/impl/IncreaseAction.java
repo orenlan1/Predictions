@@ -11,19 +11,19 @@ import world.property.impl.FloatPropertyDefinition;
 import world.property.impl.IntegerPropertyDefinition;
 
 public class IncreaseAction extends ActionImpl {
-    private final Expression expression;
+    private final Expression by;
 
 
     public IncreaseAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition) {
         super(ActionType.INCREASE, entityDefinition, propertyDefinition);
-        this.expression = expression;
+        this.by = expression;
     }
 
     @Override
     public void activate(EntityInstance entityInstance) throws Exception {
         PropertyInstance property = entityInstance.getPropertyByName(propertyDefinition.getName());
         try {
-            Object value = expression.evaluate(entityInstance);
+            Object value = by.evaluate();
             Object newValue = null;
 
             if (propertyDefinition.getType().equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {

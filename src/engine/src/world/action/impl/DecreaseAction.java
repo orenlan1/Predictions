@@ -10,17 +10,17 @@ import world.property.api.PropertyInstance;
 
 public class DecreaseAction extends ActionImpl{
 
-    private Expression expression;
+    private Expression by;
 
     public DecreaseAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition) {
         super(ActionType.DECREASE, entityDefinition, propertyDefinition);
-        this.expression = expression;
+        this.by = expression;
     }
     @Override
     public void activate(EntityInstance entityInstance) throws Exception {
         PropertyInstance property = entityInstance.getPropertyByName(propertyDefinition.getName());
         try {
-            Object value = expression.evaluate(entityInstance);
+            Object value = by.evaluate(entityInstance);
             Object newValue = null;
 
             if (propertyDefinition.getType().equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {

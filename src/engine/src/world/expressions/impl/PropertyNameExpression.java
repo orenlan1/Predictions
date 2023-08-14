@@ -5,12 +5,12 @@ import world.expressions.api.Expression;
 
 public class PropertyNameExpression extends ExpressionImpl {
 
-    public PropertyNameExpression(String expression) {
-        super(expression);
+    public PropertyNameExpression(String expression, String type) {
+        super(expression, type);
     }
 
     @Override
-    public Object evaluate(EntityInstance entityInstance) {
-        return null;
+    public Object evaluate() {
+        return expression;
     }
 }

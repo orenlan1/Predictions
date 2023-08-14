@@ -29,4 +29,9 @@ public abstract class ActionImpl implements Action {
     public EntityDefinition getEntityDefinition() {
         return entityDefinition;
     }
+
+    @Override
+    public String toString() {
+        return actionType + " action on: " + entityDefinition.getName() + "'s " + propertyDefinition.getName();
+    }
 }
