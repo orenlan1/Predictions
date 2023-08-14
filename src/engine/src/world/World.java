@@ -28,7 +28,7 @@ public class World {
         population += entityDefinition.getPopulation();
     }
 
-    public static Optional<EntityDefinition> getEntityDefinitionByName(String name) {
+    public Optional<EntityDefinition> getEntityDefinitionByName(String name) {
         return Optional.ofNullable(nameToEntityDefinition.get(name));
     }
 
@@ -42,7 +42,16 @@ public class World {
 
     public void tick() { ticks++; }
 
+    public List<Rule> getRules() {
+        return rules;
+    }
 
-
-
+    public void addRule(Rule rule) throws RuleNameExistException {
+        for (Rule existingRule : rules) {
+            if (existingRule.getName().equals(rule.getName())) {
+                throw new RuleNameExistException(rule.getName());
+            }
+        }
+        rules.add(rule);
+    }
 }

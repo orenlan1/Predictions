@@ -7,6 +7,8 @@ import world.expressions.api.Expression;
 import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
+import world.property.impl.FloatPropertyDefinition;
+import world.property.impl.IntegerPropertyDefinition;
 
 public class IncreaseAction extends ActionImpl {
     private final Expression expression;
@@ -26,11 +28,16 @@ public class IncreaseAction extends ActionImpl {
 
             if (propertyDefinition.getType().equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
                 if (value instanceof Integer) {
+                    IntegerPropertyDefinition intPropertyDef = (IntegerPropertyDefinition) propertyDefinition;
+                    int to = intPropertyDef.getTo();
                     newValue = (Integer) property.getValue() + (Integer) value;
+
                 }
             }
             else if (propertyDefinition.getType().equals(AbstractPropertyDefinition.PropertyType.FLOAT)) {
                 if (value instanceof Float) {
+                    FloatPropertyDefinition floatPropertyDef = (FloatPropertyDefinition) propertyDefinition;
+                    float to = floatPropertyDef.getTo();
                     newValue = (Float) property.getValue() + (Float) value;
                 }
             }

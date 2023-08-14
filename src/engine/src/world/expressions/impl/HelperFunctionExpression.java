@@ -11,14 +11,14 @@ import world.property.api.PropertyDefinition;
 public class HelperFunctionExpression extends ExpressionImpl {
     private final HelperFunction helperFunction;
 
-    public HelperFunctionExpression(String expression, PropertyDefinition propertyDefinition, ActiveEnvironment activeEnvironment, EntityDefinition entityDefinition, ActionType actionType, HelperFunction helperFunction) {
-        super(expression, propertyDefinition, activeEnvironment, entityDefinition, actionType);
+    public HelperFunctionExpression(String expression, HelperFunction helperFunction) {
+        super(expression);
         this.helperFunction = helperFunction;
     }
 
-
-   //@Override
-   //public Object evaluate() {
-   //    return null;
-   //}
+    @Override
+    public Object evaluate(EntityInstance entityInstance) throws NumberFormatException {
+        String arg = expression.split("\\(")[1].split("\\)")[0];
+        return helperFunction.invoke();
+    }
 }

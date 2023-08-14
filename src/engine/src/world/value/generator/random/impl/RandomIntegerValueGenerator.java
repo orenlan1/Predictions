@@ -11,6 +11,7 @@ public class RandomIntegerValueGenerator extends AbstractRandomValueGenerator<In
         this.to = to;
     }
 
+
     @Override
     public Integer generateValue() {
         return random.nextInt(to - from) + from;

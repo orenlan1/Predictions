@@ -13,21 +13,25 @@ import world.property.api.PropertyDefinition;
 import java.util.List;
 import java.util.Optional;
 
-public class ExpressionImpl implements Expression {
-    private final String expression;
-    private final PropertyDefinition propertyDefinition;
-    private final ActiveEnvironment activeEnvironment;
-    private final EntityDefinition entityDefinition;
-    private final ActionType actionType;
-
-
-    public ExpressionImpl(String expression, PropertyDefinition propertyDefinition, ActiveEnvironment activeEnvironment, EntityDefinition entityDefinition,ActionType actionType) {
+public abstract class ExpressionImpl implements Expression {
+    protected final String expression;
+    //protected final PropertyDefinition propertyDefinition;
+    //protected final ActiveEnvironment activeEnvironment;
+    //private final EntityDefinition entityDefinition;
+   // private final ActionType actionType;
+    public ExpressionImpl(String expression)
+    {
         this.expression = expression;
-        this.propertyDefinition = propertyDefinition;
-        this.activeEnvironment = activeEnvironment;
-        this.entityDefinition = entityDefinition;
-        this.actionType = actionType;
     }
+
+
+//    public ExpressionImpl(String expression, PropertyDefinition propertyDefinition, ActiveEnvironment activeEnvironment, EntityDefinition entityDefinition,ActionType actionType) {
+//        this.expression = expression;
+//        this.propertyDefinition = propertyDefinition;
+//        this.activeEnvironment = activeEnvironment;
+//        this.entityDefinition = entityDefinition;
+//        this.actionType = actionType;
+//    }
 
 //    @Override
 //    public void checkExpressionValidation() {

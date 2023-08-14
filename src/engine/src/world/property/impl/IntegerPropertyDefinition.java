@@ -4,7 +4,20 @@ import world.property.api.AbstractPropertyDefinition;
 import world.value.generator.api.ValueGenerator;
 
 public class IntegerPropertyDefinition extends AbstractPropertyDefinition<Integer> {
-    public IntegerPropertyDefinition(String name, ValueGenerator<Integer> valueGenerator) {
+    private final Integer from;
+    private final Integer to;
+
+    public IntegerPropertyDefinition(String name, ValueGenerator<Integer> valueGenerator, Integer from, Integer to) {
         super(name, PropertyType.DECIMAL, valueGenerator);
+        this.from = from;
+        this.to = to;
+    }
+
+    public Integer getFrom() {
+        return from;
+    }
+
+    public Integer getTo() {
+        return to;
     }
 }
