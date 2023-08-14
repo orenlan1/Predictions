@@ -13,4 +13,6 @@ public interface EntityDefinition {
     void addPropertyDefinition(PropertyDefinition propertyDefinition) throws EntityPropertyNameExistException;
     void createEntityInstancesPopulation();
     public List<EntityInstance> getEntityInstances();
+    void removeEntity(EntityInstance entityInstance);
+
 }

@@ -10,8 +10,8 @@ import world.property.api.PropertyDefinition;
 public class DivisionAction extends CalculationAction {
 
 
-    protected DivisionAction(ActionType actionType, EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, Expression arg1, Expression arg2) {
-        super(actionType, entityDefinition, propertyDefinition, arg1, arg2);
+    protected DivisionAction( EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, Expression arg1, Expression arg2) {
+        super(ActionType.CALCULATION, entityDefinition, propertyDefinition, arg1, arg2);
     }
 
     @Override

@@ -65,4 +65,10 @@ public class EntityDefinitionImpl implements EntityDefinition {
     public List<EntityInstance> getEntityInstances() {
         return entityInstances;
     }
+
+    @Override
+    public void removeEntity(EntityInstance entityInstance) {
+        this.entityInstances.remove(entityInstance);
+
+    }
 }

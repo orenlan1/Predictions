@@ -10,7 +10,7 @@ import world.property.api.PropertyInstance;
 
 public class MultiplicationAction extends CalculationAction {
     protected MultiplicationAction(ActionType actionType, EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, Expression arg1, Expression arg2) {
-        super(actionType, entityDefinition, propertyDefinition, arg1, arg2);
+        super(ActionType.CALCULATION, entityDefinition, propertyDefinition, arg1, arg2);
     }
 
     @Override
@@ -19,6 +19,11 @@ public class MultiplicationAction extends CalculationAction {
         AbstractPropertyDefinition.PropertyType type = propertyDefinition.getType();
         Object arg1Value = arg1.evaluate();
         Object arg2Value = arg2.evaluate();
+        if ( (arg1Value instanceof Float || arg2Value instanceof Float) && type.equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
+            throw new RuntimeException(); //// some simulation exception
+        }
+
+
 
         //if (type.equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
             //    if (arg1.getType().equals("decimal") && arg2.getType().equals("decimal"))

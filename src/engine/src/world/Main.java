@@ -60,5 +60,7 @@ public class Main {
 
         Expression exp = new ExpressionImpl("random(4)", tax, activeEnvironment, smoker, ActionType.INCREASE);
         Object obj = exp.evaluate(smokersInstances.get(0));
+
+
     }
 }

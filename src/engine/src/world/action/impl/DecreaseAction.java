@@ -7,6 +7,8 @@ import world.expressions.api.Expression;
 import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
+import world.property.impl.FloatPropertyDefinition;
+import world.property.impl.IntegerPropertyDefinition;
 
 public class DecreaseAction extends ActionImpl{
 
@@ -20,24 +22,37 @@ public class DecreaseAction extends ActionImpl{
     public void activate(EntityInstance entityInstance) throws Exception {
         PropertyInstance property = entityInstance.getPropertyByName(propertyDefinition.getName());
         try {
-            Object value = by.evaluate(entityInstance);
+            Object value = by.evaluate();
             Object newValue = null;
 
             if (propertyDefinition.getType().equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
                 if (value instanceof Integer) {
-                    newValue = (Integer) property.getValue() - (Integer) value;
+                    IntegerPropertyDefinition intPropertyDef = (IntegerPropertyDefinition) propertyDefinition;
+                    int from = intPropertyDef.getFrom();
+                    newValue = (Integer) property.getValue() + (Integer) value;
+                    if ((Integer) newValue < from) {
+                        newValue = from;
+                    }
+
+
                 }
             }
             else if (propertyDefinition.getType().equals(AbstractPropertyDefinition.PropertyType.FLOAT)) {
                 if (value instanceof Float) {
-                    newValue = (Float) property.getValue() - (Float) value;
+                    FloatPropertyDefinition floatPropertyDef = (FloatPropertyDefinition) propertyDefinition;
+                    float from = floatPropertyDef.getFrom();
+                    newValue = (Float) property.getValue() + (Float) value;
+                    if ((Float) newValue < from) {
+                        newValue = from;
+                    }
                 }
             }
-            property.updateValue(newValue);
+            if (newValue != null) {
+                property.updateValue(newValue);
+            }
         }
         catch (NumberFormatException e) {
             throw new Exception("Invalid expression, expected " + propertyDefinition.getType().toString());
         }
-
     }
 }

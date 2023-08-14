@@ -31,6 +31,10 @@ public class IncreaseAction extends ActionImpl {
                     IntegerPropertyDefinition intPropertyDef = (IntegerPropertyDefinition) propertyDefinition;
                     int to = intPropertyDef.getTo();
                     newValue = (Integer) property.getValue() + (Integer) value;
+                    if ((Integer) newValue > to) {
+                        newValue = to;
+                    }
+
 
                 }
             }
@@ -39,6 +43,9 @@ public class IncreaseAction extends ActionImpl {
                     FloatPropertyDefinition floatPropertyDef = (FloatPropertyDefinition) propertyDefinition;
                     float to = floatPropertyDef.getTo();
                     newValue = (Float) property.getValue() + (Float) value;
+                    if ((Float) newValue > to) {
+                        newValue = to;
+                    }
                 }
             }
             if (newValue != null) {
