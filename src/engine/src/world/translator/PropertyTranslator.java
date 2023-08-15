@@ -4,6 +4,7 @@ import generated.PRDEnvProperty;
 import generated.PRDEvironment;
 import generated.PRDProperties;
 import generated.PRDProperty;
+import world.exceptions.InvalidVariableTypeException;
 import world.property.api.PropertyDefinition;
 import world.property.impl.BooleanPropertyDefinition;
 import world.property.impl.FloatPropertyDefinition;
@@ -15,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PropertyTranslator {
-    public static PropertyDefinition TranslatePropertyDefinition(PRDProperty prdProperty) throws Exception {
+    public static PropertyDefinition TranslatePropertyDefinition(PRDProperty prdProperty) throws InvalidVariableTypeException {
         String name = prdProperty.getPRDName();
         String propertyType = prdProperty.getType();
         boolean randomInit = prdProperty.getPRDValue().isRandomInitialize();
@@ -53,13 +54,13 @@ public class PropertyTranslator {
                 }
                 break;
             default:
-                throw new Exception("failed translation");
+                throw new InvalidVariableTypeException("translating properties", "decimal, float, boolean or string", propertyType);
         }
         return propertyDefinition;
     }
 
 
-    public static List<PropertyDefinition> translateProperties(PRDProperties prdPropertiesList) throws Exception {
+    public static List<PropertyDefinition> translateProperties(PRDProperties prdPropertiesList) throws InvalidVariableTypeException {
         List<PropertyDefinition> propertyDefinitions = new LinkedList<>();
         for (PRDProperty prdProperty : prdPropertiesList.getPRDProperty()) {
             propertyDefinitions.add(PropertyTranslator.TranslatePropertyDefinition(prdProperty));

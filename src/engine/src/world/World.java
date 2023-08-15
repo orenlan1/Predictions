@@ -17,7 +17,7 @@ import world.translator.PropertyTranslator;
 public class World {
     private final Map<String, EntityDefinition> nameToEntityDefinition;
     private EnvironmentVariablesManager environmentVariablesManager;
-    //private ActiveEnvironment activeEnvironment;
+    private ActiveEnvironment activeEnvironment;
     private final List<Rule> rules;
     public static int ticks = 0;
     private int population;

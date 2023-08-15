@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface HelperFunction {
     String getName();
-    Object invoke() throws RuntimeException;
+    Object invoke() throws NumberFormatException;
     int getNumOfArgs();
     List<String> getTypeOfArgs();
 }

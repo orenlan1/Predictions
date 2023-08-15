@@ -4,6 +4,7 @@ package world.expressions;
 import world.entity.api.EntityDefinition;
 import world.environment.api.ActiveEnvironment;
 import world.exceptions.EntityPropertyNameExistException;
+import world.exceptions.EnvironmentVariableNotExistException;
 import world.exceptions.MismatchTypesException;
 import world.expressions.api.Expression;
 import world.expressions.impl.HelperFunctionExpression;
@@ -16,7 +17,7 @@ import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 
 public class ExpressionDecoder {
-    public static Expression decode(String expressionName, ActiveEnvironment activeEnvironment, EntityDefinition entityDefinition, AbstractPropertyDefinition.PropertyType type, String actionName) throws Exception {
+    public static Expression decode(String expressionName, ActiveEnvironment activeEnvironment, EntityDefinition entityDefinition, AbstractPropertyDefinition.PropertyType type, String actionName) throws MismatchTypesException, EntityPropertyNameExistException, EnvironmentVariableNotExistException {
         Expression expression;
         expression = ExpressionDecoder.isHelperFunction(expressionName,activeEnvironment);
         if (expression != null)
@@ -30,13 +31,13 @@ public class ExpressionDecoder {
         return expression;
     }
 
-    public static Expression isHelperFunction(String expressionName, ActiveEnvironment activeEnvironment) throws Exception
+    public static Expression isHelperFunction(String expressionName, ActiveEnvironment activeEnvironment) throws MismatchTypesException, EnvironmentVariableNotExistException
     {
         Expression expression = null;
         try {
             if (expressionName.contains("environment")) {
                 String arg = expressionName.split("\\(")[1].split("\\)")[0];
-                PropertyInstance propertyInstance = activeEnvironment.getProperty(arg).orElseThrow(Exception::new);/// some exception
+                PropertyInstance propertyInstance = activeEnvironment.getProperty(arg).orElseThrow(() -> new EnvironmentVariableNotExistException(arg));/// some exception
                 expression = new HelperFunctionExpression(expressionName, "environment function", new EnvironmentFunction(propertyInstance));// maybe the environment function should get the property instance
             }
             if (expressionName.contains("random")) {
@@ -59,12 +60,12 @@ public class ExpressionDecoder {
         for (PropertyDefinition property : entityDefinition.getPropertiesList())
         {
             if (property.getName().equals(expressionName))
-                return new PropertyNameExpression(expressionName, "property");
+                return new PropertyNameExpression(expressionName, "property", property);
         }
         return null;
     }
 
-    public static Expression freeValue(String expressionName, String actionName, AbstractPropertyDefinition.PropertyType type) throws Exception {
+    public static Expression freeValue(String expressionName, String actionName, AbstractPropertyDefinition.PropertyType type) throws MismatchTypesException {
         if (type.equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
             try {
                 Integer.parseInt(expressionName);

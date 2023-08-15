@@ -9,7 +9,7 @@ public class PropertyInstanceImpl implements PropertyInstance {
 
     public PropertyInstanceImpl(PropertyDefinition propertyDefinition) { // Ctor for entity property
         this.propertyDefinition = propertyDefinition;
-        this.value = getPropertyDefinition().generateValue();
+        this.value = propertyDefinition.generateValue();
     }
 
     public PropertyInstanceImpl(PropertyDefinition propertyDefinition, Object value) { // Ctor for environment property

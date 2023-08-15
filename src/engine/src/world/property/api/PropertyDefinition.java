@@ -5,4 +5,5 @@ public interface PropertyDefinition {
     String getName();
     AbstractPropertyDefinition.PropertyType getType();
     Object generateValue();
+    PropertyInstance createPropertyInstance(PropertyDefinition propertyDefinition);
 }

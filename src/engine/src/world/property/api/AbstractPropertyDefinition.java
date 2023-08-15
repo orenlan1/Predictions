@@ -1,6 +1,7 @@
 package world.property.api;
 
 import world.property.api.PropertyDefinition;
+import world.property.impl.PropertyInstanceImpl;
 import world.value.generator.api.ValueGenerator;
 
 public abstract class AbstractPropertyDefinition<T> implements PropertyDefinition {
@@ -33,6 +34,9 @@ public abstract class AbstractPropertyDefinition<T> implements PropertyDefinitio
         return valueGenerator.generateValue();
     }
 
-
+    @Override
+    public PropertyInstance createPropertyInstance(PropertyDefinition propertyDefinition) {
+        return new PropertyInstanceImpl(this);
+    }
 
 }

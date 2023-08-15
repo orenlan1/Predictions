@@ -12,14 +12,11 @@ public class RandomFunction extends HelperFunctionImpl {
     }
 
     @Override
-    public Object invoke() throws RuntimeException {
+    public Object invoke() throws NumberFormatException {
         Integer value = -1;
         try {
             value = Integer.parseInt(arg);
         } catch (NumberFormatException ignored) { }
-
-        //else
-        //    throw new Exception();
 
         return ValueGeneratorFactory.createRandomInteger(0, value).generateValue();
     }

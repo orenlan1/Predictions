@@ -21,7 +21,6 @@ public class EnvironmentVariablesManagerImpl implements EnvironmentVariablesMana
         if ( nameToPropertyDefinition.containsKey(propertyDefinition.getName()))
         {
             throw new EnvironmentVariableNameExistException(propertyDefinition.getName());
-
         }
         nameToPropertyDefinition.put(propertyDefinition.getName(), propertyDefinition);
     }
@@ -34,5 +33,10 @@ public class EnvironmentVariablesManagerImpl implements EnvironmentVariablesMana
     @Override
     public Collection<PropertyDefinition> getEnvironmentVariables() {
         return nameToPropertyDefinition.values();
+    }
+
+    @Override
+    public Collection<String> getEnvironmentVariablesNames() {
+        return nameToPropertyDefinition.keySet();
     }
 }

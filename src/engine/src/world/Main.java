@@ -33,7 +33,7 @@ public class Main {
         PropertyDefinition e1 = new StringPropertyDefinition("e1",ValueGeneratorFactory.createRandomString());
 
 
-        PropertyDefinition age = new IntegerPropertyDefinition("age",ValueGeneratorFactory.createRandomInteger(15,50));
+        PropertyDefinition age = new IntegerPropertyDefinition("age",ValueGeneratorFactory.createRandomInteger(15,50), 15, 80);
         EntityDefinition smoker = new EntityDefinitionImpl("smoker",100);
         try {
             smoker.addPropertyDefinition(age);
@@ -53,7 +53,7 @@ public class Main {
             activeEnvironment.addPropertyInstance(new PropertyInstanceImpl(propertyDefinition, newValueFromUser));
         }
 
-        PropertyDefinition tax = new IntegerPropertyDefinition("tax", ValueGeneratorFactory.createFixed(17));
+        PropertyDefinition tax = new IntegerPropertyDefinition("tax", ValueGeneratorFactory.createFixed(17), 0, 100);
         PropertyInstance taxInstance = new PropertyInstanceImpl(tax);
 
         activeEnvironment.addPropertyInstance(taxInstance);

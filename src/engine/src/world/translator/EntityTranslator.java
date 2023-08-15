@@ -4,13 +4,15 @@ import generated.PRDEntities;
 import generated.PRDEntity;
 import world.entity.api.EntityDefinition;
 import world.entity.impl.EntityDefinitionImpl;
+import world.exceptions.EntityPropertyNameExistException;
+import world.exceptions.InvalidVariableTypeException;
 import world.property.api.PropertyDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EntityTranslator {
-    public static EntityDefinition TranslateEntityDefinition(PRDEntity prdEntity) throws Exception {
+    public static EntityDefinition TranslateEntityDefinition(PRDEntity prdEntity) throws EntityPropertyNameExistException, InvalidVariableTypeException {
         String name = prdEntity.getName();
         int population = prdEntity.getPRDPopulation();
         List<PropertyDefinition> lst = PropertyTranslator.translateProperties(prdEntity.getPRDProperties());
@@ -19,6 +21,7 @@ public class EntityTranslator {
         for (PropertyDefinition propertyDefinition : lst) {
             entityDefinition.addPropertyDefinition(propertyDefinition);
         }
+        entityDefinition.createEntityInstancesPopulation();
         return entityDefinition;
     }
 

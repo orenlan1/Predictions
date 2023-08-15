@@ -9,4 +9,5 @@ public interface EnvironmentVariablesManager {
     void addEnvironmentVariable(PropertyDefinition propertyDefinition) throws EnvironmentVariableNameExistException;
     ActiveEnvironment createActiveEnvironment();
     Collection<PropertyDefinition> getEnvironmentVariables();
+    Collection<String> getEnvironmentVariablesNames();
 }
