@@ -11,7 +11,7 @@ public interface EntityInstance {
     void addPropertyInstance(PropertyInstance propertyInstance);
 
     //static EntityInstance createEntityInstance(EntityDefinition entityDefinition);
-    static EntityInstance createEntityInstance(EntityDefinition entityDefinition){
+    static EntityInstance createEntityInstance(EntityDefinition entityDefinition) {
         EntityInstance newEntityInstance = new EntityInstanceImpl(entityDefinition);
         for (PropertyDefinition propertyDefinition : entityDefinition.getPropertiesList()) {
             Object value = propertyDefinition.generateValue();

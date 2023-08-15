@@ -76,10 +76,10 @@ public class EntityDefinitionImpl implements EntityDefinition {
 
     public PropertyDefinition getPropertyByName(String propertyName) throws EntityPropertyNotExistException {
         for ( PropertyDefinition propertyDefinition : propertiesList) {
-            if (propertyDefinition.getName().equals(name)) {
+            if (propertyDefinition.getName().equals(propertyName)) {
                 return propertyDefinition;
             }
         }
-        throw new EntityPropertyNotExistException(this.name,propertyName);
+        throw new EntityPropertyNotExistException(this.name, propertyName);
     }
 }

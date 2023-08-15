@@ -1,3 +1,4 @@
+/*
 package world;
 
 import world.action.api.Action;
@@ -65,3 +66,4 @@ public class Main {
 
     }
 }
+*/

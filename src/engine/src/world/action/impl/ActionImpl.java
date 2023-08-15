@@ -4,6 +4,7 @@ import world.action.api.Action;
 import world.action.api.ActionType;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
+import world.expressions.api.Expression;
 import world.property.api.PropertyDefinition;
 
 public abstract class ActionImpl implements Action {

@@ -22,9 +22,21 @@ public class RuleTranslator {
 
     public static Rule translateRule(PRDRule prdRule, List<EntityDefinition> entitiesList, ActiveEnvironment activeEnvironment) throws Exception {
         String ruleName = prdRule.getName();
-        Double ruleProbability = prdRule.getPRDActivation().getProbability();
-        Integer ruleTicks = prdRule.getPRDActivation().getTicks();
-        Activation ruleActivation = new ActivationImpl(ruleProbability,ruleTicks);
+        Double ruleProbability = 1.0;
+        Integer ruleTicks = 1;
+        PRDActivation prdActivation = prdRule.getPRDActivation();
+        if (prdActivation != null) {
+            if (prdRule.getPRDActivation().getProbability() != null)
+                ruleProbability = prdRule.getPRDActivation().getProbability();
+            if (prdRule.getPRDActivation().getTicks() != null)
+                ruleTicks = prdRule.getPRDActivation().getTicks();
+        }
+        if (ruleTicks == null)
+            ruleTicks = 1;
+        if (ruleProbability == null)
+            ruleProbability = 1.0;
+
+        Activation ruleActivation = new ActivationImpl(ruleProbability, ruleTicks);
         Rule rule = new RuleImpl(ruleName, ruleActivation);
         for (PRDAction prdAction : prdRule.getPRDActions().getPRDAction())
         {
@@ -115,12 +127,8 @@ public class RuleTranslator {
 
     public static ConditionAction translateConditionAction(PRDCondition prdCondition, PRDThen prdThen, PRDElse prdElse, EntityDefinition entityDefinition, ActiveEnvironment activeEnvironment, List<EntityDefinition> entityDefinitions) throws  Exception {
         String singularity = prdCondition.getSingularity();
+        boolean boolSingularity = !singularity.equals("multiple");
         String logic = prdCondition.getLogical();
-        String operator = prdCondition.getOperator();
-        String propertyName = prdCondition.getProperty();
-        PropertyDefinition propertyDefinition = entityDefinition.getPropertyByName(propertyName);
-        String valueStr = prdCondition.getValue();
-        Expression value = ExpressionDecoder.decode(valueStr, activeEnvironment, entityDefinition, propertyDefinition.getType(), "condition");
 
         List<Action> thenActions = new ArrayList<>();
         List<Action> elseActions = new ArrayList<>();
@@ -129,43 +137,55 @@ public class RuleTranslator {
         for (PRDAction prdAction1 : prdThen.getPRDAction()) {
             thenActions.add(translateAction(prdAction1, entityDefinitions, activeEnvironment));
         }
-        for (PRDAction prdAction2 : prdElse.getPRDAction()) {
-            elseActions.add(translateAction(prdAction2, entityDefinitions, activeEnvironment));
+        if (prdElse != null) {
+            for (PRDAction prdAction2 : prdElse.getPRDAction()) {
+                elseActions.add(translateAction(prdAction2, entityDefinitions, activeEnvironment));
+            }
         }
-        for (PRDCondition prdCondition1 : prdCondition.getPRDCondition()) {
-            conditions.add(translateConditionActionSecondary(prdCondition1, entityDefinition, activeEnvironment));
+        if (prdCondition.getPRDCondition() != null) {
+            for (PRDCondition prdCondition1 : prdCondition.getPRDCondition()) {
+                conditions.add(translateConditionActionSecondary(prdCondition1, entityDefinition, activeEnvironment));
+            }
         }
 
-        boolean boolSingularity = !singularity.equals("multiple");
-
-        if (boolSingularity)
+        if (boolSingularity) {
+            String operator = prdCondition.getOperator();
+            String propertyName = prdCondition.getProperty();
+            PropertyDefinition propertyDefinition = entityDefinition.getPropertyByName(propertyName);
+            String valueStr = prdCondition.getValue();
+            Expression value = ExpressionDecoder.decode(valueStr, activeEnvironment, entityDefinition, propertyDefinition.getType(), "condition");
             return new SingularCondition(entityDefinition, propertyDefinition, value, operator, thenActions, elseActions);
+        }
         else
-            return new MultipleCondition(conditions, logic, entityDefinition, propertyDefinition, thenActions, elseActions);
+            return new MultipleCondition(conditions, logic, entityDefinition, null, thenActions, elseActions);
     }
 
     public static ConditionAction translateConditionActionSecondary(PRDCondition prdCondition, EntityDefinition entityDefinition, ActiveEnvironment activeEnvironment) throws Exception {
         String singularity = prdCondition.getSingularity();
+        boolean boolSingularity = !singularity.equals("multiple");
+
         String logic = prdCondition.getLogical();
-        String operator = prdCondition.getOperator();
-        String propertyName = prdCondition.getProperty();
-        PropertyDefinition propertyDefinition = entityDefinition.getPropertyByName(propertyName);
-        String valueStr = prdCondition.getValue();
-        Expression value = ExpressionDecoder.decode(valueStr, activeEnvironment, entityDefinition, propertyDefinition.getType(), "condition");
 
         List<Action> thenActions = new ArrayList<>();
         List<Action> elseActions = new ArrayList<>();
         List<ConditionAction> conditions = new ArrayList<>();
 
-        for (PRDCondition prdCondition1 : prdCondition.getPRDCondition()) {
-            conditions.add(translateConditionActionSecondary(prdCondition1, entityDefinition, activeEnvironment));
+        if (prdCondition.getPRDCondition() != null) {
+            for (PRDCondition prdCondition1 : prdCondition.getPRDCondition()) {
+                conditions.add(translateConditionActionSecondary(prdCondition1, entityDefinition, activeEnvironment));
+            }
         }
-        boolean boolSingularity = !singularity.equals("multiple");
 
-        if (boolSingularity)
+        if (boolSingularity) {
+            String operator = prdCondition.getOperator();
+            String propertyName = prdCondition.getProperty();
+            PropertyDefinition propertyDefinition = entityDefinition.getPropertyByName(propertyName);
+            String valueStr = prdCondition.getValue();
+            Expression value = ExpressionDecoder.decode(valueStr, activeEnvironment, entityDefinition, propertyDefinition.getType(), "condition");
             return new SingularCondition(entityDefinition, propertyDefinition, value, operator, thenActions, elseActions);
+        }
         else
-            return new MultipleCondition(conditions, logic, entityDefinition, propertyDefinition, thenActions, elseActions);
+            return new MultipleCondition(conditions, logic, entityDefinition, null, thenActions, elseActions);
     }
 
 
