@@ -4,6 +4,7 @@ import world.World;
 import world.action.api.Action;
 import world.entity.api.EntityInstance;
 import world.rule.activation.Activation;
+import world.rule.activation.ActivationImpl;
 import world.rule.api.Rule;
 
 import java.util.ArrayList;
@@ -11,14 +12,14 @@ import java.util.List;
 import java.util.Random;
 
 
-public class RuleImpl implements Rule, Activation {
+public class RuleImpl implements Rule {
     private final String name;
     private final List<Action> actions;
-    private final float probability;
+    private final Activation activation;
 
-    public RuleImpl(String name, float probability) {
+    public RuleImpl(String name, Activation activation) {
         this.name = name;
-        this.probability = probability;
+        this.activation = activation;
         actions = new ArrayList<>();
     }
 
@@ -36,12 +37,6 @@ public class RuleImpl implements Rule, Activation {
     @Override
     public void addAction(Action action) {
         actions.add(action);
-    }
-
-    @Override
-    public boolean isActive(int tickNumber) {
-        Random random = new Random();
-        return ((World.ticks % tickNumber == 0) && (random.nextFloat() < probability));
     }
 
     @Override

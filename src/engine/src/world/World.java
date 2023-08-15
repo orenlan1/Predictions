@@ -29,7 +29,7 @@ public class World {
     }
     public int getTotalPopulation() { return population; }
 
-    public void addEntityInstanceList(String name, EntityDefinition entityDefinition) {
+    public void addEntityDefinition(String name, EntityDefinition entityDefinition) {
         nameToEntityDefinition.put(name, entityDefinition);
         population += entityDefinition.getPopulation();
     }

@@ -1,17 +1,19 @@
 package world;
 
 import dto.FileReaderDTO;
-import generated.PRDEvironment;
-import generated.PRDProperty;
-import generated.PRDWorld;
+import generated.*;
 import predictions.api.PredictionsService;
 import world.entity.api.EntityDefinition;
+import world.environment.api.ActiveEnvironment;
 import world.environment.api.EnvironmentVariablesManager;
 import world.property.api.PropertyDefinition;
+import world.property.impl.PropertyInstanceImpl;
 import world.translator.EntityTranslator;
 import world.translator.EnvironmentTranslator;
 import world.translator.PropertyTranslator;
-
+import world.translator.RuleTranslator;
+import world.value.generator.api.ValueGeneratorFactory;
+import world.rule.api.Rule;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
@@ -36,12 +38,25 @@ public class EngineFileReader {
 
         //translations
         EnvironmentVariablesManager environmentVariablesManager = EnvironmentTranslator.translateEnvironment(prdWorld.getPRDEvironment());
+        ActiveEnvironment activeEnvironment = environmentVariablesManager.createActiveEnvironment();
+
+        for (PropertyDefinition propertyDefinition : environmentVariablesManager.getEnvironmentVariables()) {
+            activeEnvironment.addPropertyInstance(new PropertyInstanceImpl(propertyDefinition, propertyDefinition.generateValue()));
+        }
         List<EntityDefinition> entityDefinitions = EntityTranslator.translateEntities(prdWorld.getPRDEntities());
+
 
         //updating world
         world.setEnvironmentVariablesManager(environmentVariablesManager);
+        world.setActiveEnvironment(activeEnvironment);
         for (EntityDefinition entity : entityDefinitions) {
-            world.addEntityInstanceList(entity.getName(), entity);
+            world.addEntityDefinition(entity.getName(), entity);
+        }
+
+        for (PRDRule prdRule : prdWorld.getPRDRules().getPRDRule())
+        {
+            Rule newRule = RuleTranslator.translateRule(prdRule,entityDefinitions,activeEnvironment);
+            world.addRule(newRule);
         }
         return world;
     }

@@ -3,6 +3,7 @@ package world.entity.impl;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.exceptions.EntityPropertyNameExistException;
+import world.exceptions.EntityPropertyNotExistException;
 import world.property.api.PropertyDefinition;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -54,6 +55,7 @@ public class EntityDefinitionImpl implements EntityDefinition {
         this.propertiesList.add(propertyDefinition);
     }
 
+
     @Override
     public void createEntityInstancesPopulation() {
         for ( int i = 0; i < population; i++) {
@@ -70,5 +72,14 @@ public class EntityDefinitionImpl implements EntityDefinition {
     public void removeEntity(EntityInstance entityInstance) {
         this.entityInstances.remove(entityInstance);
 
+    }
+
+    public PropertyDefinition getPropertyByName(String propertyName) throws EntityPropertyNotExistException {
+        for ( PropertyDefinition propertyDefinition : propertiesList) {
+            if (propertyDefinition.getName().equals(name)) {
+                return propertyDefinition;
+            }
+        }
+        throw new EntityPropertyNotExistException(this.name,propertyName);
     }
 }
