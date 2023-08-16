@@ -38,7 +38,7 @@ public class ExpressionDecoder {
             if (expressionName.contains("environment")) {
                 String arg = expressionName.split("\\(")[1].split("\\)")[0];
                 PropertyInstance propertyInstance = activeEnvironment.getProperty(arg).orElseThrow(() -> new EnvironmentVariableNotExistException(arg));/// some exception
-                expression = new HelperFunctionExpression(expressionName, "environment function", new EnvironmentFunction(propertyInstance));// maybe the environment function should get the property instance
+                expression = new HelperFunctionExpression(expressionName, propertyInstance.getPropertyDefinition().getType().name().toLowerCase(), new EnvironmentFunction(propertyInstance));// maybe the environment function should get the property instance
             }
             if (expressionName.contains("random")) {
                 String arg = expressionName.split("\\(")[1].split("\\)")[0];
@@ -47,7 +47,7 @@ public class ExpressionDecoder {
                 } catch (NumberFormatException e) {
                     throw new MismatchTypesException("Random helper function", "Integer", arg);
                 }
-                expression = new HelperFunctionExpression(expressionName, "random function", new RandomFunction(arg));
+                expression = new HelperFunctionExpression(expressionName, "decimal", new RandomFunction(arg));
             }
 
         } catch (NumberFormatException  e) {
@@ -60,7 +60,7 @@ public class ExpressionDecoder {
         for (PropertyDefinition property : entityDefinition.getPropertiesList())
         {
             if (property.getName().equals(expressionName))
-                return new PropertyNameExpression(expressionName, "property", property);
+                return new PropertyNameExpression(expressionName, property.getType().name().toLowerCase(), property);
         }
         return null;
     }
