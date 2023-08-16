@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 public class EntityNotExistException extends Exception {
     private String entityName;
 
-    private final String EXCEPTION_MESSAGE = "Entity named %s is not exist but written in one of the rules actions\n.";
+    private final String EXCEPTION_MESSAGE = "Entity named \"%s\" is not exist but written in one of the rules actions\n.";
 
     public EntityNotExistException(String entityName)
     {

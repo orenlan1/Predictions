@@ -19,8 +19,10 @@ public class FileReader {
                 if (xmlFileName.contains(".") && xmlFileName.split("\\.")[1].equals("xml")) {
                     dto = admin.readFileAndLoad(xmlFileName);
                     validFile = dto.isValid();
-                    if (!validFile)
+                    if (!validFile) {
+                        System.out.println("Error while loading xml file:");
                         System.out.println(dto.getError());
+                    }
                 }
                 else {
                     System.out.println("Not a valid xml file");
@@ -29,7 +31,7 @@ public class FileReader {
                 System.out.println(e.getMessage());
             } finally {
                 if (!validFile && firstTime)
-                    System.out.println("Please try again: ");
+                    System.out.println("Please fix the xml file and enter his path again: ");
             }
         } while (!validFile && firstTime);
 

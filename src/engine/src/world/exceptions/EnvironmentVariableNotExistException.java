@@ -2,7 +2,7 @@ package world.exceptions;
 
 public class EnvironmentVariableNotExistException extends Exception{
     private String envPropertyName;
-    private final String EXCEPTION_MESSAGE = "There is no environment variable called %s.\n";
+    private final String EXCEPTION_MESSAGE = "There is no environment variable called \"%s\".\n";
 
     public EnvironmentVariableNotExistException(String propertyName)
     {

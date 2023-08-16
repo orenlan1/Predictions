@@ -14,6 +14,16 @@ public class ActivationImpl implements Activation{
     }
 
     @Override
+    public Double getProbability() {
+        return probability;
+    }
+
+    @Override
+    public Integer getTicks() {
+        return ticks;
+    }
+
+    @Override
     public boolean isActive(int tickNumber) {
         Random random = new Random();
         return ((World.ticks % tickNumber == 0) && (random.nextFloat() < probability));

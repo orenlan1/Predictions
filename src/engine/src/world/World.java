@@ -68,4 +68,8 @@ public class World {
         }
         rules.add(rule);
     }
+
+    public Map<String, EntityDefinition> getNameToEntityDefinition() {
+        return nameToEntityDefinition;
+    }
 }

@@ -20,7 +20,12 @@ public class PropertyTranslator {
         String name = prdProperty.getPRDName();
         String propertyType = prdProperty.getType();
         boolean randomInit = prdProperty.getPRDValue().isRandomInitialize();
-        double from = prdProperty.getPRDRange().getFrom(), to = prdProperty.getPRDRange().getTo();
+        double from = -Double.MAX_VALUE;
+        double to = Double.MAX_VALUE;
+        if ( prdProperty.getPRDRange() != null) {
+            from = prdProperty.getPRDRange().getFrom();
+            to = prdProperty.getPRDRange().getTo();
+        }
         String initValue = prdProperty.getPRDValue().getInit();
         PropertyDefinition propertyDefinition = null;
 

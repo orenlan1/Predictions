@@ -2,7 +2,7 @@ package world.exceptions;
 
 public class EnvironmentVariableNameExistException extends Exception{
     private String environmentVariableName;
-    private final String EXCEPTION_MESSAGE = "Environment variable %s already exist. Each environment variable should have a different name.\n";
+    private final String EXCEPTION_MESSAGE = "Environment variable \"%s\" already exist. Each environment variable should have a different name.\n";
 
     public EnvironmentVariableNameExistException(String environmentVariableName)
     {
