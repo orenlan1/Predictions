@@ -2,6 +2,7 @@ package world.rule.impl;
 
 import world.World;
 import world.action.api.Action;
+import world.action.api.ActionType;
 import world.entity.api.EntityInstance;
 import world.rule.activation.Activation;
 import world.rule.activation.ActivationImpl;
@@ -28,7 +29,7 @@ public class RuleImpl implements Rule {
 
     @Override
     public Activation getActivation() {                 //ADD IMPLEMENTATION!!!!!
-        return null;
+        return activation;
     }
 
     @Override

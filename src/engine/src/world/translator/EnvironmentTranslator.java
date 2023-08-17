@@ -34,7 +34,11 @@ public class EnvironmentTranslator {
         String propertyType = prdEnvProperty.getType();
         double from = -Double.MAX_VALUE;
         double to = Double.MAX_VALUE;
+
+   
+
         if (prdEnvProperty.getPRDRange() != null) {
+
             from = prdEnvProperty.getPRDRange().getFrom();
             to = prdEnvProperty.getPRDRange().getTo();
         }
@@ -42,16 +46,16 @@ public class EnvironmentTranslator {
 
         switch (propertyType) {
             case "decimal":
-                propertyDefinition = new IntegerPropertyDefinition(name, ValueGeneratorFactory.createRandomInteger((int) from, (int) to), (int) from, (int) to);
+                propertyDefinition = new IntegerPropertyDefinition(name, ValueGeneratorFactory.createRandomInteger((int) from, (int) to), (int) from, (int) to,Boolean.FALSE);
                 break;
             case "float":
-                propertyDefinition = new FloatPropertyDefinition(name, ValueGeneratorFactory.createRandomFloat((float) from, (float) to), (float) from, (float) to);
+                propertyDefinition = new FloatPropertyDefinition(name, ValueGeneratorFactory.createRandomFloat((float) from, (float) to), (float) from, (float) to,Boolean.FALSE);
                 break;
             case "boolean":
-                propertyDefinition = new BooleanPropertyDefinition(name, ValueGeneratorFactory.createRandomBoolean());
+                propertyDefinition = new BooleanPropertyDefinition(name, ValueGeneratorFactory.createRandomBoolean(),Boolean.FALSE);
                 break;
             case "string":
-                propertyDefinition = new StringPropertyDefinition(name, ValueGeneratorFactory.createRandomString());
+                propertyDefinition = new StringPropertyDefinition(name, ValueGeneratorFactory.createRandomString(),Boolean.FALSE);
                 break;
             default:
                 throw new InvalidVariableTypeException("translating environment variables", "decimal, float, boolean or string", propertyType);

@@ -1,6 +1,7 @@
-/*
+
 package world;
 
+import generated.ObjectFactory;
 import world.action.api.Action;
 import world.action.api.ActionType;
 import world.action.impl.IncreaseAction;
@@ -26,44 +27,11 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Integer a = ValueGeneratorFactory.createRandomInteger(10,20).generateValue();
-        PropertyDefinition cigarettesCritical = new IntegerPropertyDefinition(("cigarettes-critical"),ValueGeneratorFactory.createRandomInteger(10,100));
-        int valueFromUser = 30;
-        PropertyInstance cigInstance = new PropertyInstanceImpl(cigarettesCritical,valueFromUser);
-        String s1 = ValueGeneratorFactory.createRandomString().generateValue();
-        PropertyDefinition e1 = new StringPropertyDefinition("e1",ValueGeneratorFactory.createRandomString());
 
 
-        PropertyDefinition age = new IntegerPropertyDefinition("age",ValueGeneratorFactory.createRandomInteger(15,50), 15, 80);
-        EntityDefinition smoker = new EntityDefinitionImpl("smoker",100);
-        try {
-            smoker.addPropertyDefinition(age);
-        } catch (EntityPropertyNameExistException e) {
-            System.out.println(e.getMessage());
-        }
-        smoker.createEntityInstancesPopulation();
-
-        List<EntityInstance> smokersInstances = smoker.getEntityInstances();
-
-        EnvironmentVariablesManager environmentVariablesManager = new EnvironmentVariablesManagerImpl();
-        ActiveEnvironment activeEnvironment = environmentVariablesManager.createActiveEnvironment();
-
-        for (PropertyDefinition propertyDefinition : environmentVariablesManager.getEnvironmentVariables()) {
-            //collect data from user
-            int newValueFromUser = 10;
-            activeEnvironment.addPropertyInstance(new PropertyInstanceImpl(propertyDefinition, newValueFromUser));
-        }
-
-        PropertyDefinition tax = new IntegerPropertyDefinition("tax", ValueGeneratorFactory.createFixed(17), 0, 100);
-        PropertyInstance taxInstance = new PropertyInstanceImpl(tax);
-
-        activeEnvironment.addPropertyInstance(taxInstance);
-
-        Expression exp = new ExpressionImpl("random(4)", tax, activeEnvironment, smoker, ActionType.INCREASE);
-        Object obj = exp.evaluate(smokersInstances.get(0));
 
 
 
     }
 }
-*/
+

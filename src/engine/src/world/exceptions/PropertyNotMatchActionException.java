@@ -5,7 +5,7 @@ public class PropertyNotMatchActionException extends Exception{
     private final String propertyName;
     private final String entityName;
     private final String propertyType;
-    private final String EXCEPTION_MESSAGE = "The action %s should get a number but the property %s of the entity %s is %s\n";
+    private final String EXCEPTION_MESSAGE = "The action \"%s\" should get a number but the property \"%s\" of the entity \"%s\" is %s\n";
 
     public PropertyNotMatchActionException(String actionName, String propertyName, String entityName, String propertyType) {
         this.actionName = actionName;

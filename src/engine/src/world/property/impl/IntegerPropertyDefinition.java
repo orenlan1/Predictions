@@ -7,8 +7,8 @@ public class IntegerPropertyDefinition extends AbstractPropertyDefinition<Intege
     private final Integer from;
     private final Integer to;
 
-    public IntegerPropertyDefinition(String name, ValueGenerator<Integer> valueGenerator, Integer from, Integer to) {
-        super(name, PropertyType.DECIMAL, valueGenerator);
+    public IntegerPropertyDefinition(String name, ValueGenerator<Integer> valueGenerator, Integer from, Integer to, Boolean randomInitialize) {
+        super(name, PropertyType.DECIMAL, valueGenerator,randomInitialize);
         this.from = from;
         this.to = to;
     }
