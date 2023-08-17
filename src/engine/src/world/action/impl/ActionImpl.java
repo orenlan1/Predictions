@@ -8,9 +8,6 @@ import world.expressions.api.Expression;
 import world.property.api.PropertyDefinition;
 
 public abstract class ActionImpl implements Action {
-    //public enum ActionType {INCREASE, DECREASE, CALCULATION ,CONDITION, SET, KILL}
-    //protected final ActionType actionType;
-
     protected final ActionType actionType;
     protected EntityDefinition entityDefinition;
     protected PropertyDefinition propertyDefinition;

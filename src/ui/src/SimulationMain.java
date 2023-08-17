@@ -1,3 +1,4 @@
+import dto.PropertyDTO;
 import file.reader.FileReader;
 import predictions.api.PredictionsService;
 import predictions.impl.PredictionsServiceImpl;
@@ -43,7 +44,7 @@ public class SimulationMain {
                     //something
                     break;
                 case 5:
-                    System.out.println("Thank you and goodbye!");
+                    System.out.println("Press \"Enter\" to exit.\nThank you and goodbye!");
                     System.exit(0);
                 default:
                     System.out.println("Invalid choice! Please try again");

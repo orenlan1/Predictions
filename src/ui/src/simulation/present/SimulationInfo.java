@@ -20,10 +20,10 @@ public class SimulationInfo {
     }
 
     public void printEntitiesInfo(List<EntityDTO> entityDTOList) {
-        System.out.println("Entites:\n");
+        System.out.println("Entities:\n");
         for ( EntityDTO entityDTO : entityDTOList) {
-            System.out.println("Entity name: " + entityDTO.getEntityName());
-            System.out.println("Population: " + entityDTO.getPopulation());
+            System.out.println("Entity name:\t" + entityDTO.getEntityName());
+            System.out.println("Population:\t\t" + entityDTO.getPopulation());
             System.out.println("Properties:");
             for (PropertyDTO propertyDTO : entityDTO.getPropertiesList()) {
                 printPropertyInfo(propertyDTO);
@@ -32,22 +32,30 @@ public class SimulationInfo {
     }
 
     public void printPropertyInfo(PropertyDTO propertyDTO) {
-        System.out.println("\nProperty name: " + propertyDTO.getPropertyName());
-        System.out.println("Property type: " + propertyDTO.getPropertyType());
+        System.out.println("\nProperty name:\t\t" + propertyDTO.getPropertyName());
+        System.out.println("Property type:\t\t" + propertyDTO.getPropertyType());
         if ( propertyDTO.getFrom() != null) {
             System.out.println("Range: from: " + propertyDTO.getFrom() + " to: " + propertyDTO.getTo());
         }
-        System.out.println("Random initialize: " + propertyDTO.getRandomInitialize().toString());
+        System.out.println("Random initialize:\t" + propertyDTO.getRandomInitialize().toString());
+    }
+
+    public void simplifiedPrintPropertyInfo(PropertyDTO propertyDTO) {
+        System.out.println("\nProperty name:\t\t" + propertyDTO.getPropertyName());
+        System.out.println("Property type:\t\t" + propertyDTO.getPropertyType());
+        if (propertyDTO.getFrom() != null) {
+            System.out.println("Range: from: " + propertyDTO.getFrom() + " to: " + propertyDTO.getTo());
+        }
     }
 
     public void printRulesInfo(List<RuleDTO> ruleDTOList) {
         System.out.println("\n\nRules:\n");
         for ( RuleDTO ruleDTO : ruleDTOList) {
-            System.out.println("Rule name: " + ruleDTO.getRuleName());
+            System.out.println("Rule name:\t" + ruleDTO.getRuleName());
             System.out.println("Activation:");
             System.out.println("             Ticks: " + ruleDTO.getTicks());
             System.out.println("             Probability: " + ruleDTO.getProbability());
-            System.out.println("Number of actions: " + ruleDTO.getActionsNumber());
+            System.out.println("Number of actions:\t" + ruleDTO.getActionsNumber());
             System.out.println("Actions names:");
             for ( String name : ruleDTO.getActionsNamesList()) {
                 System.out.println("               " + name);
@@ -56,12 +64,12 @@ public class SimulationInfo {
     }
 
     public void printTerminationInfo(TerminationDTO terminationDTO) {
-        System.out.println("\n\nTermination:\n");
+        System.out.println("\nTermination:\n");
         if (terminationDTO.getTicksCount() != null) {
-            System.out.println("Ticks count: " + terminationDTO.getTicksCount());
+            System.out.println("Ticks count:\t" + terminationDTO.getTicksCount());
         }
         if (terminationDTO.getSecondCount() != null) {
-            System.out.println("Second count: " + terminationDTO.getSecondCount());
+            System.out.println("Second count:\t" + terminationDTO.getSecondCount());
         }
     }
 }

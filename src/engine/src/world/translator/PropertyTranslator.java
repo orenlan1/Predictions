@@ -23,7 +23,6 @@ public class PropertyTranslator {
         double from = -Double.MAX_VALUE;
         double to = Double.MAX_VALUE;
 
-
         if (prdProperty.getPRDRange() != null) {
 
             from = prdProperty.getPRDRange().getFrom();

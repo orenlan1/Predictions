@@ -31,7 +31,6 @@ public class SimulationInfoBuilder {
         return entityDTOList;
     }
 
-
     public List<RuleDTO> createRuleDTOList(List<Rule> rulesList) {
         DTOFactory dtoFactory = new DTOFactory();
         List<RuleDTO> rulesDTOList = new ArrayList<>();

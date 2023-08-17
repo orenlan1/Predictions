@@ -75,11 +75,14 @@ public class PredictionsServiceImpl implements PredictionsService {
                 else if (dto.getValue().equals("1"))
                     propertyInstance.updateValue(true);
                 else
-                    throw new Exception("Should receive \"true\" (as 1) or \"false\" (as 0) ");
+                    throw new Exception("Should receive the number 1 for \"true\" or the number 0 for \"false\"");
             }
             else if (type.equals(AbstractPropertyDefinition.PropertyType.STRING))
                 propertyInstance.updateValue((dto.getValue()));
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
+            return new EnvVariableSetValidationDTO(Boolean.FALSE, "Failed to assign the value to the environment variable due to incompatible types");
+        }
+        catch (Exception e) {
             return new EnvVariableSetValidationDTO(Boolean.FALSE, "Failed to assign the value to the environment variable. " + e.getMessage());
         }
         return new EnvVariableSetValidationDTO(Boolean.TRUE, null);
