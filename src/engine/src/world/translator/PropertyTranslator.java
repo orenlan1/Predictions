@@ -32,30 +32,30 @@ public class PropertyTranslator {
         switch (propertyType) {
             case "decimal":
                 if (randomInit) {
-                    propertyDefinition = new IntegerPropertyDefinition(name, ValueGeneratorFactory.createRandomInteger((int) from, (int) to), (int) from, (int) to);
+                    propertyDefinition = new IntegerPropertyDefinition(name, ValueGeneratorFactory.createRandomInteger((int) from, (int) to), (int) from, (int) to,randomInit);
                 } else {
-                    propertyDefinition = new IntegerPropertyDefinition(name, ValueGeneratorFactory.createFixed(Integer.parseInt(initValue)), (int) from, (int) to);
+                    propertyDefinition = new IntegerPropertyDefinition(name, ValueGeneratorFactory.createFixed(Integer.parseInt(initValue)), (int) from, (int) to,randomInit);
                 }
                 break;
             case "float":
                 if (randomInit) {
-                    propertyDefinition = new FloatPropertyDefinition(name, ValueGeneratorFactory.createRandomFloat((float) from, (float) to), (float) from, (float) to);
+                    propertyDefinition = new FloatPropertyDefinition(name, ValueGeneratorFactory.createRandomFloat((float) from, (float) to), (float) from, (float) to,randomInit);
                 } else {
-                    propertyDefinition = new FloatPropertyDefinition(name, ValueGeneratorFactory.createFixed(Float.parseFloat(initValue)), (float) from, (float) to);
+                    propertyDefinition = new FloatPropertyDefinition(name, ValueGeneratorFactory.createFixed(Float.parseFloat(initValue)), (float) from, (float) to,randomInit);
                 }
                 break;
             case "boolean":
                 if (randomInit) {
-                    propertyDefinition = new BooleanPropertyDefinition(name, ValueGeneratorFactory.createRandomBoolean());
+                    propertyDefinition = new BooleanPropertyDefinition(name, ValueGeneratorFactory.createRandomBoolean(),randomInit);
                 } else {
-                    propertyDefinition = new BooleanPropertyDefinition(name, ValueGeneratorFactory.createFixed(Boolean.parseBoolean(initValue)));
+                    propertyDefinition = new BooleanPropertyDefinition(name, ValueGeneratorFactory.createFixed(Boolean.parseBoolean(initValue)),randomInit);
                 }
                 break;
             case "string":
                 if (randomInit) {
-                    propertyDefinition = new StringPropertyDefinition(name, ValueGeneratorFactory.createRandomString());
+                    propertyDefinition = new StringPropertyDefinition(name, ValueGeneratorFactory.createRandomString(),randomInit);
                 } else {
-                    propertyDefinition = new StringPropertyDefinition(name, ValueGeneratorFactory.createFixed(initValue));
+                    propertyDefinition = new StringPropertyDefinition(name, ValueGeneratorFactory.createFixed(initValue),randomInit);
                 }
                 break;
             default:

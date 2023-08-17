@@ -27,7 +27,6 @@ public class SimulationMain {
                 case 2:
                     SimulationInfo simulationInfo = new SimulationInfo();
                     simulationInfo.showSimulationInfo(admin);
-                    break;
                 case 3:
                     //something
                     break;

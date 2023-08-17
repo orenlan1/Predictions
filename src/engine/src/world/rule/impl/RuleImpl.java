@@ -29,7 +29,7 @@ public class RuleImpl implements Rule {
 
     @Override
     public Activation getActivation() {                 //ADD IMPLEMENTATION!!!!!
-        return null;
+        return activation;
     }
 
     @Override

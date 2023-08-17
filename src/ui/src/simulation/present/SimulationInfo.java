@@ -17,16 +17,17 @@ public class SimulationInfo {
         List<EntityDTO> entityDTOList = simulationInfoDTO.getEntitiesList();
         this.printEntitiesInfo(entityDTOList);
         List<RuleDTO> ruleDTOList = simulationInfoDTO.getRulesList();
+        this.printRulesInfo(ruleDTOList);
     }
 
     public void printEntitiesInfo(List<EntityDTO> entityDTOList) {
         System.out.println("Entites:\n");
         for ( EntityDTO entityDTO : entityDTOList) {
             System.out.println("Entity name: " + entityDTO.getEntityName());
-            System.out.print("Population: " + entityDTO.getPopulation());
+            System.out.println("Population: " + entityDTO.getPopulation());
             System.out.println("Properties:");
             for (PropertyDTO propertyDTO : entityDTO.getPropertiesList()) {
-                System.out.println("Property name: " + propertyDTO.getPropertyName());
+                System.out.println("\nProperty name: " + propertyDTO.getPropertyName());
                 System.out.println("Property type: " + propertyDTO.getPropertyType());
                 if ( propertyDTO.getFrom() != null) {
                     System.out.println("Range: from: " + propertyDTO.getFrom() + " to: " + propertyDTO.getTo());

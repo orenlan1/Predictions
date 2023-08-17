@@ -11,13 +11,19 @@ public abstract class AbstractPropertyDefinition<T> implements PropertyDefinitio
     private final String name;
     private final PropertyType type;
     private final ValueGenerator<T> valueGenerator;
+    private final Boolean randomInitialize;
 
-    public AbstractPropertyDefinition(String name, PropertyType propertyType, ValueGenerator<T> valueGenerator) {
+    public AbstractPropertyDefinition(String name, PropertyType propertyType, ValueGenerator<T> valueGenerator, Boolean randomInitialize) {
         this.name = name;
         this.type = propertyType;
         this.valueGenerator = valueGenerator;
+        this.randomInitialize = randomInitialize;
     }
 
+    @Override
+    public Boolean getRandomInitialize() {
+        return randomInitialize;
+    }
 
     @Override
     public String getName() {

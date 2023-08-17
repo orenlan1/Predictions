@@ -19,16 +19,16 @@ public class DTOFactory {
     }
 
     public PropertyDTO createPropertyDTO(PropertyDefinition propertyDefinition) {
-        Number from = null;
-        Number to = null;
+        Double from = null;
+        Double to = null;
         if (propertyDefinition instanceof IntegerPropertyDefinition) {
-            from =  ((IntegerPropertyDefinition) propertyDefinition).getFrom();
-            to = ((IntegerPropertyDefinition) propertyDefinition).getTo();
+            from = Double.valueOf(((IntegerPropertyDefinition) propertyDefinition).getFrom());
+            to = Double.valueOf(((IntegerPropertyDefinition) propertyDefinition).getTo());
         } else if (propertyDefinition instanceof FloatPropertyDefinition) {
-            from = ((FloatPropertyDefinition) propertyDefinition).getFrom();
-            to = ((FloatPropertyDefinition) propertyDefinition).getTo();
+            from = Double.valueOf(((FloatPropertyDefinition) propertyDefinition).getFrom());
+            to = Double.valueOf(((FloatPropertyDefinition) propertyDefinition).getTo());
         }
-        return new PropertyDTO(propertyDefinition.getName(),propertyDefinition.getType().toString(),from,to,);
+        return new PropertyDTO(propertyDefinition.getName(),propertyDefinition.getType().toString(),from,to,propertyDefinition.getRandomInitialize());
     }
 
     public EntityDTO createEntityDTO(EntityDefinition entityDefinition) {
