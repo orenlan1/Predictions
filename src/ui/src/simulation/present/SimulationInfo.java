@@ -1,9 +1,6 @@
 package simulation.present;
 
-import dto.EntityDTO;
-import dto.PropertyDTO;
-import dto.RuleDTO;
-import dto.SimulationInfoDTO;
+import dto.*;
 import predictions.api.PredictionsService;
 import world.rule.api.Rule;
 
@@ -18,6 +15,8 @@ public class SimulationInfo {
         this.printEntitiesInfo(entityDTOList);
         List<RuleDTO> ruleDTOList = simulationInfoDTO.getRulesList();
         this.printRulesInfo(ruleDTOList);
+        TerminationDTO terminationDTO = simulationInfoDTO.getTermination();
+        this.printTerminationInfo(terminationDTO);
     }
 
     public void printEntitiesInfo(List<EntityDTO> entityDTOList) {
@@ -38,7 +37,7 @@ public class SimulationInfo {
     }
 
     public void printRulesInfo(List<RuleDTO> ruleDTOList) {
-        System.out.println("Rules:\n");
+        System.out.println("\n\nRules:\n");
         for ( RuleDTO ruleDTO : ruleDTOList) {
             System.out.println("Rule name: " + ruleDTO.getRuleName());
             System.out.println("Activation:");
@@ -52,5 +51,13 @@ public class SimulationInfo {
         }
     }
 
-
+    public void printTerminationInfo(TerminationDTO terminationDTO) {
+        System.out.println("\n\nTermination:\n");
+        if (terminationDTO.getTicksCount() != null) {
+            System.out.println("Ticks count: " + terminationDTO.getTicksCount());
+        }
+        if (terminationDTO.getSecondCount() != null) {
+            System.out.println("Second count: " + terminationDTO.getSecondCount());
+        }
+    }
 }

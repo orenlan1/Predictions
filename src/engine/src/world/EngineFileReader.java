@@ -8,10 +8,7 @@ import world.environment.api.ActiveEnvironment;
 import world.environment.api.EnvironmentVariablesManager;
 import world.property.api.PropertyDefinition;
 import world.property.impl.PropertyInstanceImpl;
-import world.translator.EntityTranslator;
-import world.translator.EnvironmentTranslator;
-import world.translator.PropertyTranslator;
-import world.translator.RuleTranslator;
+import world.translator.*;
 import world.value.generator.api.ValueGeneratorFactory;
 import world.rule.api.Rule;
 import javax.xml.bind.JAXBContext;
@@ -58,6 +55,9 @@ public class EngineFileReader {
             Rule newRule = RuleTranslator.translateRule(prdRule,entityDefinitions,activeEnvironment);
             world.addRule(newRule);
         }
+
+        Termination termination = TerminationTranslator.translateTermination(prdWorld.getPRDTermination());
+        world.setTermination(termination);
         return world;
     }
 

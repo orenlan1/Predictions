@@ -21,6 +21,7 @@ public class World {
     private final List<Rule> rules;
     public static int ticks = 0;
     private int population;
+    private Termination termination;
 
     public World() {
         population = 0;
@@ -71,5 +72,13 @@ public class World {
 
     public Map<String, EntityDefinition> getNameToEntityDefinition() {
         return nameToEntityDefinition;
+    }
+
+    public Termination getTermination() {
+        return termination;
+    }
+
+    public void setTermination(Termination termination) {
+        this.termination = termination;
     }
 }

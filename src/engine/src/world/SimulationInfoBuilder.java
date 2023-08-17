@@ -3,6 +3,7 @@ package world;
 import dto.EntityDTO;
 import dto.RuleDTO;
 import dto.SimulationInfoDTO;
+import dto.TerminationDTO;
 import world.entity.api.EntityDefinition;
 import world.factory.DTOFactory;
 import world.rule.api.Rule;
@@ -14,9 +15,11 @@ import java.util.ArrayList;
 public class SimulationInfoBuilder {
 
     public SimulationInfoDTO createSimulationInfo(World world) {
+        DTOFactory dtoFactory = new DTOFactory();
         List<EntityDTO> entityDTOList = createEntityDTOList(world.getNameToEntityDefinition());
         List<RuleDTO> ruleDTOList = createRuleDTOList(world.getRules());
-        return new SimulationInfoDTO(entityDTOList,ruleDTOList);
+        TerminationDTO terminationDTO = dtoFactory.createTerminationDTO(world.getTermination());
+        return new SimulationInfoDTO(entityDTOList,ruleDTOList,terminationDTO);
     }
 
     public List<EntityDTO> createEntityDTOList(Map<String, EntityDefinition> nameToEntity) {

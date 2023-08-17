@@ -3,6 +3,8 @@ package world.factory;
 import dto.EntityDTO;
 import dto.PropertyDTO;
 import dto.RuleDTO;
+import dto.TerminationDTO;
+import world.Termination;
 import world.action.api.Action;
 import world.entity.api.EntityDefinition;
 import world.property.api.PropertyDefinition;
@@ -45,6 +47,10 @@ public class DTOFactory {
             actionsNames.add(action.getActionType().toString());
         }
         return new RuleDTO(rule.getName(),rule.getActivation().getTicks(),rule.getActivation().getProbability(), actionsNames.size(), actionsNames);
+    }
+
+    public TerminationDTO createTerminationDTO(Termination termination) {
+        return new TerminationDTO(termination.getTicksCount(), termination.getSecondCount());
     }
 
 
