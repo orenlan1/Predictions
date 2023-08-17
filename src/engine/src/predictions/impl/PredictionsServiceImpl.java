@@ -4,6 +4,7 @@ import dto.FileReaderDTO;
 import dto.SimulationInfoDTO;
 import predictions.api.PredictionsService;
 import world.EngineFileReader;
+import world.SimulationInfoBuilder;
 import world.World;
 
 public class PredictionsServiceImpl implements PredictionsService {
@@ -24,6 +25,7 @@ public class PredictionsServiceImpl implements PredictionsService {
 
     @Override
     public SimulationInfoDTO getSimulationInformation() {
-        
+        SimulationInfoBuilder simulationInfoBuilder = new SimulationInfoBuilder();
+        return simulationInfoBuilder.createSimulationInfo(world);
     }
 }

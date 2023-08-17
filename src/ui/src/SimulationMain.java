@@ -1,6 +1,7 @@
 import file.reader.FileReader;
 import predictions.api.PredictionsService;
 import predictions.impl.PredictionsServiceImpl;
+import simulation.present.SimulationInfo;
 
 import java.io.File;
 import java.util.Scanner;
@@ -24,7 +25,8 @@ public class SimulationMain {
                     FileReader.ReadFile(admin, Boolean.FALSE);
                     break;
                 case 2:
-                    //something
+                    SimulationInfo simulationInfo = new SimulationInfo();
+                    simulationInfo.showSimulationInfo(admin);
                     break;
                 case 3:
                     //something
