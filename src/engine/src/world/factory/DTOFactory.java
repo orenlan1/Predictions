@@ -30,7 +30,7 @@ public class DTOFactory {
             from = Double.valueOf(((FloatPropertyDefinition) propertyDefinition).getFrom());
             to = Double.valueOf(((FloatPropertyDefinition) propertyDefinition).getTo());
         }
-        return new PropertyDTO(propertyDefinition.getName(),propertyDefinition.getType().toString(),from,to,propertyDefinition.getRandomInitialize());
+        return new PropertyDTO(propertyDefinition.getName(),propertyDefinition.getType().name().toLowerCase(),from,to,propertyDefinition.getRandomInitialize());
     }
 
     public EntityDTO createEntityDTO(EntityDefinition entityDefinition) {

@@ -26,14 +26,18 @@ public class SimulationInfo {
             System.out.println("Population: " + entityDTO.getPopulation());
             System.out.println("Properties:");
             for (PropertyDTO propertyDTO : entityDTO.getPropertiesList()) {
-                System.out.println("\nProperty name: " + propertyDTO.getPropertyName());
-                System.out.println("Property type: " + propertyDTO.getPropertyType());
-                if ( propertyDTO.getFrom() != null) {
-                    System.out.println("Range: from: " + propertyDTO.getFrom() + " to: " + propertyDTO.getTo());
-                }
-                System.out.println("Random initialize: " + propertyDTO.getRandomInitialize().toString());
+                printPropertyInfo(propertyDTO);
             }
         }
+    }
+
+    public void printPropertyInfo(PropertyDTO propertyDTO) {
+        System.out.println("\nProperty name: " + propertyDTO.getPropertyName());
+        System.out.println("Property type: " + propertyDTO.getPropertyType());
+        if ( propertyDTO.getFrom() != null) {
+            System.out.println("Range: from: " + propertyDTO.getFrom() + " to: " + propertyDTO.getTo());
+        }
+        System.out.println("Random initialize: " + propertyDTO.getRandomInitialize().toString());
     }
 
     public void printRulesInfo(List<RuleDTO> ruleDTOList) {

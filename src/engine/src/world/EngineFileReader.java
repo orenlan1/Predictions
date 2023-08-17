@@ -60,10 +60,6 @@ public class EngineFileReader {
         world.setTermination(termination);
         return world;
     }
-
-
-
-
 }
 
 

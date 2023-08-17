@@ -1,6 +1,7 @@
 import file.reader.FileReader;
 import predictions.api.PredictionsService;
 import predictions.impl.PredictionsServiceImpl;
+import simulation.environment.variables.SetEnvironmentVariables;
 import simulation.present.SimulationInfo;
 
 import java.io.File;
@@ -18,19 +19,27 @@ public class SimulationMain {
         do {
             System.out.println("\nPlease select an option:");
             System.out.println("1. Load an XML file\n2. Show details of current simulation\n3. Run simulation\n4. Show results of a past simulation\n5. End program");
+
             userChoice = scanner.nextInt();
 
             switch (userChoice){
                 case 1:
+                    scanner.nextLine();
                     FileReader.ReadFile(admin, Boolean.FALSE);
                     break;
                 case 2:
+                    scanner.nextLine();
                     SimulationInfo simulationInfo = new SimulationInfo();
                     simulationInfo.showSimulationInfo(admin);
+                    break;
                 case 3:
-                    //something
+                    scanner.nextLine();
+                    SetEnvironmentVariables setter = new SetEnvironmentVariables();
+                    setter.manageEnvironmentVariables(admin);
+                    //run simulation and save its details
                     break;
                 case 4:
+                    scanner.nextLine();
                     //something
                     break;
                 case 5:
