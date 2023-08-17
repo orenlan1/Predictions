@@ -36,4 +36,7 @@ public class MultipleCondition extends ConditionAction {
         }
         return conditionRes;
     }
+
+    @Override
+    public String toString() { return "MULTIPLE CONDITION action"; }
 }

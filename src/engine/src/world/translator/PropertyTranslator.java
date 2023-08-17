@@ -22,7 +22,10 @@ public class PropertyTranslator {
         boolean randomInit = prdProperty.getPRDValue().isRandomInitialize();
         double from = -Double.MAX_VALUE;
         double to = Double.MAX_VALUE;
-        if ( prdProperty.getPRDRange() != null) {
+
+
+        if (prdProperty.getPRDRange() != null) {
+
             from = prdProperty.getPRDRange().getFrom();
             to = prdProperty.getPRDRange().getTo();
         }

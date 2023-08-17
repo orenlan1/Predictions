@@ -26,21 +26,33 @@ public class SingularCondition extends ConditionAction {
         PropertyInstance property = entityInstance.getPropertyByName(propertyDefinition.getName());
         Object propertyValue = property.getValue();
         Object expValue = value.evaluate();
+        String expType = value.getType();
 
-        if ((propertyValue instanceof Integer || propertyValue instanceof Float) && (expValue instanceof Integer || expValue instanceof Float)) {
-            if (operator.equals("="))
-                return ((Float) propertyValue).equals((Float) expValue);
-            else if (operator.equals("!="))
-                return (!((Float) propertyValue).equals((Float) expValue));
-            else if (operator.equals("bt"))
-                return (Float) propertyValue > (Float) expValue;
-            else if (operator.equals("lt"))
-                return (Float) propertyValue < (Float) expValue;
-            else
+        switch (operator) {
+            case "=":
+                if (expType.equals("string"))
+                    return ((String) propertyValue).equals((String) expValue);
+                else
+                    return propertyValue == expValue;
+            case "!=":
+                if (expType.equals("string"))
+                    return !((String) propertyValue).equals((String) expValue);
+                else
+                    return propertyValue != expValue;
+            case "bt":
+                if (expType.equals("string") || expType.equals("boolean"))
+                    throw new InvalidVariableTypeException("evaluating a condition", "decimal or float", expType);
+                else
+                    return (Float) propertyValue > (Float) expValue;
+            case "lt":
+                if (expType.equals("string") || expType.equals("boolean"))
+                    throw new InvalidVariableTypeException("evaluating a condition", "decimal or float", expType);
+                else
+                    return (Float) propertyValue < (Float) expValue;
+            default:
                 throw new InvalidConditionOperatorException(operator);
-        } else {
-            throw new InvalidVariableTypeException("evaluating condition", "Integer of Float", propertyValue.getClass().getTypeName() + ", " + expValue.getClass().getTypeName());
         }
     }
-
 }
+
+

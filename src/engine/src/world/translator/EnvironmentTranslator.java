@@ -34,7 +34,11 @@ public class EnvironmentTranslator {
         String propertyType = prdEnvProperty.getType();
         double from = -Double.MAX_VALUE;
         double to = Double.MAX_VALUE;
-        if ( prdEnvProperty.getPRDRange() != null) {
+
+   
+
+        if (prdEnvProperty.getPRDRange() != null) {
+
             from = prdEnvProperty.getPRDRange().getFrom();
             to = prdEnvProperty.getPRDRange().getTo();
         }

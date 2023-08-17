@@ -45,12 +45,3 @@ public class SimulationMain {
 
     }
 }
-
-
-/*  TODO!
-    fix Expressions
-    after that, fix actions and rules (?)
-    figure out what the hell is DTO!!!
-    translations
-    move "main loop" into subclasses and out of main and finish main
-*/
