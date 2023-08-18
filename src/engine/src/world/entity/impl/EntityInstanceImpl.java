@@ -1,5 +1,6 @@
 package world.entity.impl;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.property.api.PropertyDefinition;
@@ -13,11 +14,12 @@ import java.util.Optional;
 public class EntityInstanceImpl implements EntityInstance {
     private final EntityDefinition entityDefinition;
     private Map<String, PropertyInstance> nameToProperty;
-
+    private boolean alive;
 
     public EntityInstanceImpl(EntityDefinition entityDefinition) {
         this.entityDefinition = entityDefinition;
         nameToProperty = new HashMap<>();
+        alive = Boolean.TRUE;
     }
 
     @Override
@@ -34,10 +36,18 @@ public class EntityInstanceImpl implements EntityInstance {
 //        }
 //        return newEntityInstance;
 //    }
-
-
+    
     @Override
     public void addPropertyInstance(PropertyInstance propertyInstance) {
         nameToProperty.put(propertyInstance.getPropertyDefinition().getName(), propertyInstance);
+    }
+    
+    @Override
+    public boolean isAlive() { return alive; }
+    
+    @Override
+    public void kill() {
+        alive = Boolean.FALSE;
+        //entityDefinition.killInstance();
     }
 }

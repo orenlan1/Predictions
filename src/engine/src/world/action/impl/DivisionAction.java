@@ -26,8 +26,8 @@ public class DivisionAction extends CalculationAction {
 
         if (type.equals(AbstractPropertyDefinition.PropertyType.FLOAT)) {
             if ((arg1Value instanceof Float) || (arg1Value instanceof Integer) && ((arg2Value instanceof Float) || (arg2Value instanceof Integer))) {
-                if ((Float) arg2Value != 0) {
-                    property.updateValue((Float) arg1Value / (Float) arg2Value);
+                if ((float) arg2Value != 0) {
+                    property.updateValue((float) arg1Value / (float) arg2Value);
                 } else {
                     throw new ArithmeticException("division by zero");
                 }
@@ -38,8 +38,8 @@ public class DivisionAction extends CalculationAction {
 
         if (type.equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
             if ((arg1Value instanceof Float) || (arg1Value instanceof Integer) && ((arg2Value instanceof Float) || (arg2Value instanceof Integer))) {
-                if ((Float) arg2Value != 0) {
-                    float newValue = (Float) arg1Value / (Float) arg2Value;
+                if ((float) arg2Value != 0) {
+                    float newValue = (float) arg1Value / (float) arg2Value;
                     if (newValue - (int) newValue > 0) {
                         throw new InvalidVariableTypeException("performing division", "Integer", "a fraction");
                     } else

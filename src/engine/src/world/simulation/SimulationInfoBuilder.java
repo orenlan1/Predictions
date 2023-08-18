@@ -1,9 +1,10 @@
-package world;
+package world.simulation;
 
 import dto.EntityDTO;
 import dto.RuleDTO;
 import dto.SimulationInfoDTO;
 import dto.TerminationDTO;
+import world.World;
 import world.entity.api.EntityDefinition;
 import world.factory.DTOFactory;
 import world.rule.api.Rule;

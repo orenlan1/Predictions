@@ -1,23 +1,20 @@
-package world;
+package world.file.reader;
 
-import dto.FileReaderDTO;
 import generated.*;
-import predictions.api.PredictionsService;
+import world.World;
 import world.entity.api.EntityDefinition;
 import world.environment.api.ActiveEnvironment;
 import world.environment.api.EnvironmentVariablesManager;
 import world.property.api.PropertyDefinition;
 import world.property.impl.PropertyInstanceImpl;
+import world.termination.Termination;
 import world.translator.*;
-import world.value.generator.api.ValueGeneratorFactory;
 import world.rule.api.Rule;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EngineFileReader {

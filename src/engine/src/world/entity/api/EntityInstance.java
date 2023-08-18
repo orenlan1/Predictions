@@ -9,6 +9,8 @@ import world.property.impl.PropertyInstanceImpl;
 public interface EntityInstance {
     PropertyInstance getPropertyByName(String name);
     void addPropertyInstance(PropertyInstance propertyInstance);
+    boolean isAlive();
+    void kill();
 
     //static EntityInstance createEntityInstance(EntityDefinition entityDefinition);
     static EntityInstance createEntityInstance(EntityDefinition entityDefinition) {

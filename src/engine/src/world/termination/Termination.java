@@ -1,4 +1,4 @@
-package world;
+package world.termination;
 
 public class Termination {
     private final Integer ticksCount;

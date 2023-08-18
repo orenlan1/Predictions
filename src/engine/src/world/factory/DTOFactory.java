@@ -4,7 +4,7 @@ import dto.EntityDTO;
 import dto.PropertyDTO;
 import dto.RuleDTO;
 import dto.TerminationDTO;
-import world.Termination;
+import world.termination.Termination;
 import world.action.api.Action;
 import world.entity.api.EntityDefinition;
 import world.property.api.PropertyDefinition;

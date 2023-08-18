@@ -3,7 +3,7 @@ package world.translator;
 import generated.PRDBySecond;
 import generated.PRDByTicks;
 import generated.PRDTermination;
-import world.Termination;
+import world.termination.Termination;
 
 import java.util.List;
 
@@ -12,12 +12,19 @@ public class TerminationTranslator {
         Integer ticks = null;
         Integer seconds = null;
         List<Object> ticksOrSecond = prdTermination.getPRDByTicksOrPRDBySecond();
-        if (ticksOrSecond.get(0) != null && ticksOrSecond.get(0) instanceof PRDByTicks) {
-            ticks = ((PRDByTicks) ticksOrSecond.get(0)).getCount();
+        Object possibleTicks = ticksOrSecond.get(0), possibleSeconds = null;
+        if (ticksOrSecond.size() > 1)
+            possibleSeconds = ticksOrSecond.get(1);
+
+        if (possibleTicks instanceof PRDByTicks) {
+            ticks = ((PRDByTicks) possibleTicks).getCount();
         }
-        if (ticksOrSecond.get(1) != null && ticksOrSecond.get(1) instanceof PRDBySecond) {
-            seconds = ((PRDBySecond) ticksOrSecond.get(1)).getCount();
+        else if (possibleTicks instanceof PRDBySecond) {
+            seconds = ((PRDBySecond) possibleTicks).getCount();
         }
-        return new Termination(ticks,seconds);
+        if (possibleSeconds instanceof PRDBySecond) {
+            seconds = ((PRDBySecond) possibleSeconds).getCount();
+        }
+        return new Termination(ticks, seconds);
     }
 }

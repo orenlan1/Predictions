@@ -25,7 +25,7 @@ public class MultiplicationAction extends CalculationAction {
 
         if (type.equals(AbstractPropertyDefinition.PropertyType.FLOAT)) {
             if ((arg1Value instanceof Float) || (arg1Value instanceof Integer) && ((arg2Value instanceof Float) || (arg2Value instanceof Integer))) {
-                property.updateValue((Float) arg1Value * (Float) arg2Value);
+                property.updateValue((float) arg1Value * (float) arg2Value);
             }
             else {
                 throw new MismatchTypesException("One or more of the arguments in multiplication action", "Integer or Float", arg1Value.getClass().getTypeName() + ", " + arg2Value.getClass().getTypeName());
@@ -34,7 +34,7 @@ public class MultiplicationAction extends CalculationAction {
 
         if (type.equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
             if ((arg1Value instanceof Float) || (arg1Value instanceof Integer) && ((arg2Value instanceof Float) || (arg2Value instanceof Integer))) {
-                float newValue = (Float) arg1Value * (Float) arg2Value;
+                float newValue = (float) arg1Value * (float) arg2Value;
                 if (newValue - (int) newValue > 0) {
                     throw new InvalidVariableTypeException("performing multiplication", "Integer", "a fraction");
                 }

@@ -26,7 +26,8 @@ public class KillAction implements Action {
 
     @Override
     public void activate(EntityInstance entityInstance) throws Exception {
-        entityDefinition.removeEntity(entityInstance);
+        entityInstance.kill();
+        //entityDefinition.removeEntity(entityInstance);
     }
 
 }

@@ -27,6 +27,7 @@ public class SingularCondition extends ConditionAction {
         Object propertyValue = property.getValue();
         Object expValue = value.evaluate();
         String expType = value.getType();
+        String propType = property.getPropertyDefinition().getType().name().toLowerCase();
 
         switch (operator) {
             case "=":
@@ -42,13 +43,25 @@ public class SingularCondition extends ConditionAction {
             case "bt":
                 if (expType.equals("string") || expType.equals("boolean"))
                     throw new InvalidVariableTypeException("evaluating a condition", "decimal or float", expType);
-                else
-                    return (Float) propertyValue > (Float) expValue;
+                else if (expType.equals("decimal") && propType.equals("decimal"))
+                    return ((int) propertyValue) > ((int) expValue);
+                else if (expType.equals("float") && propType.equals("decimal"))
+                    return ((int) propertyValue) > ((float) expValue);
+                else if (expType.equals("decimal") && propType.equals("float"))
+                    return ((float) propertyValue) > ((int) expValue);
+                else if (expType.equals("float") && propType.equals("float"))
+                    return ((float) propertyValue) > ((float) expValue);
             case "lt":
                 if (expType.equals("string") || expType.equals("boolean"))
                     throw new InvalidVariableTypeException("evaluating a condition", "decimal or float", expType);
-                else
-                    return (Float) propertyValue < (Float) expValue;
+                else if (expType.equals("decimal") && propType.equals("decimal"))
+                    return ((int) propertyValue) < ((int) expValue);
+                else if (expType.equals("float") && propType.equals("decimal"))
+                    return ((int) propertyValue) < ((float) expValue);
+                else if (expType.equals("decimal") && propType.equals("float"))
+                    return ((float) propertyValue) < ((int) expValue);
+                else if (expType.equals("float") && propType.equals("float"))
+                    return ((float) propertyValue) < ((float) expValue);
             default:
                 throw new InvalidConditionOperatorException(operator);
         }

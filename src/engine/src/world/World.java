@@ -2,17 +2,13 @@ package world;
 
 import java.util.*;
 
-import generated.PRDProperties;
-import generated.PRDProperty;
 import world.entity.api.EntityDefinition;
-import world.entity.api.EntityInstance;
-import world.entity.impl.EntityInstanceImpl;
 import world.environment.api.ActiveEnvironment;
 import world.environment.api.EnvironmentVariablesManager;
 import world.exceptions.RuleNameExistException;
-import world.property.api.PropertyDefinition;
 import world.rule.api.Rule;
-import world.translator.PropertyTranslator;
+import world.simulation.PastSimulation;
+import world.termination.Termination;
 
 public class World {
     private final Map<String, EntityDefinition> nameToEntityDefinition;
@@ -21,12 +17,15 @@ public class World {
     private final List<Rule> rules;
     public static int ticks = 0;
     private int population;
+    private int simulationID = 0;
     private Termination termination;
+    private final List<PastSimulation> pastSimulations;
 
     public World() {
         population = 0;
         nameToEntityDefinition = new HashMap<>();
         rules = new ArrayList<>();
+        pastSimulations = new ArrayList<>();
     }
     public int getTotalPopulation() { return population; }
 
@@ -34,6 +33,8 @@ public class World {
         nameToEntityDefinition.put(name, entityDefinition);
         population += entityDefinition.getPopulation();
     }
+
+    public void updatePopulation(int n) { population = n; }
 
     public Optional<EntityDefinition> getEntityDefinitionByName(String name) {
         return Optional.ofNullable(nameToEntityDefinition.get(name));
@@ -51,11 +52,17 @@ public class World {
         this.activeEnvironment = activeEnvironment;
     }
 
+    public Collection<EntityDefinition> getEntityDefinitions() {
+        return nameToEntityDefinition.values();
+    }
+
     public ActiveEnvironment getActiveEnvironment() {
         return activeEnvironment;
     }
 
     public void tick() { ticks++; }
+
+    public void resetTicks() { ticks = 0; }
 
     public List<Rule> getRules() {
         return rules;
@@ -81,4 +88,12 @@ public class World {
     public void setTermination(Termination termination) {
         this.termination = termination;
     }
+
+    public int getSimulationID() { return simulationID; }
+
+    public void updateSimulationID() { simulationID++; }
+
+    public void addPastSimulation(PastSimulation pastSimulation) { pastSimulations.add(pastSimulation); }
+
+    public List<PastSimulation> getPastSimulations() { return pastSimulations;}
 }

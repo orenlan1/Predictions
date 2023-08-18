@@ -9,12 +9,14 @@ import java.util.List;
 public interface EntityDefinition {
     String getName();
     int getPopulation();
+    void killInstance();
     List<PropertyDefinition> getPropertiesList();
     void addEntityInstance(EntityInstance entityInstance);
     void addPropertyDefinition(PropertyDefinition propertyDefinition) throws EntityPropertyNameExistException;
     PropertyDefinition getPropertyByName(String propertyName) throws EntityPropertyNotExistException;
     void createEntityInstancesPopulation();
-    public List<EntityInstance> getEntityInstances();
+    List<EntityInstance> getEntityInstances();
     void removeEntity(EntityInstance entityInstance);
+    EntityDefinition cloneEntityDefinition();
 
 }

@@ -2,7 +2,6 @@ package world.translator;
 
 import generated.*;
 import world.action.api.Action;
-import world.action.api.ActionType;
 import world.action.impl.*;
 import world.entity.api.EntityDefinition;
 import world.environment.api.ActiveEnvironment;
@@ -127,7 +126,9 @@ public class RuleTranslator {
                 Expression expressionArg2 = ExpressionDecoder.decode(prdDivide.getArg2(),activeEnvironment,entityDefinition,type,"calculation");
                 String exp1Type = expressionArg1.getType(), exp2Type = expressionArg2.getType();
                 if ((exp1Type.equals("decimal") || exp1Type.equals("float")) && (exp2Type.equals("decimal") || exp2Type.equals("float")))
-                    return new DivisionAction(entityDefinition,propertyDefinition,expressionArg1,expressionArg2);
+                    if ((float) expressionArg2.evaluate() != 0) {
+                        return new DivisionAction(entityDefinition, propertyDefinition, expressionArg1, expressionArg2);
+                    } else throw new Exception("Division by zero! Invalid xml file");
                 else
                     throw new MismatchTypesException("Expression in division action", "Decimal or Float", exp1Type + ", " + exp2Type);
             }

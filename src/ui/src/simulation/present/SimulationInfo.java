@@ -10,7 +10,7 @@ public class SimulationInfo {
 
     public void showSimulationInfo(PredictionsService predictionsService) {
         SimulationInfoDTO simulationInfoDTO = predictionsService.getSimulationInformation();
-        System.out.println("Information about the simulation defined in the xml file:\n\n");
+        System.out.println("\nInformation about the simulation defined in the xml file:\n");
         List<EntityDTO> entityDTOList = simulationInfoDTO.getEntitiesList();
         this.printEntitiesInfo(entityDTOList);
         List<RuleDTO> ruleDTOList = simulationInfoDTO.getRulesList();
@@ -49,12 +49,12 @@ public class SimulationInfo {
     }
 
     public void printRulesInfo(List<RuleDTO> ruleDTOList) {
-        System.out.println("\n\nRules:\n");
-        for ( RuleDTO ruleDTO : ruleDTOList) {
-            System.out.println("Rule name:\t" + ruleDTO.getRuleName());
+        System.out.println("\n\nRules:");
+        for (RuleDTO ruleDTO : ruleDTOList) {
+            System.out.println("\nRule name:\t" + ruleDTO.getRuleName());
             System.out.println("Activation:");
-            System.out.println("             Ticks: " + ruleDTO.getTicks());
-            System.out.println("             Probability: " + ruleDTO.getProbability());
+            System.out.println("\t\t\tTicks: " + ruleDTO.getTicks());
+            System.out.println("\t\t\tProbability: " + ruleDTO.getProbability());
             System.out.println("Number of actions:\t" + ruleDTO.getActionsNumber());
             System.out.println("Actions names:");
             for ( String name : ruleDTO.getActionsNamesList()) {

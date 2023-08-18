@@ -11,4 +11,7 @@ public interface PredictionsService {
     PropertiesDTO getEnvPropertiesDTO();
     EnvVariableSetValidationDTO setEnvironmentVariable(UserInputEnvironmentVariableDTO dto);
     List<EnvVariablesDTO> getEnvVariablesDTOList();
+    SimulationRunnerDTO runSimulation();
+    AllSimulationsDTO getSimulationsDTO();
+    HistogramDTO getHistogram(String propertyName);
 }

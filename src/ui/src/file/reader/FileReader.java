@@ -3,7 +3,6 @@ package file.reader;
 import java.util.Scanner;
 import dto.FileReaderDTO;
 import predictions.api.PredictionsService;
-import world.EngineFileReader;
 
 
 public class FileReader {

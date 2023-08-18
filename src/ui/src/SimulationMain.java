@@ -3,7 +3,10 @@ import file.reader.FileReader;
 import predictions.api.PredictionsService;
 import predictions.impl.PredictionsServiceImpl;
 import simulation.environment.variables.SetEnvironmentVariables;
+import simulation.past.PastSimulationInfo;
 import simulation.present.SimulationInfo;
+import simulation.run.Runner;
+import world.simulation.PastSimulation;
 
 import java.io.File;
 import java.util.Scanner;
@@ -37,14 +40,18 @@ public class SimulationMain {
                     scanner.nextLine();
                     SetEnvironmentVariables setter = new SetEnvironmentVariables();
                     setter.manageEnvironmentVariables(admin);
-                    //run simulation and save its details
+                    Runner runner = new Runner();
+                    runner.run(admin);
                     break;
                 case 4:
                     scanner.nextLine();
-                    //something
+                    PastSimulationInfo pastSimulationInfo = new PastSimulationInfo();
+                    pastSimulationInfo.showPastSimulations(admin);
                     break;
                 case 5:
-                    System.out.println("Press \"Enter\" to exit.\nThank you and goodbye!");
+                    scanner.nextLine();
+                    System.out.println("\nPress \"Enter\" to exit.\nThank you and goodbye!");
+                    scanner.nextLine();
                     System.exit(0);
                 default:
                     System.out.println("Invalid choice! Please try again");

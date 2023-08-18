@@ -41,9 +41,9 @@ public class DecreaseAction extends ActionImpl{
                 if (value instanceof Float) {
                     FloatPropertyDefinition floatPropertyDef = (FloatPropertyDefinition) propertyDefinition;
                     float from = floatPropertyDef.getFrom();
-                    newValue = (Float) property.getValue() + (Float) value;
-                    if ((Float) newValue < from) {
-                        newValue = from;
+                    newValue = (float) property.getValue() + (float) value;
+                    if ((float) newValue < from) {
+                        return;
                     }
                 }
             }

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class EntityDefinitionImpl implements EntityDefinition {
     private final String name;
-    private final int population;
+    private int population;
     private List<EntityInstance> entityInstances;
     private final List<PropertyDefinition> propertiesList;
 
@@ -34,6 +34,9 @@ public class EntityDefinitionImpl implements EntityDefinition {
     }
 
     @Override
+    public void killInstance() { population--; }
+
+    @Override
     public List<PropertyDefinition> getPropertiesList() {
         return propertiesList;
     }
@@ -43,6 +46,7 @@ public class EntityDefinitionImpl implements EntityDefinition {
         this.entityInstances.add(entityInstance);
     }
 
+    @Override
     public void addPropertyDefinition(PropertyDefinition propertyDefinition) throws EntityPropertyNameExistException {
         String propertyName = propertyDefinition.getName();
         for ( PropertyDefinition existingPropertyDefinition : propertiesList)
@@ -58,6 +62,7 @@ public class EntityDefinitionImpl implements EntityDefinition {
 
     @Override
     public void createEntityInstancesPopulation() {
+        entityInstances = new LinkedList<>();
         for ( int i = 0; i < population; i++) {
             entityInstances.add(EntityInstance.createEntityInstance(this));
         }
@@ -71,9 +76,9 @@ public class EntityDefinitionImpl implements EntityDefinition {
     @Override
     public void removeEntity(EntityInstance entityInstance) {
         this.entityInstances.remove(entityInstance);
-
     }
 
+    @Override
     public PropertyDefinition getPropertyByName(String propertyName) throws EntityPropertyNotExistException {
         for ( PropertyDefinition propertyDefinition : propertiesList) {
             if (propertyDefinition.getName().equals(propertyName)) {
@@ -81,5 +86,21 @@ public class EntityDefinitionImpl implements EntityDefinition {
             }
         }
         throw new EntityPropertyNotExistException(this.name, propertyName);
+    }
+
+    @Override
+    public EntityDefinition cloneEntityDefinition() {
+        EntityDefinition newEntity = new EntityDefinitionImpl(this.name, this.population);
+        List<PropertyDefinition> newPropertyDefinitions = new ArrayList<>();
+
+        for (EntityInstance entityInstance : this.getEntityInstances())
+            newEntity.addEntityInstance(entityInstance);
+
+        try {
+            for (PropertyDefinition propertyDefinition : this.getPropertiesList())
+                newEntity.addPropertyDefinition(propertyDefinition);
+        } catch (Exception ignored) {}
+
+        return newEntity;
     }
 }

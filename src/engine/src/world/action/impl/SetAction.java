@@ -39,7 +39,7 @@ public class SetAction extends ActionImpl{
             } else if (type.equals(AbstractPropertyDefinition.PropertyType.FLOAT)) {
                 if ((value instanceof Float)) {
                     FloatPropertyDefinition floatProperty = (FloatPropertyDefinition) property.getPropertyDefinition();
-                    Float floatValue = (Float) value;
+                    Float floatValue = (float) value;
                     float from = floatProperty.getFrom();
                     float to = floatProperty.getTo();
                     if (floatValue >= from && floatValue <= to)
