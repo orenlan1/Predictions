@@ -2,7 +2,6 @@ package simulation.present;
 
 import dto.*;
 import predictions.api.PredictionsService;
-import world.rule.api.Rule;
 
 import java.util.List;
 
