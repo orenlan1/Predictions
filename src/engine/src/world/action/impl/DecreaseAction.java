@@ -31,7 +31,7 @@ public class DecreaseAction extends ActionImpl{
                     int from = intPropertyDef.getFrom();
                     newValue = (Integer) property.getValue() + (Integer) value;
                     if ((Integer) newValue < from) {
-                        newValue = from;
+                        return;
                     }
 
 

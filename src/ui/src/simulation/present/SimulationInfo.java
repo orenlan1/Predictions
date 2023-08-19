@@ -69,8 +69,8 @@ public class SimulationInfo {
             System.out.println("\t\t\tProbability: " + ruleDTO.getProbability());
             System.out.println("Number of actions:\t" + ruleDTO.getActionsNumber());
             System.out.println("Actions names:");
-            for ( String name : ruleDTO.getActionsNamesList()) {
-                System.out.println("               " + name);
+            for (String name : ruleDTO.getActionsNamesList()) {
+                System.out.println("\t\t\t" + name.toLowerCase());
             }
             System.out.println("\n");
         }

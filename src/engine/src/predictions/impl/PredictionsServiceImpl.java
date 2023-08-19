@@ -16,8 +16,7 @@ import world.simulation.PastSimulation;
 import world.simulation.SimulationExecutor;
 import world.simulation.SimulationInfoBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 public class PredictionsServiceImpl implements PredictionsService {
