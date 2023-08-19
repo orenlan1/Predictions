@@ -35,7 +35,13 @@ public class SimulationInfo {
         System.out.println("\nProperty name:\t\t" + propertyDTO.getPropertyName());
         System.out.println("Property type:\t\t" + propertyDTO.getPropertyType());
         if ( propertyDTO.getFrom() != null) {
-            System.out.println("Range: from: " + propertyDTO.getFrom() + " to: " + propertyDTO.getTo());
+            if (propertyDTO.getPropertyType().equals("decimal")) {
+                int from = propertyDTO.getFrom().intValue();
+                int to = propertyDTO.getTo().intValue();
+                System.out.println("Range:\t\t\tfrom: " + from + " to: " + to);
+            }
+            else
+                System.out.println("Range:\t\t\tfrom: " + propertyDTO.getFrom() + " to: " + propertyDTO.getTo());
         }
         System.out.println("Random initialize:\t" + propertyDTO.getRandomInitialize().toString());
     }
@@ -44,7 +50,13 @@ public class SimulationInfo {
         System.out.println("\nProperty name:\t\t" + propertyDTO.getPropertyName());
         System.out.println("Property type:\t\t" + propertyDTO.getPropertyType());
         if (propertyDTO.getFrom() != null) {
-            System.out.println("Range: from: " + propertyDTO.getFrom() + " to: " + propertyDTO.getTo());
+            if (propertyDTO.getPropertyType().equals("decimal")) {
+                int from = propertyDTO.getFrom().intValue();
+                int to = propertyDTO.getTo().intValue();
+                System.out.println("Range:     \t\t\tfrom: " + from + " to: " + to);
+            }
+            else
+                System.out.println("Range:     \t\t\tfrom: " + propertyDTO.getFrom() + " to: " + propertyDTO.getTo());
         }
     }
 
