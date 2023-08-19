@@ -21,7 +21,7 @@ public class SimulationInfo {
     public void printEntitiesInfo(List<EntityDTO> entityDTOList) {
         System.out.println("Entities:\n");
         for ( EntityDTO entityDTO : entityDTOList) {
-            System.out.println("Entity name:\t" + entityDTO.getEntityName());
+            System.out.println("Entity name:\t\t" + entityDTO.getEntityName());
             System.out.println("Population:\t\t" + entityDTO.getPopulation());
             System.out.println("Properties:");
             for (PropertyDTO propertyDTO : entityDTO.getPropertiesList()) {
@@ -52,10 +52,10 @@ public class SimulationInfo {
             if (propertyDTO.getPropertyType().equals("decimal")) {
                 int from = propertyDTO.getFrom().intValue();
                 int to = propertyDTO.getTo().intValue();
-                System.out.println("Range:     \t\t\tfrom: " + from + " to: " + to);
+                System.out.println("Range:\t\t\tfrom: " + from + " to: " + to);
             }
             else
-                System.out.println("Range:     \t\t\tfrom: " + propertyDTO.getFrom() + " to: " + propertyDTO.getTo());
+                System.out.println("Range:\t\t\tfrom: " + propertyDTO.getFrom() + " to: " + propertyDTO.getTo());
         }
     }
 
