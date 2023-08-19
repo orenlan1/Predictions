@@ -51,7 +51,7 @@ public class SimulationInfo {
     public void printRulesInfo(List<RuleDTO> ruleDTOList) {
         System.out.println("\n\nRules:");
         for (RuleDTO ruleDTO : ruleDTOList) {
-            System.out.println("\nRule name:\t" + ruleDTO.getRuleName());
+            System.out.println("\nRule name:\t\t" + ruleDTO.getRuleName());
             System.out.println("Activation:");
             System.out.println("\t\t\tTicks: " + ruleDTO.getTicks());
             System.out.println("\t\t\tProbability: " + ruleDTO.getProbability());
@@ -60,6 +60,7 @@ public class SimulationInfo {
             for ( String name : ruleDTO.getActionsNamesList()) {
                 System.out.println("               " + name);
             }
+            System.out.println("\n");
         }
     }
 
