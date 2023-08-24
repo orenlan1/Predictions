@@ -47,7 +47,8 @@ public class SimulationExecutor {
                 for (EntityInstance entityInstance : entityDefinition.getEntityInstances()) {
                     if (entityInstance.isAlive()) {
                         for (Rule rule : rules) {
-                            rule.performActions(entityInstance);
+                            if (rule.getActivation().isActive(world.ticks))
+                                rule.performActions(entityInstance);
                         }
                     }
                 }

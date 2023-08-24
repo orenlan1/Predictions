@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class SetEnvironmentVariables {
 
     public void manageEnvironmentVariables(PredictionsService predictionsService) {
+        predictionsService.randomizeEnvProperties();
         PropertiesDTO DTOs = predictionsService.getEnvPropertiesDTO();
         printAndSetEnvProperties(DTOs, predictionsService);
         printFinalEnvVariables(predictionsService);

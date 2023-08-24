@@ -63,8 +63,5 @@ public class SimulationMain {
                 System.out.println("Invalid input! Please enter the corresponding number to the option you wish to choose");
             }
         } while(true);
-
-
-
     }
 }

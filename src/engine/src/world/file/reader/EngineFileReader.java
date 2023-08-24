@@ -49,7 +49,7 @@ public class EngineFileReader {
 
         for (PRDRule prdRule : prdWorld.getPRDRules().getPRDRule())
         {
-            Rule newRule = RuleTranslator.translateRule(prdRule,entityDefinitions,activeEnvironment);
+            Rule newRule = RuleTranslator.translateRule(prdRule, entityDefinitions, activeEnvironment);
             world.addRule(newRule);
         }
 

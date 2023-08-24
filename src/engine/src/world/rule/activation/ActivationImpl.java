@@ -26,6 +26,6 @@ public class ActivationImpl implements Activation{
     @Override
     public boolean isActive(int tickNumber) {
         Random random = new Random();
-        return ((World.ticks % tickNumber == 0) && (random.nextFloat() < probability));
+        return ((tickNumber % ticks == 0) && (random.nextFloat() < probability));
     }
 }

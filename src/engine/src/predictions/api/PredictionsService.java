@@ -8,6 +8,7 @@ import java.util.List;
 public interface PredictionsService {
     FileReaderDTO readFileAndLoad(String fileName);
     SimulationInfoDTO getSimulationInformation();
+    void randomizeEnvProperties();
     PropertiesDTO getEnvPropertiesDTO();
     EnvVariableSetValidationDTO setEnvironmentVariable(UserInputEnvironmentVariableDTO dto);
     List<EnvVariablesDTO> getEnvVariablesDTOList();

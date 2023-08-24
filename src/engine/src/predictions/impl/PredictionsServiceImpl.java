@@ -7,11 +7,13 @@ import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.environment.EnvVariablesUpdater;
 import world.environment.api.ActiveEnvironment;
+import world.environment.api.EnvironmentVariablesManager;
 import world.factory.DTOFactory;
 import world.file.reader.EngineFileReader;
 import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
+import world.property.impl.PropertyInstanceImpl;
 import world.simulation.PastSimulation;
 import world.simulation.SimulationExecutor;
 import world.simulation.SimulationInfoBuilder;
@@ -38,6 +40,17 @@ public class PredictionsServiceImpl implements PredictionsService {
     public SimulationInfoDTO getSimulationInformation() {
         SimulationInfoBuilder simulationInfoBuilder = new SimulationInfoBuilder();
         return simulationInfoBuilder.createSimulationInfo(world);
+    }
+
+    @Override
+    public void randomizeEnvProperties() {
+        EnvironmentVariablesManager envVariablesManager = world.getEnvironmentVariablesManager();
+        ActiveEnvironment activeEnvironment = envVariablesManager.createActiveEnvironment();
+
+        for (PropertyDefinition propertyDefinition : envVariablesManager.getEnvironmentVariables()) {
+            activeEnvironment.addPropertyInstance(new PropertyInstanceImpl(propertyDefinition, propertyDefinition.generateValue()));
+        }
+        world.setActiveEnvironment(activeEnvironment);
     }
 
     @Override
