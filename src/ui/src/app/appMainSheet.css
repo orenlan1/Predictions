@@ -1,0 +1,15 @@
+.simulationCounter {
+    -fx-font-weight: bold;
+    -fx-text-fill: royalblue;
+}
+
+#predictionsLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 28px;
+    //-fx-text-fill: linear-gradient(to bottom right, #4E65FF, #92EFFD);
+    -fx-text-fill: #4E65FF;
+}
+
+#mainBorderPane {
+    -fx-background-color: linear-gradient(to bottom right, #93A5CF, #E4EfE9);
+}

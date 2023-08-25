@@ -1,3 +1,5 @@
+package app;
+
 import components.main.PredictionsController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,16 +18,17 @@ public class PredictionsApp extends Application {
         URL mainFXML = getClass().getResource("/components/main/predictionsScene.fxml");
         FXMLLoader loader = new FXMLLoader(mainFXML);
         Parent load = loader.load();
-        //PredictionsController predictionsController = loader.getController();
+        PredictionsController predictionsController = loader.getController();
         PredictionsService predictionsService = new PredictionsServiceImpl();
-        //predictionsController.setPrimaryStage(primaryStage);
-        //predictionsController.setPredictionsService(predictionsService);
+        predictionsController.setPrimaryStage(primaryStage);
+        predictionsController.setPredictionsService(predictionsService);
+        String cssFileName = this.getClass().getResource("appMainSheet.css").toExternalForm();
 
         primaryStage.setTitle("Predictions");
         Scene scene = new Scene(load,1400,600);
+        scene.getStylesheets().add(cssFileName);
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
     public static void main(String[] args) {

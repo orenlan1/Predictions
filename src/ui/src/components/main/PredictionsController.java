@@ -1,9 +1,12 @@
 package components.main;
 
+import dto.FileReaderDTO;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import predictions.api.PredictionsService;
 
@@ -36,23 +39,25 @@ public class PredictionsController {
 
 
 
-    private SimpleStringProperty loadedFilePathProperty;
-    private SimpleBooleanProperty isFileSelected;
-
+    private final SimpleStringProperty loadedFilePathProperty;
+    private final SimpleBooleanProperty isFileSelected;
 
     private Stage primaryStage;
 
     private PredictionsService predictionsService;
 
     public PredictionsController() {
-        loadedFilePathProperty = new SimpleStringProperty();
+        loadedFilePathProperty = new SimpleStringProperty("");
         isFileSelected = new SimpleBooleanProperty(false);
     }
 
     @FXML
     public void initialize() {
-        loadedFilePath.textProperty().bind(loadedFilePathProperty);
+        //loadedFilePath.textProperty().bind(loadedFilePathProperty);
+        loadedFilePath.textProperty().bind(Bindings.concat("File path: ", loadedFilePathProperty));
         detailsButton.disableProperty().bind(isFileSelected.not());
+        newExecutionButton.disableProperty().bind(isFileSelected.not());
+        resultsButton.disableProperty().bind(isFileSelected.not());
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -72,8 +77,16 @@ public class PredictionsController {
         if (selectedFile == null) {
           return; /// exception throw
         }
-        String absolutePath = selectedFile.getAbsolutePath();
-        loadedFilePathProperty.set(absolutePath);
-        isFileSelected.set(true);
+        FileReaderDTO DTO = predictionsService.readFileAndLoad(selectedFile.getAbsolutePath());
+        if (DTO.isValid()) {
+            String absolutePath = selectedFile.getAbsolutePath();
+            loadedFilePathProperty.set(absolutePath);
+            isFileSelected.set(true);
+        } else {
+            Popup popUp = new Popup();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, DTO.getError());
+            alert.show();
+        }
+
     }
 }
