@@ -1,10 +1,16 @@
 package components.main;
 
+import components.details.DetailsController;
+import components.queue.management.QueueManagementController;
+import dto.EntityDTO;
 import dto.FileReaderDTO;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -16,6 +22,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 
 public class PredictionsController {
 
@@ -37,8 +46,11 @@ public class PredictionsController {
     @FXML
     private Button resultsButton;
 
+    @FXML
+    private BorderPane mainBorderPane;
 
-
+    private QueueManagementController queueManagementController;
+    private DetailsController detailsController;
     private final SimpleStringProperty loadedFilePathProperty;
     private final SimpleBooleanProperty isFileSelected;
 
@@ -53,7 +65,6 @@ public class PredictionsController {
 
     @FXML
     public void initialize() {
-        //loadedFilePath.textProperty().bind(loadedFilePathProperty);
         loadedFilePath.textProperty().bind(Bindings.concat("File path: ", loadedFilePathProperty));
         detailsButton.disableProperty().bind(isFileSelected.not());
         newExecutionButton.disableProperty().bind(isFileSelected.not());
@@ -67,6 +78,7 @@ public class PredictionsController {
     public void setPredictionsService(PredictionsService predictionsService) {
         this.predictionsService = predictionsService;
     }
+
 
     @FXML
     void loadFileButtonAction(ActionEvent event) {
@@ -87,6 +99,28 @@ public class PredictionsController {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, DTO.getError());
             alert.show();
         }
-
     }
+
+
+    @FXML
+    public void viewQueueManagement(ActionEvent event) {
+        queueManagementController.showQueueManagement(mainBorderPane);
+    }
+
+    public void viewDetails (ActionEvent event) {
+        detailsController.showDetailsMenu(mainBorderPane);
+    }
+
+    public void setQueueManagementController(QueueManagementController queueManagementController) {
+        this.queueManagementController = queueManagementController;
+    }
+
+    public void setDetailsController(DetailsController detailsController) {
+        this.detailsController = detailsController;
+    }
+
+    public List<EntityDTO> getEntitiesDTO() {
+        return predictionsService.getSimulationInformation().getEntitiesList();
+    }
+
 }

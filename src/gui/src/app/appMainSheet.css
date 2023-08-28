@@ -27,14 +27,27 @@
 }
 
 .button:hover {
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.7) , 3,0,0,1 );
+    -fx-effect: dropshadow(gaussian , rgba(0,0,0,0.7) , 3,0,0,1);
 }
 
 .button:pressed {
-    -fx-effect: innershadow( gaussian , rgba(0,0,0,0.7) , 3,0,0,0 );
+    -fx-effect: innershadow(gaussian , rgba(0,0,0,0.7) , 3,0,0,0);
 }
 
 .label {
     -fx-font-family: Verdana;
     -fx-font-size: 16px;
+}
+
+#themesMenu {
+    -fx-background-image: url("palette.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left;
+    -fx-background-size: contain;
+    -fx-background-color: none;
+}
+
+.menu-item .label {
+    -fx-font-family: Verdana;
+    -fx-font-size: 12px;
 }
