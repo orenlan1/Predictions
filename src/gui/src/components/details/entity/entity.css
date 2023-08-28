@@ -1,11 +1,4 @@
-#entityIcon {
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-size: contain;
-    -fx-background-image: none;
-}
-
-.entityLabel {
+.entityLabel .propertiesLabel {
     -fx-font-size: 13px;
     -fx-font-family: Verdana;
 }

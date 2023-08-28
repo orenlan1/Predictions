@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
@@ -35,7 +36,7 @@ public class DetailsController {
     private Button terminationButton;
 
     @FXML
-    private HBox entitiesList;
+    private FlowPane entitiesList;
 
     private PredictionsController predictionsController;
 
@@ -49,6 +50,8 @@ public class DetailsController {
     }
 
     public void showEntities(ActionEvent event) throws Exception {
+        //entitiesList.getChildren().clear();
+
         for (EntityDTO dto: predictionsController.getEntitiesDTO()) {
             URL entityDetailsFXML = getClass().getResource("/components/details/entity/entityDetails.fxml");
             FXMLLoader loader = new FXMLLoader(entityDetailsFXML);
@@ -62,5 +65,4 @@ public class DetailsController {
             entitiesList.getChildren().add(entityCard);
         }
     }
-
 }

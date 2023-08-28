@@ -3,8 +3,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -36,13 +37,17 @@
       </VBox>
    </left>
    <center>
-      <HBox fx:id="entitiesList" prefHeight="100.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+      <ScrollPane id="entitiesFlowPane" maxHeight="350.0" maxWidth="1100.0" minHeight="150.0" minWidth="250.0">
          <BorderPane.margin>
-            <Insets top="50.0" />
+            <Insets left="20.0" top="50.0" />
          </BorderPane.margin>
-         <padding>
-            <Insets left="20.0" />
-         </padding>
-      </HBox>
+         <content>
+            <FlowPane fx:id="entitiesList" hgap="15.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" vgap="15.0">
+               <padding>
+                  <Insets left="10.0" top="10.0" />
+               </padding>
+            </FlowPane>
+         </content>
+      </ScrollPane>
    </center>
 </BorderPane>
