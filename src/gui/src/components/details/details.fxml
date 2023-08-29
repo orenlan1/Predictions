@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane fx:id="detailsBorderPane" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.details.DetailsController">
+<BorderPane fx:id="detailsBorderPane" prefHeight="455.0" prefWidth="1275.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.details.DetailsController">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
@@ -37,17 +36,20 @@
       </VBox>
    </left>
    <center>
-      <ScrollPane id="entitiesFlowPane" maxHeight="350.0" maxWidth="1100.0" minHeight="150.0" minWidth="250.0">
-         <BorderPane.margin>
-            <Insets left="20.0" top="50.0" />
-         </BorderPane.margin>
+      <ScrollPane id="entitiesListScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" stylesheets="@detailsSheet.css" BorderPane.alignment="TOP_LEFT">
          <content>
-            <FlowPane fx:id="entitiesList" hgap="15.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" vgap="15.0">
+            <FlowPane id="entitiesListFlowPane" fx:id="entitiesList" hgap="15.0" prefHeight="350.0" prefWidth="1000.0" vgap="15.0">
                <padding>
                   <Insets left="10.0" top="10.0" />
                </padding>
             </FlowPane>
          </content>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="50.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="10.0" top="10.0" />
+         </padding>
       </ScrollPane>
    </center>
 </BorderPane>

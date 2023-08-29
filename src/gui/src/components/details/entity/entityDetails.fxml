@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -9,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane fx:id="entityCardGridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="300.0" styleClass="entityCard" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.details.entity.EntityCardController">
+<GridPane fx:id="entityCardGridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="400.0" styleClass="entityCard" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.details.entity.EntityCardController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -17,10 +18,10 @@
   </columnConstraints>
   <rowConstraints>
       <RowConstraints minHeight="15.0" prefHeight="25.0" vgrow="NEVER" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="15.0" prefHeight="25.0" vgrow="NEVER" />
   </rowConstraints>
    <children>
@@ -29,14 +30,18 @@
             <Image url="@entityIcon.png" />
          </image>
       </ImageView>
-      <VBox fx:id="propertiesList" prefHeight="200.0" prefWidth="100.0" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="2147483647">
-         <children>
-            <Label styleClass="propertiesLabel" text="Properties:" />
-         </children>
-         <padding>
-            <Insets left="20.0" top="15.0" />
-         </padding>
-      </VBox>
+      <ScrollPane GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="2147483647">
+         <content>
+            <VBox fx:id="propertiesList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" styleClass="VBox-properties">
+               <children>
+                  <Label styleClass="propertiesLabel" text="Properties:" />
+               </children>
+               <padding>
+                  <Insets left="20.0" top="15.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
       <Label fx:id="name" styleClass="entityLabel" text="name: " GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
       <Label fx:id="population" styleClass="entityLabel" text="population: " GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
    </children>

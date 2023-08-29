@@ -8,10 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
 
 import java.net.URL;
 
@@ -38,6 +36,9 @@ public class DetailsController {
     @FXML
     private FlowPane entitiesList;
 
+    @FXML
+    private ScrollPane entitiesListScrollPane;
+
     private PredictionsController predictionsController;
 
 
@@ -47,10 +48,12 @@ public class DetailsController {
 
     public void showDetailsMenu(BorderPane borderPane) {
         borderPane.setCenter(detailsBorderPane);
+        String cssFileName = getClass().getResource("detailsSheet.css").toExternalForm();
+        borderPane.getStylesheets().add(cssFileName);
     }
 
     public void showEntities(ActionEvent event) throws Exception {
-        //entitiesList.getChildren().clear();
+        entitiesList.getChildren().clear();
 
         for (EntityDTO dto: predictionsController.getEntitiesDTO()) {
             URL entityDetailsFXML = getClass().getResource("/components/details/entity/entityDetails.fxml");
@@ -61,6 +64,8 @@ public class DetailsController {
             entityCardController.setName(dto.getEntityName());
             entityCardController.setPopulation(dto.getPopulation().toString());
             entityCard.getStylesheets().add("/components/details/entity/entity.css");
+
+            entityCardController.setProperties(dto.getPropertiesList());
 
             entitiesList.getChildren().add(entityCard);
         }
