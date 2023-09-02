@@ -10,6 +10,9 @@ import world.property.api.PropertyInstance;
 import world.property.impl.FloatPropertyDefinition;
 import world.property.impl.IntegerPropertyDefinition;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class IncreaseAction extends ActionImpl {
     private final Expression by;
 
@@ -55,5 +58,12 @@ public class IncreaseAction extends ActionImpl {
         catch (NumberFormatException e) {
             throw new Exception("Invalid expression, expected " + propertyDefinition.getType().toString());
         }
+    }
+
+    @Override
+    public List<String> getArguments() {
+        List<String> args =  new ArrayList<>();
+        args.add(by.toString());
+        return args;
     }
 }

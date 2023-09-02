@@ -33,7 +33,6 @@ public class PredictionsApp extends Application {
         FXMLLoader detailsLoader = new FXMLLoader(detailsFXML);
         BorderPane details = detailsLoader.load();
 
-
         URL queueFXML = getClass().getResource("/components/queue/management/queueManagement.fxml");
         FXMLLoader queueLoader = new FXMLLoader(queueFXML);
         GridPane queue = queueLoader.load();

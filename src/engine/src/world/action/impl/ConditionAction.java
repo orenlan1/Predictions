@@ -39,4 +39,8 @@ public abstract class ConditionAction extends ActionImpl {
             }
         }
     }
+
+    public Integer getNumThen() { return thenActions.size(); }
+
+    public Integer getNumElse() {return elseActions.size(); }
 }

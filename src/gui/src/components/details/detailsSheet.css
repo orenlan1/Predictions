@@ -1,3 +1,7 @@
 #entitiesListScrollPane {
     -fx-background: none;
 }
+
+#clearButton {
+    -fx-font-weight: bold;
+}

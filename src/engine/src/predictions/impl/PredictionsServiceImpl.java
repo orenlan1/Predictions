@@ -22,7 +22,7 @@ import java.util.*;
 
 
 public class PredictionsServiceImpl implements PredictionsService {
-    private  World world;
+    private World world;
 
 
     @Override

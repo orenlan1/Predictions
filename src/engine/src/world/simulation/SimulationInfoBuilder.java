@@ -26,7 +26,7 @@ public class SimulationInfoBuilder {
     public List<EntityDTO> createEntityDTOList(Map<String, EntityDefinition> nameToEntity) {
         DTOFactory dtoFactory = new DTOFactory();
         List<EntityDTO> entityDTOList = new ArrayList<>();
-        for ( EntityDefinition entityDefinition : nameToEntity.values()) {
+        for (EntityDefinition entityDefinition : nameToEntity.values()) {
             entityDTOList.add(dtoFactory.createEntityDTO(entityDefinition));
         }
         return entityDTOList;
@@ -35,7 +35,7 @@ public class SimulationInfoBuilder {
     public List<RuleDTO> createRuleDTOList(List<Rule> rulesList) {
         DTOFactory dtoFactory = new DTOFactory();
         List<RuleDTO> rulesDTOList = new ArrayList<>();
-        for ( Rule rule : rulesList) {
+        for (Rule rule : rulesList) {
             rulesDTOList.add(dtoFactory.creatRuleDTO(rule));
         }
         return rulesDTOList;

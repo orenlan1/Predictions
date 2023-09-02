@@ -49,7 +49,7 @@ public class RuleTranslator {
     public static Action translateAction(PRDAction prdAction, List<EntityDefinition> entitiesList, ActiveEnvironment activeEnvironment) throws Exception {
         String actionName = prdAction.getType();
         String entityName = prdAction.getEntity();
-        EntityDefinition entityDefinition = getEntityDefinition(entityName,entitiesList);
+        EntityDefinition entityDefinition = getEntityDefinition(entityName, entitiesList);
         String propertyName = prdAction.getProperty();
         String resultProp = prdAction.getResultProp();
 
@@ -122,8 +122,8 @@ public class RuleTranslator {
         AbstractPropertyDefinition.PropertyType type = propertyDefinition.getType();
         if (type.equals(AbstractPropertyDefinition.PropertyType.DECIMAL) || type.equals(AbstractPropertyDefinition.PropertyType.FLOAT)) {
             if (prdMultiply == null) {
-                Expression expressionArg1 = ExpressionDecoder.decode(prdDivide.getArg1(),activeEnvironment,entityDefinition,type,"calculation");
-                Expression expressionArg2 = ExpressionDecoder.decode(prdDivide.getArg2(),activeEnvironment,entityDefinition,type,"calculation");
+                Expression expressionArg1 = ExpressionDecoder.decode(prdDivide.getArg1(),activeEnvironment, entityDefinition, type,"division");
+                Expression expressionArg2 = ExpressionDecoder.decode(prdDivide.getArg2(),activeEnvironment, entityDefinition, type,"division");
                 String exp1Type = expressionArg1.getType(), exp2Type = expressionArg2.getType();
                 if ((exp1Type.equals("decimal") || exp1Type.equals("float")) && (exp2Type.equals("decimal") || exp2Type.equals("float")))
                     if ((float) expressionArg2.evaluate() != 0) {
@@ -133,8 +133,8 @@ public class RuleTranslator {
                     throw new MismatchTypesException("Expression in division action", "Decimal or Float", exp1Type + ", " + exp2Type);
             }
             else {
-                Expression expressionArg1 = ExpressionDecoder.decode(prdMultiply.getArg1(),activeEnvironment,entityDefinition,type,"calculation");
-                Expression expressionArg2 = ExpressionDecoder.decode(prdMultiply.getArg2(),activeEnvironment,entityDefinition,type,"calculation");
+                Expression expressionArg1 = ExpressionDecoder.decode(prdMultiply.getArg1(),activeEnvironment,entityDefinition,type,"multiplication");
+                Expression expressionArg2 = ExpressionDecoder.decode(prdMultiply.getArg2(),activeEnvironment,entityDefinition,type,"multiplication");
                 String exp1Type = expressionArg1.getType(), exp2Type = expressionArg2.getType();
                 if ((exp1Type.equals("decimal") || exp1Type.equals("float")) && (exp2Type.equals("decimal") || exp2Type.equals("float")))
                     return new MultiplicationAction(entityDefinition,propertyDefinition,expressionArg1,expressionArg2);
@@ -182,7 +182,7 @@ public class RuleTranslator {
                 throw new MismatchTypesException("Expression in condition action", propType, expType);
         }
         else
-            return new MultipleCondition(conditions, logic, entityDefinition, null, thenActions, elseActions);
+            return new MultipleCondition(conditions, logic, entityDefinition, null, thenActions, elseActions, conditions.size());
     }
 
     public static ConditionAction translateConditionActionSecondary(PRDCondition prdCondition, EntityDefinition entityDefinition, ActiveEnvironment activeEnvironment) throws Exception {
@@ -215,7 +215,7 @@ public class RuleTranslator {
                 throw new MismatchTypesException("Expression in condition action", propType, expType);
         }
         else
-            return new MultipleCondition(conditions, logic, entityDefinition, null, thenActions, elseActions);
+            return new MultipleCondition(conditions, logic, entityDefinition, null, thenActions, elseActions, conditions.size());
     }
 
 

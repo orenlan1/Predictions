@@ -13,7 +13,7 @@ import world.property.api.PropertyInstance;
 public class DivisionAction extends CalculationAction {
 
     public DivisionAction(EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, Expression arg1, Expression arg2) {
-        super(ActionType.CALCULATION, entityDefinition, propertyDefinition, arg1, arg2);
+        super(ActionType.DIVISION, entityDefinition, propertyDefinition, arg1, arg2);
     }
 
     @Override

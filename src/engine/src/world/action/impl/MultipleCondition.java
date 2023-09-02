@@ -7,16 +7,19 @@ import world.exceptions.InvalidConditionOperatorException;
 import world.exceptions.InvalidVariableTypeException;
 import world.property.api.PropertyDefinition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MultipleCondition extends ConditionAction {
     private final List<ConditionAction> conditions;
     private final String logic;
+    private final Integer numOfSubConditions;
 
-    public MultipleCondition(List<ConditionAction> conditions, String logic, EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, List<Action> thenActions, List<Action> elseActions) {
+    public MultipleCondition(List<ConditionAction> conditions, String logic, EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, List<Action> thenActions, List<Action> elseActions, Integer numOfSubConditions) {
         super(entityDefinition, propertyDefinition, thenActions, elseActions);
         this.conditions = conditions;
         this.logic = logic;
+        this.numOfSubConditions = numOfSubConditions;
     }
 
     @Override
@@ -37,6 +40,17 @@ public class MultipleCondition extends ConditionAction {
         return conditionRes;
     }
 
+    public Integer getNumOfSubConditions() {
+        return numOfSubConditions;
+    }
+
     @Override
     public String toString() { return "MULTIPLE CONDITION action"; }
+
+    @Override
+    public List<String> getArguments() {
+        List<String> args =  new ArrayList<>();
+        args.add(logic);
+        return args;
+    }
 }

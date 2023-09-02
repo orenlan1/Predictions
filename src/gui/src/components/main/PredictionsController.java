@@ -2,8 +2,7 @@ package components.main;
 
 import components.details.DetailsController;
 import components.queue.management.QueueManagementController;
-import dto.EntityDTO;
-import dto.FileReaderDTO;
+import dto.*;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -87,16 +86,17 @@ public class PredictionsController {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files","*.xml"));
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
         if (selectedFile == null) {
-          return; /// exception throw
+          return;
         }
         FileReaderDTO DTO = predictionsService.readFileAndLoad(selectedFile.getAbsolutePath());
         if (DTO.isValid()) {
             String absolutePath = selectedFile.getAbsolutePath();
             loadedFilePathProperty.set(absolutePath);
             isFileSelected.set(true);
+            detailsController.clearDetails(event);
         } else {
-            Popup popUp = new Popup();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, DTO.getError());
+            Alert alert = new Alert(Alert.AlertType.ERROR, DTO.getError());
+            alert.setHeaderText(null);
             alert.show();
         }
     }
@@ -107,7 +107,7 @@ public class PredictionsController {
         queueManagementController.showQueueManagement(mainBorderPane);
     }
 
-    public void viewDetails (ActionEvent event) {
+    public void viewDetails(ActionEvent event) {
         detailsController.showDetailsMenu(mainBorderPane);
     }
 
@@ -119,8 +119,14 @@ public class PredictionsController {
         this.detailsController = detailsController;
     }
 
+    public List<PropertyDTO> getEnvVariablesDTO() { return predictionsService.getEnvPropertiesDTO().getPropertiesDTO(); }
+
     public List<EntityDTO> getEntitiesDTO() {
         return predictionsService.getSimulationInformation().getEntitiesList();
     }
+
+    public TerminationDTO getTerminationDTO() { return predictionsService.getSimulationInformation().getTermination(); }
+
+    public List<RuleDTO> getRulesDTO() {return predictionsService.getSimulationInformation().getRulesList(); }
 
 }

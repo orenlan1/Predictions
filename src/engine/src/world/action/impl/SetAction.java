@@ -11,9 +11,12 @@ import world.property.api.PropertyInstance;
 import world.property.impl.FloatPropertyDefinition;
 import world.property.impl.IntegerPropertyDefinition;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SetAction extends ActionImpl{
 
-    private Expression expression;
+    private final Expression expression;
 
     public SetAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition) {
         super(ActionType.SET, entityDefinition, propertyDefinition);
@@ -58,5 +61,11 @@ public class SetAction extends ActionImpl{
         catch (NumberFormatException e) {
             throw new Exception("Invalid expression, expected " + propertyDefinition.getType().toString());
         }
+    }
+    @Override
+    public List<String> getArguments() {
+        List<String> args =  new ArrayList<>();
+        args.add(expression.toString());
+        return args;
     }
 }

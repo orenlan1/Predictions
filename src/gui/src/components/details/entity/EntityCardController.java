@@ -15,9 +15,6 @@ public class EntityCardController {
     private Label name;
 
     @FXML
-    private Label population;
-
-    @FXML
     private VBox propertiesList;
 
     @FXML
@@ -25,10 +22,6 @@ public class EntityCardController {
 
     public void setName(String entityName) {
         name.textProperty().set("Name: " + entityName);
-    }
-
-    public void setPopulation(String population) {
-        this.population.textProperty().set("Population: " + population);
     }
 
     public void setProperties(List<PropertyDTO> DTOs) {

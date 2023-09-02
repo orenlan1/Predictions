@@ -6,6 +6,9 @@ import world.entity.api.EntityInstance;
 import world.expressions.api.Expression;
 import world.property.api.PropertyDefinition;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class CalculationAction extends ActionImpl {
     protected final Expression arg1, arg2;
 
@@ -13,5 +16,13 @@ public abstract class CalculationAction extends ActionImpl {
         super(actionType, entityDefinition, propertyDefinition);
         this.arg1 = arg1;
         this.arg2 = arg2;
+    }
+
+    @Override
+    public List<String> getArguments() {
+        List<String> args = new ArrayList<>();
+        args.add(arg1.toString());
+        args.add(arg2.toString());
+        return args;
     }
 }

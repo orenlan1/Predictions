@@ -6,6 +6,9 @@ import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.property.api.PropertyDefinition;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class KillAction implements Action {
     ActionType actionType = ActionType.KILL;
     private final EntityDefinition entityDefinition;
@@ -30,4 +33,8 @@ public class KillAction implements Action {
         //entityDefinition.removeEntity(entityInstance);
     }
 
+    @Override
+    public List<String> getArguments() {
+        return null;
+    }
 }

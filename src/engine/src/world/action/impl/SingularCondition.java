@@ -8,6 +8,8 @@ import world.exceptions.InvalidVariableTypeException;
 import world.expressions.api.Expression;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class SingularCondition extends ConditionAction {
@@ -64,6 +66,15 @@ public class SingularCondition extends ConditionAction {
             default:
                 throw new InvalidConditionOperatorException(operator);
         }
+    }
+
+    @Override
+    public List<String> getArguments() {
+        List<String> args =  new ArrayList<>();
+        args.add(value.toString());
+        args.add(operator);
+        args.add(propertyDefinition.getName());
+        return args;
     }
 }
 
