@@ -16,9 +16,8 @@ public class EntityDefinitionImpl implements EntityDefinition {
     private final List<PropertyDefinition> propertiesList;
 
 
-    public EntityDefinitionImpl(String name, int population) {
+    public EntityDefinitionImpl(String name) {
         this.name = name;
-        this.population = population;
         this.entityInstances = new LinkedList<>();
         this.propertiesList = new ArrayList<>();
     }

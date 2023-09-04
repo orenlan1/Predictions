@@ -56,7 +56,7 @@ public class ExpressionDecoder {
         return expression;
     }
 
-    public static Expression isPropertyName(String expressionName, EntityDefinition entityDefinition) throws EntityPropertyNameExistException {
+    public static Expression isPropertyName(String expressionName, EntityDefinition entityDefinition)  {
         for (PropertyDefinition property : entityDefinition.getPropertiesList())
         {
             if (property.getName().equals(expressionName))

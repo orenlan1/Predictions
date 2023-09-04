@@ -10,6 +10,7 @@ import world.property.api.PropertyDefinition;
 public abstract class ActionImpl implements Action {
     protected final ActionType actionType;
     protected EntityDefinition entityDefinition;
+    protected EntityDefinition secondaryEntityDefinition;
     protected PropertyDefinition propertyDefinition;
 
     protected ActionImpl(ActionType actionType, EntityDefinition entityDefinition,PropertyDefinition propertyDefinition) {
@@ -26,6 +27,10 @@ public abstract class ActionImpl implements Action {
     @Override
     public EntityDefinition getEntityDefinition() {
         return entityDefinition;
+    }
+
+    public void addSecondaryEntity(EntityDefinition entityDefinition) {
+        this.secondaryEntityDefinition = entityDefinition;
     }
 
     @Override

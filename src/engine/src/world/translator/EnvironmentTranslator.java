@@ -1,7 +1,8 @@
 package world.translator;
 
-import generated.PRDEnvProperty;
-import generated.PRDEvironment;
+
+import jaxb.generated.PRDEnvProperty;
+import jaxb.generated.PRDEnvironment;
 import world.environment.api.EnvironmentVariablesManager;
 import world.environment.impl.EnvironmentVariablesManagerImpl;
 import world.exceptions.EnvironmentVariableNameExistException;
@@ -19,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 public class EnvironmentTranslator {
-    public static EnvironmentVariablesManager translateEnvironment(PRDEvironment prdEvironment) throws EnvironmentVariableNameExistException, InvalidVariableTypeException {
+    public static EnvironmentVariablesManager translateEnvironment(PRDEnvironment prdEnvironment) throws EnvironmentVariableNameExistException, InvalidVariableTypeException {
         EnvironmentVariablesManager environmentVariablesManager = new EnvironmentVariablesManagerImpl();
-        List<PropertyDefinition> envProperties = EnvironmentTranslator.translateEnvironmentProperties(prdEvironment);
+        List<PropertyDefinition> envProperties = EnvironmentTranslator.translateEnvironmentProperties(prdEnvironment);
 
         for (PropertyDefinition property : envProperties) {
             environmentVariablesManager.addEnvironmentVariable(property);
@@ -63,9 +64,9 @@ public class EnvironmentTranslator {
         return propertyDefinition;
     }
 
-    public static List<PropertyDefinition> translateEnvironmentProperties(PRDEvironment prdEvironment) throws InvalidVariableTypeException {
+    public static List<PropertyDefinition> translateEnvironmentProperties(PRDEnvironment prdEnvironment) throws InvalidVariableTypeException {
         List<PropertyDefinition> propertyDefinitions = new LinkedList<>();
-        for (PRDEnvProperty prdEnvProperty : prdEvironment.getPRDEnvProperty()) {
+        for (PRDEnvProperty prdEnvProperty : prdEnvironment.getPRDEnvProperty()) {
             propertyDefinitions.add(EnvironmentTranslator.TranslateEnvironmentPropertyDefinition(prdEnvProperty));
         }
         return propertyDefinitions;

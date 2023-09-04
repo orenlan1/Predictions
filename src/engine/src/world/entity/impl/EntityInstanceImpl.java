@@ -3,17 +3,19 @@ package world.entity.impl;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
+import world.grid.Direction;
+import world.grid.Grid;
+import world.grid.GridCoordinate;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 import world.property.impl.PropertyInstanceImpl;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class EntityInstanceImpl implements EntityInstance {
     private final EntityDefinition entityDefinition;
     private Map<String, PropertyInstance> nameToProperty;
+    private GridCoordinate coordinate;
     private boolean alive;
 
     public EntityInstanceImpl(EntityDefinition entityDefinition) {
@@ -50,4 +52,51 @@ public class EntityInstanceImpl implements EntityInstance {
         alive = Boolean.FALSE;
         //entityDefinition.killInstance();
     }
+
+    public void setCoordinate(Grid grid) {
+        coordinate.setRandomlyCoordinate(grid, this);
+    }
+
+    public GridCoordinate getCoordinate() {
+        return coordinate;
+    }
+
+
+    public void moveEntityCoordinate(Grid grid) {
+        List<Direction> availableDirections = new ArrayList<>(Arrays.asList(Direction.values()));
+        Collections.shuffle(availableDirections);
+
+        for (Direction direction : availableDirections) {
+            GridCoordinate newCoordinate = new GridCoordinate(grid.getRows(), grid.getCols());
+            if (newCoordinate.move(direction,grid)) {
+                grid.removeCoordinateFromMap(this.coordinate);
+                this.coordinate = newCoordinate;
+                grid.addCoordinateToMap(this);
+            }
+        }
+    }
+
+    public EntityInstance createDerivedEntityInstance(EntityDefinition createdEntityDefinition) {
+        boolean derivedProperty = false;
+        EntityInstance newDerivedEntity = new EntityInstanceImpl(createdEntityDefinition);
+        List<PropertyDefinition> newEntityProperties = createdEntityDefinition.getPropertiesList();
+        for (PropertyDefinition createdProperty : newEntityProperties) {
+            for (PropertyDefinition propertyDefinition : entityDefinition.getPropertiesList()) {
+                if (propertyDefinition.getName().equals(createdProperty.getName()) && propertyDefinition.getType().equals(createdProperty.getType())) {
+                    Object value = nameToProperty.get(propertyDefinition.getName()).getValue();
+                    newDerivedEntity.addPropertyInstance(new PropertyInstanceImpl(createdProperty, value));
+                    derivedProperty = true;
+                }
+            }
+            if (!derivedProperty) {
+                Object value = createdProperty.generateValue();
+                newDerivedEntity.addPropertyInstance(new PropertyInstanceImpl(createdProperty,value));
+            }
+            derivedProperty = false;
+        }
+        return newDerivedEntity;
+    }
+
+
+
 }

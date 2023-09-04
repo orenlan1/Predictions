@@ -1,6 +1,14 @@
 package world.translator;
 
-import generated.*;
+
+import jaxb.generated.PRDRule;
+import jaxb.generated.PRDAction;
+import jaxb.generated.PRDActivation;
+import jaxb.generated.PRDThen;
+import jaxb.generated.PRDElse;
+import jaxb.generated.PRDCondition;
+import jaxb.generated.PRDDivide;
+import jaxb.generated.PRDMultiply;
 import world.action.api.Action;
 import world.action.impl.*;
 import world.entity.api.EntityDefinition;
@@ -52,6 +60,14 @@ public class RuleTranslator {
         EntityDefinition entityDefinition = getEntityDefinition(entityName,entitiesList);
         String propertyName = prdAction.getProperty();
         String resultProp = prdAction.getResultProp();
+        String mode = prdAction.getMode();
+        String createdEntityName = prdAction.getCreate();
+        String mainEntityName = prdAction.getKill();
+        String sourceEntity = prdAction.getPRDBetween().getSourceEntity();
+        String targetEntity = prdAction.getPRDBetween().getTargetEntity();
+        String of = prdAction.getPRDEnvDepth().getOf();
+
+
 
         switch(actionName) {
             case "increase":
@@ -66,6 +82,15 @@ public class RuleTranslator {
                 return translateSetAction(prdAction, entityDefinition, propertyName, activeEnvironment);
             case "kill":
                 return translateKillAction(entityDefinition);
+            case "replace":
+                EntityDefinition mainEntity = getEntityDefinition(mainEntityName,entitiesList);
+                EntityDefinition createdEntity = getEntityDefinition(createdEntityName,entitiesList);
+                return translateReplaceAction(mainEntity, createdEntity, mode);
+            case "proximity":
+                EntityDefinition sourceEntityDefinition = getEntityDefinition(sourceEntity, entitiesList);
+                EntityDefinition targetEntityDefinition = getEntityDefinition(targetEntity,entitiesList);
+                List<PRDAction> prdActions = prdAction.getPRDActions().getPRDAction();
+                return translateProximityAction(sourceEntityDefinition,targetEntityDefinition,prdActions, of, activeEnvironment, entitiesList);
             default:
                 return null;
         }
@@ -233,5 +258,19 @@ public class RuleTranslator {
 
     public static KillAction translateKillAction(EntityDefinition entityDefinition) {
         return new KillAction(entityDefinition);
+    }
+
+
+    public static ReplaceAction translateReplaceAction(EntityDefinition mainEntityName, EntityDefinition createdEntityName,String mode) {
+        return new ReplaceAction(mode, mainEntityName, createdEntityName);
+    }
+
+    public static ProximityAction translateProximityAction(EntityDefinition sourceEntity, EntityDefinition targetEntity, List<PRDAction> prdActions, String ofExpression, ActiveEnvironment activeEnvironment, List<EntityDefinition> entityDefinitions) throws  Exception {
+        Expression of = ExpressionDecoder.decode(ofExpression,activeEnvironment, sourceEntity, AbstractPropertyDefinition.PropertyType.DECIMAL,"proximity");
+        ProximityAction proximityAction = new ProximityAction(sourceEntity,targetEntity,of);
+        for (PRDAction prdAction : prdActions) {
+            proximityAction.addAction(translateAction(prdAction, entityDefinitions, activeEnvironment));
+        }
+        return proximityAction;
     }
 }
