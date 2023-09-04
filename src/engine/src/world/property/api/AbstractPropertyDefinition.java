@@ -6,7 +6,7 @@ import world.value.generator.api.ValueGenerator;
 
 public abstract class AbstractPropertyDefinition<T> implements PropertyDefinition {
     public enum PropertyType {
-        DECIMAL, FLOAT, BOOLEAN, STRING
+        DECIMAL, FLOAT, BOOLEAN, STRING;
     }
     private final String name;
     private final PropertyType type;

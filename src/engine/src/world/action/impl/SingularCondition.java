@@ -11,22 +11,26 @@ import world.property.api.PropertyInstance;
 import java.util.List;
 
 public class SingularCondition extends ConditionAction {
+    private final Expression property;
     private final Expression value;
     private final String operator;
 
-    public SingularCondition(EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, Expression value, String operator, List<Action> thenActions, List<Action> elseActions, SecondaryEntity secondaryEntity) {
-        super(entityDefinition, propertyDefinition, thenActions, elseActions, secondaryEntity);
+    public SingularCondition(EntityDefinition entityDefinition, Expression property, Expression value, String operator, List<Action> thenActions, List<Action> elseActions, SecondaryEntity secondaryEntity) {
+        super(entityDefinition, thenActions, elseActions, secondaryEntity);
         this.value = value;
+        this.property = property;
         this.operator = operator;
     }
 
     @Override
     public boolean evaluate(EntityInstance entityInstance) throws InvalidConditionOperatorException, InvalidVariableTypeException {
         PropertyInstance property = entityInstance.getPropertyByName(propertyDefinition.getName());
-        Object propertyValue = property.getValue();
+        Object propertyValue = this.property.evaluate();
+        String propType = this.property.getType();
+        //Object propertyValue = property.getValue();
+        //String propType = property.getPropertyDefinition().getType().name().toLowerCase();
         Object expValue = value.evaluate();
         String expType = value.getType();
-        String propType = property.getPropertyDefinition().getType().name().toLowerCase();
 
         switch (operator) {
             case "=":
