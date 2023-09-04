@@ -33,6 +33,9 @@ public class EntityDefinitionImpl implements EntityDefinition {
     }
 
     @Override
+    public void setPopulation(int population) { this.population = population;}
+
+    @Override
     public void killInstance() { population--; }
 
     @Override
@@ -89,7 +92,8 @@ public class EntityDefinitionImpl implements EntityDefinition {
 
     @Override
     public EntityDefinition cloneEntityDefinition() {
-        EntityDefinition newEntity = new EntityDefinitionImpl(this.name, this.population);
+        EntityDefinition newEntity = new EntityDefinitionImpl(this.name);
+        newEntity.setPopulation(this.population);
         List<PropertyDefinition> newPropertyDefinitions = new ArrayList<>();
 
         for (EntityInstance entityInstance : this.getEntityInstances())

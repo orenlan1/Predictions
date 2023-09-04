@@ -66,6 +66,7 @@ public class RuleTranslator {
         String sourceEntity = prdAction.getPRDBetween().getSourceEntity();
         String targetEntity = prdAction.getPRDBetween().getTargetEntity();
         String of = prdAction.getPRDEnvDepth().getOf();
+        SecondaryEntity secondaryEntity = translateSecondaryEntity(prdAction,entitiesList);
 
 
 
@@ -272,5 +273,18 @@ public class RuleTranslator {
             proximityAction.addAction(translateAction(prdAction, entityDefinitions, activeEnvironment));
         }
         return proximityAction;
+    }
+
+
+    public static SecondaryEntity translateSecondaryEntity(PRDAction prdAction, List<EntityDefinition> entitiesList) throws Exception {
+
+        if ( prdAction.getPRDSecondaryEntity() != null) {
+            EntityDefinition secondaryEntity = getEntityDefinition(prdAction.getPRDSecondaryEntity().getEntity(),entitiesList);
+            PRDAction.PRDSecondaryEntity.PRDSelection selection = prdAction.getPRDSecondaryEntity().getPRDSelection();
+            String count = selection.getCount();
+            PRDCondition condition = selection.getPRDCondition();
+            condition.
+            return new SecondaryEntity(secondaryEntity,count,);
+        }
     }
 }

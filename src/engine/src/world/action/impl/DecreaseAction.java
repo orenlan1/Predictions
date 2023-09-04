@@ -14,8 +14,8 @@ public class DecreaseAction extends ActionImpl{
 
     private Expression by;
 
-    public DecreaseAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition) {
-        super(ActionType.DECREASE, entityDefinition, propertyDefinition);
+    public DecreaseAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition, SecondaryEntity secondaryEntity) {
+        super(ActionType.DECREASE, entityDefinition, propertyDefinition, secondaryEntity);
         this.by = expression;
     }
     @Override

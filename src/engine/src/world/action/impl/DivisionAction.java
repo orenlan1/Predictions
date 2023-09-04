@@ -12,8 +12,8 @@ import world.property.api.PropertyInstance;
 
 public class DivisionAction extends CalculationAction {
 
-    public DivisionAction(EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, Expression arg1, Expression arg2) {
-        super(ActionType.CALCULATION, entityDefinition, propertyDefinition, arg1, arg2);
+    public DivisionAction(EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, Expression arg1, Expression arg2, SecondaryEntity secondaryEntity) {
+        super(ActionType.CALCULATION, entityDefinition, propertyDefinition, arg1, arg2, secondaryEntity);
     }
 
     @Override

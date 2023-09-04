@@ -15,8 +15,8 @@ public class SetAction extends ActionImpl{
 
     private Expression expression;
 
-    public SetAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition) {
-        super(ActionType.SET, entityDefinition, propertyDefinition);
+    public SetAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition, SecondaryEntity secondaryEntity) {
+        super(ActionType.SET, entityDefinition, propertyDefinition, secondaryEntity);
         this.expression = expression;
     }
 

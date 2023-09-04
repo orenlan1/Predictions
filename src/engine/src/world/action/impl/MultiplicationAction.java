@@ -11,8 +11,8 @@ import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 
 public class MultiplicationAction extends CalculationAction {
-    public MultiplicationAction(EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, Expression arg1, Expression arg2) {
-        super(ActionType.CALCULATION, entityDefinition, propertyDefinition, arg1, arg2);
+    public MultiplicationAction(EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, Expression arg1, Expression arg2, SecondaryEntity secondaryEntity) {
+        super(ActionType.CALCULATION, entityDefinition, propertyDefinition, arg1, arg2, secondaryEntity);
     }
 
     @Override

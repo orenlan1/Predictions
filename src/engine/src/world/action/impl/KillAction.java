@@ -9,8 +9,10 @@ import world.property.api.PropertyDefinition;
 public class KillAction implements Action {
     ActionType actionType = ActionType.KILL;
     private final EntityDefinition entityDefinition;
-    public KillAction(EntityDefinition entityDefinition) {
+    private final SecondaryEntity secondaryEntity;
+    public KillAction(EntityDefinition entityDefinition, SecondaryEntity secondaryEntity) {
         this.entityDefinition = entityDefinition;
+        this.secondaryEntity = secondaryEntity;
 
     }
     @Override

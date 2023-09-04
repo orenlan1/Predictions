@@ -17,8 +17,8 @@ public abstract class ConditionAction extends ActionImpl {
     private final List<Action> elseActions;
 
 
-    public ConditionAction(EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, List<Action> thenActions, List<Action> elseActions) {
-        super(ActionType.CONDITION, entityDefinition, propertyDefinition);
+    public ConditionAction(EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, List<Action> thenActions, List<Action> elseActions, SecondaryEntity secondaryEntity) {
+        super(ActionType.CONDITION, entityDefinition, propertyDefinition, secondaryEntity);
         this.thenActions = thenActions;
         this.elseActions = elseActions;
     }

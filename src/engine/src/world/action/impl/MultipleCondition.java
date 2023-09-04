@@ -13,8 +13,8 @@ public class MultipleCondition extends ConditionAction {
     private final List<ConditionAction> conditions;
     private final String logic;
 
-    public MultipleCondition(List<ConditionAction> conditions, String logic, EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, List<Action> thenActions, List<Action> elseActions) {
-        super(entityDefinition, propertyDefinition, thenActions, elseActions);
+    public MultipleCondition(List<ConditionAction> conditions, String logic, EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, List<Action> thenActions, List<Action> elseActions, SecondaryEntity secondaryEntity) {
+        super(entityDefinition, propertyDefinition, thenActions, elseActions, secondaryEntity);
         this.conditions = conditions;
         this.logic = logic;
     }

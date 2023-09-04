@@ -14,8 +14,8 @@ public class IncreaseAction extends ActionImpl {
     private final Expression by;
 
 
-    public IncreaseAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition) {
-        super(ActionType.INCREASE, entityDefinition, propertyDefinition);
+    public IncreaseAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition, SecondaryEntity secondaryEntity) {
+        super(ActionType.INCREASE, entityDefinition, propertyDefinition, secondaryEntity);
         this.by = expression;
     }
 

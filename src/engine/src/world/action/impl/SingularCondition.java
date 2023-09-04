@@ -14,8 +14,8 @@ public class SingularCondition extends ConditionAction {
     private final Expression value;
     private final String operator;
 
-    public SingularCondition(EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, Expression value, String operator, List<Action> thenActions, List<Action> elseActions) {
-        super(entityDefinition, propertyDefinition, thenActions, elseActions);
+    public SingularCondition(EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, Expression value, String operator, List<Action> thenActions, List<Action> elseActions, SecondaryEntity secondaryEntity) {
+        super(entityDefinition, propertyDefinition, thenActions, elseActions, secondaryEntity);
         this.value = value;
         this.operator = operator;
     }
