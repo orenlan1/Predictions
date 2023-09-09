@@ -15,11 +15,11 @@ public class MultipleCondition extends ConditionAction {
     private final String logic;
     private final Integer numOfSubConditions;
 
-    public MultipleCondition(List<ConditionAction> conditions, String logic, EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, List<Action> thenActions, List<Action> elseActions, Integer numOfSubConditions) {
+    public MultipleCondition(List<ConditionAction> conditions, String logic, EntityDefinition entityDefinition, PropertyDefinition propertyDefinition, List<Action> thenActions, List<Action> elseActions) {
         super(entityDefinition, propertyDefinition, thenActions, elseActions);
         this.conditions = conditions;
         this.logic = logic;
-        this.numOfSubConditions = numOfSubConditions;
+        this.numOfSubConditions = conditions.size();
     }
 
     @Override

@@ -9,6 +9,7 @@ import java.util.List;
 public interface EntityDefinition {
     String getName();
     int getPopulation();
+    void setPopulation(Integer population);
     void killInstance();
     List<PropertyDefinition> getPropertiesList();
     void addEntityInstance(EntityInstance entityInstance);

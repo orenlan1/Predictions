@@ -23,7 +23,7 @@ public class SetCardController implements CardController {
     public void setCard(ActionDTO dto) {
         setTypeLabel(dto.getType());
         setMainEntityLabel(dto.getPrimaryEntity());
-        setSecondaryEntityLabel(dto.getSecondaryEntity());
+        setSecondaryEntityLabel(dto.getSecondaryEntity(), dto.isSecondaryEntity());
         setValueLabel(dto.getArgs().get(0));
     }
 
@@ -35,8 +35,11 @@ public class SetCardController implements CardController {
         mainEntityLabel.textProperty().set("Main entity: " + entity);
     }
 
-    public void setSecondaryEntityLabel(String entity) {
-        secondaryEntityLabel.textProperty().set("Secondary entity: " + entity);
+    public void setSecondaryEntityLabel(String entity, boolean secondary) {
+        if (secondary)
+            secondaryEntityLabel.textProperty().set("Secondary entity: " + entity);
+        else
+            secondaryEntityLabel.textProperty().set("No secondary entity");
     }
 
     public void setTypeLabel(String type) {

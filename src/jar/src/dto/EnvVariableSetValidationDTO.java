@@ -9,7 +9,6 @@ public class EnvVariableSetValidationDTO {
         this.message = msg;
     }
 
-
     public Boolean getValidation() {
         return validation;
     }

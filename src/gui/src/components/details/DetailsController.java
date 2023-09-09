@@ -46,6 +46,15 @@ public class DetailsController {
     private ScrollPane entitiesListScrollPane;
 
     private PredictionsController predictionsController;
+    private Integer x;
+    private Integer y;
+
+    public void setGridSize(Integer x, Integer y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public Integer getGridSize() { return x * y; }
 
     public void setPredictionsController(PredictionsController predictionsController) {
         this.predictionsController = predictionsController;
@@ -114,7 +123,7 @@ public class DetailsController {
         GridPane gridCard = loader.load();
 
         GridCardController gridCardController = loader.getController();
-        gridCardController.setAxisLabels(100, 65);
+        gridCardController.setAxisLabels(x, y);
         gridCard.getStylesheets().add("/components/details/grid/grid.css");
 
         detailsFlowPane.getChildren().add(gridCard);

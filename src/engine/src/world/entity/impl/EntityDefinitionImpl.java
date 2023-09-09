@@ -29,6 +29,11 @@ public class EntityDefinitionImpl implements EntityDefinition {
     }
 
     @Override
+    public void setPopulation(Integer population) {
+        this.population = population;
+    }
+
+    @Override
     public int getPopulation() {
         return population;
     }

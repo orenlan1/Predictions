@@ -1,0 +1,9 @@
+.scroll-pane {
+    -fx-background: none;
+}
+
+#infoLabel {
+    -fx-font-size: 13px;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}

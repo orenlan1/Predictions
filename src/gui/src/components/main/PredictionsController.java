@@ -1,6 +1,7 @@
 package components.main;
 
 import components.details.DetailsController;
+import components.execution.NewExecutionController;
 import components.queue.management.QueueManagementController;
 import dto.*;
 import javafx.beans.binding.Bindings;
@@ -50,6 +51,7 @@ public class PredictionsController {
 
     private QueueManagementController queueManagementController;
     private DetailsController detailsController;
+    private NewExecutionController newExecutionController;
     private final SimpleStringProperty loadedFilePathProperty;
     private final SimpleBooleanProperty isFileSelected;
 
@@ -78,9 +80,8 @@ public class PredictionsController {
         this.predictionsService = predictionsService;
     }
 
-
     @FXML
-    void loadFileButtonAction(ActionEvent event) {
+    void loadFileButtonAction(ActionEvent event) throws Exception {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select xml simulation file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files","*.xml"));
@@ -94,6 +95,7 @@ public class PredictionsController {
             loadedFilePathProperty.set(absolutePath);
             isFileSelected.set(true);
             detailsController.clearDetails(event);
+            newExecutionController.clearNewExecution(event);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, DTO.getError());
             alert.setHeaderText(null);
@@ -101,14 +103,21 @@ public class PredictionsController {
         }
     }
 
-
     @FXML
     public void viewQueueManagement(ActionEvent event) {
         queueManagementController.showQueueManagement(mainBorderPane);
     }
 
+    @FXML
     public void viewDetails(ActionEvent event) {
+        detailsController.clearDetails(event);
         detailsController.showDetailsMenu(mainBorderPane);
+    }
+
+    @FXML
+    public void viewNewExecution(ActionEvent event) throws Exception {
+        newExecutionController.setMaxPopulation(getMaximumPopulation());
+        newExecutionController.showNewExecution(mainBorderPane);
     }
 
     public void setQueueManagementController(QueueManagementController queueManagementController) {
@@ -117,6 +126,10 @@ public class PredictionsController {
 
     public void setDetailsController(DetailsController detailsController) {
         this.detailsController = detailsController;
+    }
+
+    public void setNewExecutionController(NewExecutionController newExecutionController) {
+        this.newExecutionController = newExecutionController;
     }
 
     public List<PropertyDTO> getEnvVariablesDTO() { return predictionsService.getEnvPropertiesDTO().getPropertiesDTO(); }
@@ -128,5 +141,23 @@ public class PredictionsController {
     public TerminationDTO getTerminationDTO() { return predictionsService.getSimulationInformation().getTermination(); }
 
     public List<RuleDTO> getRulesDTO() {return predictionsService.getSimulationInformation().getRulesList(); }
+
+    public void randomizeEnvironmentVariables() {
+        predictionsService.randomizeEnvProperties();
+    }
+
+    public EnvVariableSetValidationDTO setEnvVariables(List<UserInputEnvironmentVariableDTO> DTOs) {
+        return predictionsService.setEnvironmentVariables(DTOs);
+    }
+
+    public Integer getMaximumPopulation() { return detailsController.getGridSize(); }
+
+    public void setEntitiesPopulation(List<EntityInitializationDTO> DTOs) {
+        predictionsService.setEntitiesPopulation(DTOs);
+    }
+
+    public SimulationRunnerDTO runSimulation() {
+        return predictionsService.runSimulation();
+    }
 
 }

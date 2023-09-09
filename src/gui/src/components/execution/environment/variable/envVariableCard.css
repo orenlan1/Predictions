@@ -1,0 +1,23 @@
+.spinner, .menu-button, .text-area {
+    -fx-border-color: black;
+    -fx-font-size: 13px;
+    -fx-font-family: Verdana;
+}
+
+.check-box .box {
+    -fx-border-color:grey;
+    -fx-border-radius:3px;
+}
+
+.label, .check-box {
+    -fx-font-size: 13px;
+    -fx-font-family: Verdana;
+    -fx-font-weight: normal;
+}
+
+.envVariableCard {
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+    -fx-border-color: black;
+    -fx-border-radius: 15px;
+}

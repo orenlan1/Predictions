@@ -4,15 +4,11 @@ import components.details.rules.manager.action.CardController;
 import dto.ActionDTO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 
 public class KillCardController implements CardController {
 
     @FXML
     private Label mainEntityLabel;
-
-   /* @FXML
-    private GridPane ruleCardGridPane;*/
 
     @FXML
     private Label typeLabel;

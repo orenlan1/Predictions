@@ -71,7 +71,6 @@ public class RuleTranslator {
         }
     }
 
-
     public static EntityDefinition getEntityDefinition(String entityName, List<EntityDefinition> entitiesList) throws Exception {
         for (EntityDefinition entityDefinition : entitiesList) {
             if ( entityDefinition.getName().equals(entityName)) {
@@ -182,7 +181,7 @@ public class RuleTranslator {
                 throw new MismatchTypesException("Expression in condition action", propType, expType);
         }
         else
-            return new MultipleCondition(conditions, logic, entityDefinition, null, thenActions, elseActions, conditions.size());
+            return new MultipleCondition(conditions, logic, entityDefinition, null, thenActions, elseActions);
     }
 
     public static ConditionAction translateConditionActionSecondary(PRDCondition prdCondition, EntityDefinition entityDefinition, ActiveEnvironment activeEnvironment) throws Exception {
@@ -215,7 +214,7 @@ public class RuleTranslator {
                 throw new MismatchTypesException("Expression in condition action", propType, expType);
         }
         else
-            return new MultipleCondition(conditions, logic, entityDefinition, null, thenActions, elseActions, conditions.size());
+            return new MultipleCondition(conditions, logic, entityDefinition, null, thenActions, elseActions);
     }
 
 

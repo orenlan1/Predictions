@@ -1,6 +1,7 @@
 package app;
 
 import components.details.DetailsController;
+import components.execution.NewExecutionController;
 import components.main.PredictionsController;
 import components.queue.management.QueueManagementController;
 import javafx.application.Application;
@@ -37,6 +38,10 @@ public class PredictionsApp extends Application {
         FXMLLoader queueLoader = new FXMLLoader(queueFXML);
         GridPane queue = queueLoader.load();
 
+        URL newExecutionFXML = getClass().getResource("/components/execution/newExecution.fxml");
+        FXMLLoader newExecutionLoader = new FXMLLoader(newExecutionFXML);
+        BorderPane newExecution = newExecutionLoader.load();
+
         PredictionsController predictionsController = loader.getController();
         PredictionsService predictionsService = new PredictionsServiceImpl();
         predictionsController.setPrimaryStage(primaryStage);
@@ -50,6 +55,11 @@ public class PredictionsApp extends Application {
         DetailsController detailsController = detailsLoader.getController();
         detailsController.setPredictionsController(predictionsController);
         predictionsController.setDetailsController(detailsController);
+        detailsController.setGridSize(100, 65);
+
+        NewExecutionController newExecutionController = newExecutionLoader.getController();
+        newExecutionController.setPredictionsController(predictionsController);
+        predictionsController.setNewExecutionController(newExecutionController);
 
         primaryStage.setTitle("Predictions");
         Scene scene = new Scene(borderPane,1400,600);

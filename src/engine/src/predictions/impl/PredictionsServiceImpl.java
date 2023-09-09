@@ -64,19 +64,26 @@ public class PredictionsServiceImpl implements PredictionsService {
     }
 
     @Override
-    public EnvVariableSetValidationDTO setEnvironmentVariable(UserInputEnvironmentVariableDTO dto) {
-        ActiveEnvironment activeEnvironment = world.getActiveEnvironment();
-        PropertyInstance propertyInstance = activeEnvironment.getProperty(dto.getPropertyDTO().getPropertyName()).get();
-        AbstractPropertyDefinition.PropertyType type = propertyInstance.getPropertyDefinition().getType();
+    public void setEntitiesPopulation(List<EntityInitializationDTO> DTOs) {
+        world.setEntitiesPopulation(DTOs);
+    }
 
-        try {
-            EnvVariablesUpdater envVariablesUpdater = new EnvVariablesUpdater();
-            envVariablesUpdater.updateVariable(propertyInstance, type, dto);
-        } catch (NumberFormatException e) {
-            return new EnvVariableSetValidationDTO(Boolean.FALSE, "Failed to assign the value to the environment variable due to incompatible types");
-        }
-        catch (Exception e) {
-            return new EnvVariableSetValidationDTO(Boolean.FALSE, "Failed to assign the value to the environment variable. " + e.getMessage());
+    @Override
+    public EnvVariableSetValidationDTO setEnvironmentVariables(List<UserInputEnvironmentVariableDTO> DTOs) {
+        ActiveEnvironment activeEnvironment = world.getActiveEnvironment();
+
+        for (UserInputEnvironmentVariableDTO dto : DTOs) {
+            PropertyInstance propertyInstance = activeEnvironment.getProperty(dto.getName()).get();
+            AbstractPropertyDefinition.PropertyType type = propertyInstance.getPropertyDefinition().getType();
+
+            try {
+                EnvVariablesUpdater envVariablesUpdater = new EnvVariablesUpdater();
+                envVariablesUpdater.updateVariable(propertyInstance, type, dto);
+            } catch (NumberFormatException e) {
+                return new EnvVariableSetValidationDTO(Boolean.FALSE, String.format("Failed to assign the value \"%s\" to the environment variable \"%s\" due to incompatible types", dto.getValue(), dto.getName()));
+            } catch (Exception e) {
+                return new EnvVariableSetValidationDTO(Boolean.FALSE, String.format("Failed to assign the value \"%s\" to the environment variable \"%s\". ", dto.getValue(), dto.getName()) + e.getMessage());
+            }
         }
         return new EnvVariableSetValidationDTO(Boolean.TRUE, null);
     }

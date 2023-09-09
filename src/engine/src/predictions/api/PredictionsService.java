@@ -10,7 +10,8 @@ public interface PredictionsService {
     SimulationInfoDTO getSimulationInformation();
     void randomizeEnvProperties();
     PropertiesDTO getEnvPropertiesDTO();
-    EnvVariableSetValidationDTO setEnvironmentVariable(UserInputEnvironmentVariableDTO dto);
+    EnvVariableSetValidationDTO setEnvironmentVariables(List<UserInputEnvironmentVariableDTO> DTOs);
+    void setEntitiesPopulation(List<EntityInitializationDTO> DTOs);
     List<EnvVariablesDTO> getEnvVariablesDTOList();
     SimulationRunnerDTO runSimulation();
     AllSimulationsDTO getSimulationsDTO();

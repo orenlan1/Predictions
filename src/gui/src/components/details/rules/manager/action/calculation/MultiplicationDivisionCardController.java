@@ -6,8 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-
 
 public class MultiplicationDivisionCardController implements CardController {
 
@@ -19,9 +17,6 @@ public class MultiplicationDivisionCardController implements CardController {
 
     @FXML
     private Label mainEntityLabel;
-
-    /*@FXML
-    private GridPane ruleCardGridPane;*/
 
     @FXML
     private Label secondaryEntityLabel;
@@ -36,7 +31,7 @@ public class MultiplicationDivisionCardController implements CardController {
     public void setCard(ActionDTO dto) {
         setArgsLabels(dto.getArgs().get(0), dto.getArgs().get(1));
         setMainEntityLabel(dto.getPrimaryEntity());
-        setSecondaryEntityLabel(dto.getSecondaryEntity());
+        setSecondaryEntityLabel(dto.getSecondaryEntity(), dto.isSecondaryEntity());
         setTypeLabel(dto.getType());
     }
 
@@ -49,8 +44,11 @@ public class MultiplicationDivisionCardController implements CardController {
         mainEntityLabel.textProperty().set("Main entity: " + entity);
     }
 
-    public void setSecondaryEntityLabel(String entity) {
-        secondaryEntityLabel.textProperty().set("Secondary entity: " + entity);
+    public void setSecondaryEntityLabel(String entity, boolean secondary) {
+        if (secondary)
+            secondaryEntityLabel.textProperty().set("Secondary entity: " + entity);
+        else
+            secondaryEntityLabel.textProperty().set("No secondary entity");
     }
 
     public void setTypeLabel(String type) {

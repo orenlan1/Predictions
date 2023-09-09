@@ -4,7 +4,6 @@ import components.details.rules.manager.action.CardController;
 import dto.ActionDTO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 
 public class IncreaseDecreaseCardController implements CardController {
 
@@ -13,9 +12,6 @@ public class IncreaseDecreaseCardController implements CardController {
 
     @FXML
     private Label mainEntityLabel;
-
-   /* @FXML
-    private GridPane ruleCardGridPane;*/
 
     @FXML
     private Label secondaryEntityLabel;
@@ -27,7 +23,7 @@ public class IncreaseDecreaseCardController implements CardController {
     public void setCard(ActionDTO dto) {
         setTypeLabel(dto.getType());
         setMainEntityLabel(dto.getPrimaryEntity());
-        setSecondaryEntityLabel(dto.getSecondaryEntity());
+        setSecondaryEntityLabel(dto.getSecondaryEntity(), dto.isSecondaryEntity());
         setByLabel(dto.getArgs().get(0));
     }
 
@@ -39,8 +35,11 @@ public class IncreaseDecreaseCardController implements CardController {
         mainEntityLabel.textProperty().set("Main entity: " + entity);
     }
 
-    public void setSecondaryEntityLabel(String entity) {
-        secondaryEntityLabel.textProperty().set("Secondary entity: " + entity);
+    public void setSecondaryEntityLabel(String entity, boolean secondary) {
+        if (secondary)
+            secondaryEntityLabel.textProperty().set("Secondary entity: " + entity);
+        else
+            secondaryEntityLabel.textProperty().set("No secondary entity");
     }
 
     public void setTypeLabel(String type) {

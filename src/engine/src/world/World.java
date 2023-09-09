@@ -2,6 +2,7 @@ package world;
 
 import java.util.*;
 
+import dto.EntityInitializationDTO;
 import world.entity.api.EntityDefinition;
 import world.environment.api.ActiveEnvironment;
 import world.environment.api.EnvironmentVariablesManager;
@@ -75,6 +76,12 @@ public class World {
             }
         }
         rules.add(rule);
+    }
+
+    public void setEntitiesPopulation(List<EntityInitializationDTO> DTOs) {
+        for (EntityInitializationDTO dto : DTOs) {
+            nameToEntityDefinition.get(dto.getName()).setPopulation(dto.getPopulation());
+        }
     }
 
     public Map<String, EntityDefinition> getNameToEntityDefinition() {
