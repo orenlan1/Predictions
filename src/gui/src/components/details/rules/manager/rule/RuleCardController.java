@@ -113,6 +113,9 @@ public class RuleCardController {
             case "KILL":
                 actionDetailsFXML = getClass().getResource("/components/details/rules/manager/action/kill/killActionDetails.fxml");
                 break;
+            case "PROXIMITY":
+                actionDetailsFXML = getClass().getResource("/components/details/rules/manager/action/proximity/proximityActionDetails.fxml");
+                break;
         }
 
         loader = new FXMLLoader(actionDetailsFXML);

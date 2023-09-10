@@ -2,14 +2,11 @@ package components.execution;
 
 import components.execution.entity.count.EntityCountController;
 import components.execution.environment.variable.EnvVariableCardController;
-import components.execution.environment.variable.numerical.NumericalEnvVariableCardController;
 import components.main.PredictionsController;
 import dto.*;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 

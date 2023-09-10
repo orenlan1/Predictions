@@ -48,9 +48,9 @@ public class NumericalEnvVariableCardController implements EnvVariableCardContro
         setCheckBox.textProperty().set("Set value:");
         valueSetter.disableProperty().bind(isSetterChecked.not());
         valueSetter.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                valueSetter.increment(0); // won't change value, but will commit editor
-            }
+            if (!newValue)
+                if (isNumericalValue(valueSetter.getValue()))
+                    valueSetter.increment(0); // won't change value, but will commit editor
         });
     }
 
@@ -73,12 +73,17 @@ public class NumericalEnvVariableCardController implements EnvVariableCardContro
         valueSetter.setValueFactory(range);
     }
 
-    private boolean isDecimalValue(Double value) {
+    private boolean isNumericalValue(Double value) {
         try {
             Integer.parseInt(value.toString());
             return true;
         } catch (NumberFormatException e) {
-            return false;
+            try {
+                Double.parseDouble(value.toString());
+                return true;
+            } catch (NumberFormatException e2) {
+                return false;
+            }
         }
     }
 
@@ -108,9 +113,9 @@ public class NumericalEnvVariableCardController implements EnvVariableCardContro
     public UserInputEnvironmentVariableDTO getInput() {
         String value;
         if (setCheckBox.isSelected())
-            if (typeLabel.getText().contains("decimal")) {
+            /*if (typeLabel.getText().contains("decimal")) {
                 value = valueSetter.getValue().toString().split("\\.")[0];
-            } else
+            } else*/
                 value = valueSetter.getValue().toString();
         else
             value = null;
