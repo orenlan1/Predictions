@@ -1,10 +1,11 @@
 package world.context;
 
-import world.property.api.PropertyInstance;
+import world.action.impl.SecondaryEntity;
+import world.entity.api.EntityDefinition;
+
 
 public interface Context {
-
-
-    PropertyInstance getEnvironmentVariable(String name);
+    EntityDefinition getPrimaryEntity();
+    EntityDefinition getSecondaryEntity();
 
 }

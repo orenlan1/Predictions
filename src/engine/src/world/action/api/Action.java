@@ -7,7 +7,7 @@ import world.entity.api.EntityInstance;
 import java.util.List;
 
 public interface Action {
-    void activate(EntityInstance entityInstance) throws Exception;
+    void activate(EntityInstance entityInstance, int currTick) throws Exception;
     ActionType getActionType();
     EntityDefinition getEntityDefinition();
     List<String> getArguments();

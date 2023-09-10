@@ -1,0 +1,65 @@
+package world.action.impl;
+
+import world.entity.api.EntityDefinition;
+import world.entity.api.EntityInstance;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class SecondaryEntity {
+    private final EntityDefinition secondaryEntityDefinition;
+    private final String count;
+    private final ConditionAction condition;
+
+    public SecondaryEntity(EntityDefinition secondaryEntityDefinition, String count, ConditionAction condition) {
+        this.secondaryEntityDefinition = secondaryEntityDefinition;
+        this.count = count;
+        this.condition = condition;
+    }
+
+    public EntityDefinition getSecondaryEntityDefinition() {
+        return secondaryEntityDefinition;
+    }
+
+    public List<EntityInstance> computeSecondaryEntitiesForAction() throws Exception {
+        Random random = new Random();
+        List<EntityInstance> secondaryEntityInstances = secondaryEntityDefinition.getEntityInstances();
+        List<EntityInstance> computedList = new ArrayList<>();
+        List<EntityInstance> resultList = new ArrayList<>();
+        int secondaryEntityListSize = secondaryEntityDefinition.getEntityInstances().size();
+        if ( count.equals("ALL")) {
+            return secondaryEntityDefinition.getEntityInstances();
+        }
+        else {
+            int count = Integer.parseInt(this.count);
+            if ( count > secondaryEntityListSize)
+                count = secondaryEntityListSize;
+            if ( condition != null) {
+                for ( EntityInstance entityInstance : secondaryEntityInstances){
+                    if ( condition.evaluate(entityInstance))
+                        computedList.add(entityInstance);
+                }
+            }
+            else {
+                computedList = secondaryEntityInstances;
+            }
+            if ( computedList.isEmpty())
+                return computedList;
+            int size = computedList.size();
+            int randomIndex = random.nextInt(size);
+            for ( int i = count; i > 0; i--) {
+                resultList.add(computedList.get(randomIndex));
+            }
+        }
+        return resultList;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public ConditionAction getCondition() {
+        return condition;
+    }
+}

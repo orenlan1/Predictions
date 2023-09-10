@@ -7,6 +7,7 @@ import world.entity.api.EntityDefinition;
 import world.environment.api.ActiveEnvironment;
 import world.environment.api.EnvironmentVariablesManager;
 import world.exceptions.RuleNameExistException;
+import world.grid.Grid;
 import world.rule.api.Rule;
 import world.simulation.PastSimulation;
 import world.termination.Termination;
@@ -21,6 +22,8 @@ public class World {
     private int simulationID = 0;
     private Termination termination;
     private final List<PastSimulation> pastSimulations;
+    private Grid grid;
+    private int threadCount;
 
     public World() {
         population = 0;
@@ -103,4 +106,12 @@ public class World {
     public void addPastSimulation(PastSimulation pastSimulation) { pastSimulations.add(pastSimulation); }
 
     public List<PastSimulation> getPastSimulations() { return pastSimulations;}
+
+    public void setGrid(Grid grid) {
+        this.grid = grid;
+    }
+
+    public void setThreadCount(int threadCount) {
+        this.threadCount = threadCount;
+    }
 }

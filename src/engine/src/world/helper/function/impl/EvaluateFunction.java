@@ -1,0 +1,36 @@
+package world.helper.function.impl;
+
+import world.context.Context;
+import world.entity.api.EntityInstance;
+import world.exceptions.SimulationFunctionsException;
+import world.property.api.PropertyDefinition;
+import world.property.api.PropertyInstance;
+
+public class EvaluateFunction extends HelperFunctionImpl {
+    private final String propertyName;
+    private final String entityName;
+    private final Context functionContext;
+
+
+    public EvaluateFunction(String entityName, String propertyName, Context context) {
+        super("evaluate", 1, "String");
+        this.entityName = entityName;
+        this.propertyName = propertyName;
+        this.functionContext = context;
+    }
+
+
+    public Object invoke(EntityInstance entityInstance) throws Exception{
+        if ( functionContext.getPrimaryEntity().getName().equals(entityName)) {
+            PropertyDefinition propertyDefinition = functionContext.getPrimaryEntity().getPropertyByName(propertyName);
+            return entityInstance.getPropertyByName(propertyName).getValue();
+        }
+        if ( functionContext.getSecondaryEntity() != null) {
+            if ( functionContext.getSecondaryEntity().getName().equals(entityName)) {
+                PropertyDefinition propertyDefinition = functionContext.getSecondaryEntity().getPropertyByName(propertyName);
+                return entityInstance.getPropertyByName(propertyName).getValue();
+            }
+        }
+        throw new SimulationFunctionsException(entityName, "evaluate");
+    }
+}

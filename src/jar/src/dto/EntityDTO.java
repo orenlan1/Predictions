@@ -4,22 +4,23 @@ import java.util.List;
 
 public class EntityDTO {
     private final String entityName;
-    private final Integer population;
     private final List<PropertyDTO> propertiesList;
+    private final int population;
 
-    public EntityDTO(String entityName, Integer population, List<PropertyDTO> propertiesList) {
+    public EntityDTO(String entityName,int population, List<PropertyDTO> propertiesList) {
         this.entityName = entityName;
-        this.population = population;
         this.propertiesList = propertiesList;
+        this.population = population;
+    }
+
+    public int getPopulation() {
+        return population;
     }
 
     public String getEntityName() {
         return entityName;
     }
 
-    public Integer getPopulation() {
-        return population;
-    }
 
     public List<PropertyDTO> getPropertiesList() {
         return propertiesList;

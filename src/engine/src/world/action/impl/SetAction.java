@@ -1,6 +1,7 @@
 package world.action.impl;
 
 import world.action.api.ActionType;
+import world.context.Context;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.exceptions.InvalidVariableTypeException;
@@ -18,18 +19,18 @@ public class SetAction extends ActionImpl{
 
     private final Expression expression;
 
-    public SetAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition) {
-        super(ActionType.SET, entityDefinition, propertyDefinition);
+    public SetAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition, SecondaryEntity secondaryEntity, Context entitiesContext) {
+        super(ActionType.SET, entityDefinition, propertyDefinition, secondaryEntity, entitiesContext);
         this.expression = expression;
     }
 
     @Override
-    public void activate(EntityInstance entityInstance) throws Exception {
+    public void activate(EntityInstance entityInstance, int currTick) throws Exception {
         PropertyInstance property = entityInstance.getPropertyByName(propertyDefinition.getName());
         AbstractPropertyDefinition.PropertyType type = property.getPropertyDefinition().getType();
 
         try {
-            Object value = expression.evaluate();
+            Object value = expression.evaluate(entityInstance);
             if (type.equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
                 if ((value instanceof Integer)) {
                     IntegerPropertyDefinition intProperty = (IntegerPropertyDefinition) property.getPropertyDefinition();
@@ -37,7 +38,7 @@ public class SetAction extends ActionImpl{
                     int from = intProperty.getFrom();
                     int to = intProperty.getTo();
                     if (intValue >= from && intValue <= to)
-                        property.updateValue(intValue);
+                        property.updateValue(intValue, currTick);
                 }
             } else if (type.equals(AbstractPropertyDefinition.PropertyType.FLOAT)) {
                 if ((value instanceof Float)) {
@@ -46,14 +47,14 @@ public class SetAction extends ActionImpl{
                     float from = floatProperty.getFrom();
                     float to = floatProperty.getTo();
                     if (floatValue >= from && floatValue <= to)
-                        property.updateValue(floatValue);
+                        property.updateValue(floatValue, currTick);
                 }
             } else if (type.equals(AbstractPropertyDefinition.PropertyType.BOOLEAN)) {
                 if ((value instanceof Boolean))
-                    property.updateValue(value);
+                    property.updateValue(value, currTick);
             } else if (type.equals(AbstractPropertyDefinition.PropertyType.STRING)) {
                 if ((value instanceof String))
-                    property.updateValue(value);
+                    property.updateValue(value, currTick);
             } else {
                 throw new InvalidVariableTypeException("performing Set action", type.toString(), value.getClass().getTypeName());
             }

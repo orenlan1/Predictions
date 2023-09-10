@@ -11,5 +11,5 @@ public interface Rule {
     Activation getActivation();
     List<Action> getaActionsToPerform();
     void addAction(Action action);
-    void performActions(EntityInstance entityInstance) throws Exception;
+    void performActions(EntityInstance entityInstance, int currTick) throws Exception;
 }

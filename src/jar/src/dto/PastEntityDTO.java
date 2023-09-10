@@ -7,6 +7,7 @@ public class PastEntityDTO extends EntityDTO {
 
     public PastEntityDTO(String entityName, Integer population, Integer finalPopulation, List<PropertyDTO> propertiesList) {
         super(entityName, population, propertiesList);
+
         this.finalPopulation = finalPopulation;
     }
 

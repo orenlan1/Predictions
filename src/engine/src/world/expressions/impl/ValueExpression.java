@@ -12,7 +12,7 @@ public class ValueExpression extends ExpressionImpl {
     }
 
     @Override
-    public Object evaluate() {
+    public Object evaluate(EntityInstance entityInstance) {
         switch (type) {
             case "decimal":
                 return Integer.parseInt(expression);

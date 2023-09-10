@@ -40,7 +40,7 @@ public class DTOFactory {
         for ( PropertyDefinition propertyDefinition : entityDefinition.getPropertiesList()) {
             propertyDTOList.add(createPropertyDTO(propertyDefinition));
         }
-        return new EntityDTO(entityDefinition.getName(), entityDefinition.getPopulation(),propertyDTOList);
+        return new EntityDTO(entityDefinition.getName(),entityDefinition.getPopulation(), propertyDTOList);
     }
 
     public RuleDTO creatRuleDTO(Rule rule) {

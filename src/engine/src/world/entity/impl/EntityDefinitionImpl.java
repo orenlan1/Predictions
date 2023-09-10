@@ -16,9 +16,8 @@ public class EntityDefinitionImpl implements EntityDefinition {
     private final List<PropertyDefinition> propertiesList;
 
 
-    public EntityDefinitionImpl(String name, int population) {
+    public EntityDefinitionImpl(String name) {
         this.name = name;
-        this.population = population;
         this.entityInstances = new LinkedList<>();
         this.propertiesList = new ArrayList<>();
     }
@@ -37,6 +36,9 @@ public class EntityDefinitionImpl implements EntityDefinition {
     public int getPopulation() {
         return population;
     }
+
+    @Override
+    public void setPopulation(int population) { this.population = population;}
 
     @Override
     public void killInstance() { population--; }
@@ -95,7 +97,8 @@ public class EntityDefinitionImpl implements EntityDefinition {
 
     @Override
     public EntityDefinition cloneEntityDefinition() {
-        EntityDefinition newEntity = new EntityDefinitionImpl(this.name, this.population);
+        EntityDefinition newEntity = new EntityDefinitionImpl(this.name);
+        newEntity.setPopulation(this.population);
         List<PropertyDefinition> newPropertyDefinitions = new ArrayList<>();
 
         for (EntityInstance entityInstance : this.getEntityInstances())

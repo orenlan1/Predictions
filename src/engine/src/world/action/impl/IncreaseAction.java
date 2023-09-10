@@ -1,9 +1,11 @@
 package world.action.impl;
 
 import world.action.api.ActionType;
+import world.context.Context;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.expressions.api.Expression;
+import world.expressions.impl.HelperFunctionExpression;
 import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
@@ -17,16 +19,16 @@ public class IncreaseAction extends ActionImpl {
     private final Expression by;
 
 
-    public IncreaseAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition) {
-        super(ActionType.INCREASE, entityDefinition, propertyDefinition);
+    public IncreaseAction(EntityDefinition entityDefinition, Expression expression, PropertyDefinition propertyDefinition, SecondaryEntity secondaryEntity, Context entitiesContext) {
+        super(ActionType.INCREASE, entityDefinition, propertyDefinition, secondaryEntity, entitiesContext);
         this.by = expression;
     }
 
     @Override
-    public void activate(EntityInstance entityInstance) throws Exception {
+    public void activate(EntityInstance entityInstance, int currTick) throws Exception {
         PropertyInstance property = entityInstance.getPropertyByName(propertyDefinition.getName());
         try {
-            Object value = by.evaluate();
+            Object value = by.evaluate(entityInstance);
             Object newValue = null;
 
             if (propertyDefinition.getType().equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
@@ -52,7 +54,7 @@ public class IncreaseAction extends ActionImpl {
                 }
             }
             if (newValue != null) {
-                property.updateValue(newValue);
+                property.updateValue(newValue, currTick);
             }
         }
         catch (NumberFormatException e) {
