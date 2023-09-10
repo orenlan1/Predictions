@@ -2,6 +2,7 @@ package world.action.impl;
 
 import world.action.api.Action;
 import world.action.api.ActionType;
+import world.context.Context;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.property.api.PropertyDefinition;
@@ -10,9 +11,11 @@ public class KillAction implements Action {
     ActionType actionType = ActionType.KILL;
     private final EntityDefinition entityDefinition;
     private final SecondaryEntity secondaryEntity;
-    public KillAction(EntityDefinition entityDefinition, SecondaryEntity secondaryEntity) {
+    private final Context entitiesContext;
+    public KillAction(EntityDefinition entityDefinition, SecondaryEntity secondaryEntity, Context entitiesContext) {
         this.entityDefinition = entityDefinition;
         this.secondaryEntity = secondaryEntity;
+        this.entitiesContext = entitiesContext;
 
     }
     @Override
@@ -27,7 +30,7 @@ public class KillAction implements Action {
 
 
     @Override
-    public void activate(EntityInstance entityInstance) throws Exception {
+    public void activate(EntityInstance entityInstance, int currTick) throws Exception {
         entityInstance.kill();
         //entityDefinition.removeEntity(entityInstance);
     }

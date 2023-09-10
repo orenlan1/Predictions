@@ -1,6 +1,7 @@
 package world.action.impl;
 
 import world.action.api.Action;
+import world.context.Context;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.exceptions.InvalidConditionOperatorException;
@@ -15,21 +16,18 @@ public class SingularCondition extends ConditionAction {
     private final Expression value;
     private final String operator;
 
-    public SingularCondition(EntityDefinition entityDefinition, Expression property, Expression value, String operator, List<Action> thenActions, List<Action> elseActions, SecondaryEntity secondaryEntity) {
-        super(entityDefinition, thenActions, elseActions, secondaryEntity);
+    public SingularCondition(EntityDefinition entityDefinition, Expression property, Expression value, String operator, List<Action> thenActions, List<Action> elseActions, SecondaryEntity secondaryEntity, Context entitiesContext) {
+        super(entityDefinition, thenActions, elseActions, secondaryEntity, entitiesContext);
         this.value = value;
         this.property = property;
         this.operator = operator;
     }
 
     @Override
-    public boolean evaluate(EntityInstance entityInstance) throws InvalidConditionOperatorException, InvalidVariableTypeException {
-        PropertyInstance property = entityInstance.getPropertyByName(propertyDefinition.getName());
-        Object propertyValue = this.property.evaluate();
+    public boolean evaluate(EntityInstance entityInstance) throws Exception, InvalidConditionOperatorException, InvalidVariableTypeException {
+        Object propertyValue = this.property.evaluate(entityInstance);
         String propType = this.property.getType();
-        //Object propertyValue = property.getValue();
-        //String propType = property.getPropertyDefinition().getType().name().toLowerCase();
-        Object expValue = value.evaluate();
+        Object expValue = value.evaluate(entityInstance);
         String expType = value.getType();
 
         switch (operator) {

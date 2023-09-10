@@ -67,7 +67,7 @@ public class EntityInstanceImpl implements EntityInstance {
         Collections.shuffle(availableDirections);
 
         for (Direction direction : availableDirections) {
-            GridCoordinate newCoordinate = new GridCoordinate(grid.getRows(), grid.getCols());
+            GridCoordinate newCoordinate = this.coordinate.cloneCoordinate();
             if (newCoordinate.move(direction,grid)) {
                 grid.removeCoordinateFromMap(this.coordinate);
                 this.coordinate = newCoordinate;

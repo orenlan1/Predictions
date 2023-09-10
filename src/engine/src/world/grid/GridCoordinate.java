@@ -27,7 +27,7 @@ public class GridCoordinate {
     public boolean move(Direction direction, Grid grid) {
         this.x = (x + direction.getDeltaX() > maxCols)? (x + direction.getDeltaX()) % maxCols : x + direction.getDeltaX();
         this.y = (y + direction.getDeltaY() > maxRows)? (x + direction.getDeltaY()) % maxRows : x + direction.getDeltaY();
-        return grid.isCoordinateTaken(this);
+        return !grid.isCoordinateTaken(this);
     }
 
     public int getX() {
@@ -56,6 +56,15 @@ public class GridCoordinate {
         }
         return false;
     }
+
+
+
+   public GridCoordinate cloneCoordinate() {
+        GridCoordinate newCoordinate = new GridCoordinate(this.maxRows ,this.maxCols);
+        newCoordinate.x = this.x;
+        newCoordinate.y = this.y;
+        return newCoordinate;
+   }
 
     @Override
     public boolean equals(Object o) {

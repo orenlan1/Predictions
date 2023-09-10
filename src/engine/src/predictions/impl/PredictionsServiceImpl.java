@@ -71,7 +71,7 @@ public class PredictionsServiceImpl implements PredictionsService {
 
         try {
             EnvVariablesUpdater envVariablesUpdater = new EnvVariablesUpdater();
-            envVariablesUpdater.updateVariable(propertyInstance, type, dto);
+            envVariablesUpdater.updateVariable(propertyInstance, type, dto, world.ticks);
         } catch (NumberFormatException e) {
             return new EnvVariableSetValidationDTO(Boolean.FALSE, "Failed to assign the value to the environment variable due to incompatible types");
         }

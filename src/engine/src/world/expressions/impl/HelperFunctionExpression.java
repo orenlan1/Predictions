@@ -18,8 +18,12 @@ public class HelperFunctionExpression extends ExpressionImpl {
     }
 
     @Override
-    public Object evaluate() throws NumberFormatException {
+    public Object evaluate(EntityInstance entityInstance) throws Exception {
         String arg = expression.split("\\(")[1].split("\\)")[0];
-        return helperFunction.invoke();
+        return helperFunction.invoke(entityInstance);
+    }
+
+    public HelperFunction getHelperFunction() {
+        return helperFunction;
     }
 }

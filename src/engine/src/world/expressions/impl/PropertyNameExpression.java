@@ -13,7 +13,7 @@ public class PropertyNameExpression extends ExpressionImpl {
     }
 
     @Override
-    public Object evaluate() {
+    public Object evaluate(EntityInstance entityInstance) {
         return property;
     }
 }

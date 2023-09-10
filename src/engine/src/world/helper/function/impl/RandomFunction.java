@@ -1,5 +1,6 @@
 package world.helper.function.impl;
 
+import world.entity.api.EntityInstance;
 import world.environment.api.ActiveEnvironment;
 import world.value.generator.api.ValueGeneratorFactory;
 
@@ -12,7 +13,7 @@ public class RandomFunction extends HelperFunctionImpl {
     }
 
     @Override
-    public Object invoke() throws NumberFormatException {
+    public Object invoke(EntityInstance entityInstance) throws NumberFormatException {
         Integer value = -1;
         try {
             value = Integer.parseInt(arg);

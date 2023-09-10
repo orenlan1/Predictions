@@ -2,6 +2,7 @@ package world.action.impl;
 
 import world.action.api.Action;
 import world.action.api.ActionType;
+import world.context.Context;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.expressions.api.Expression;
@@ -12,12 +13,14 @@ public abstract class ActionImpl implements Action {
     protected EntityDefinition entityDefinition;
     protected SecondaryEntity secondaryEntity;
     protected PropertyDefinition propertyDefinition;
+    protected Context entitiesContext;
 
-    protected ActionImpl(ActionType actionType, EntityDefinition entityDefinition,PropertyDefinition propertyDefinition, SecondaryEntity secondaryEntity) {
+    protected ActionImpl(ActionType actionType, EntityDefinition entityDefinition,PropertyDefinition propertyDefinition, SecondaryEntity secondaryEntity, Context entitiesContext) {
         this.actionType = actionType;
         this.entityDefinition = entityDefinition;
         this.propertyDefinition = propertyDefinition;
         this.secondaryEntity = secondaryEntity;
+        this.entitiesContext = entitiesContext;
     }
 
     @Override
@@ -30,9 +33,6 @@ public abstract class ActionImpl implements Action {
         return entityDefinition;
     }
 
-    public void addSecondaryEntity(SecondaryEntity secondaryEntity) {
-        this.secondaryEntity = secondaryEntity;
-    }
 
     @Override
     public String toString() {

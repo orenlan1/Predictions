@@ -41,9 +41,9 @@ public class RuleImpl implements Rule {
     }
 
     @Override
-    public void performActions(EntityInstance entityInstance) throws Exception {
+    public void performActions(EntityInstance entityInstance, int currTick) throws Exception {
         for (Action action : actions) {
-            action.activate(entityInstance);
+            action.activate(entityInstance, currTick);
         }
     }
 }

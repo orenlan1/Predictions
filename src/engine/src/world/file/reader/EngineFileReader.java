@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.util.List;
 
 public class EngineFileReader {
-    private final static String JAXB_XML_PACKAGE_NAME = "generated";
+    private final static String JAXB_XML_PACKAGE_NAME = "jaxb.generated";
     public World checkFileValidation(String fileName) throws Exception {
         World world = new World();
         File file = new File(fileName);

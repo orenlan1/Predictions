@@ -2,6 +2,7 @@ package world.grid;
 
 import world.entity.api.EntityInstance;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Grid {
@@ -12,6 +13,7 @@ public class Grid {
     public Grid(int cols, int rows) {
         this.cols = cols;
         this.rows = rows;
+        entityMap = new HashMap<>();
     }
 
     public int getCols() {

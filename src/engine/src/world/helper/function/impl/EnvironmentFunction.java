@@ -1,5 +1,6 @@
 package world.helper.function.impl;
 
+import world.entity.api.EntityInstance;
 import world.environment.api.ActiveEnvironment;
 import world.property.api.PropertyInstance;
 
@@ -12,7 +13,7 @@ public class EnvironmentFunction extends HelperFunctionImpl {
     }
 
     @Override
-    public Object invoke() {
+    public Object invoke(EntityInstance entityInstance) {
         return propertyInstance.getValue();
     }
 }

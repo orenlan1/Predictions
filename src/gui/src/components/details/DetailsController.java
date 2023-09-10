@@ -62,7 +62,7 @@ public class DetailsController {
 
             EntityCardController entityCardController = loader.getController();
             entityCardController.setName(dto.getEntityName());
-            entityCardController.setPopulation(dto.getPopulation().toString());
+          //  entityCardController.setPopulation(dto.getPopulation().toString());
             entityCard.getStylesheets().add("/components/details/entity/entity.css");
 
             entityCardController.setProperties(dto.getPropertiesList());
