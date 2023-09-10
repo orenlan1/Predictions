@@ -45,7 +45,7 @@
             <Insets left="15.0" />
          </padding>
       </Label>
-      <Label fx:id="depthLabel" styleClass="actionLabel" text="Depth" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <Label fx:id="depthLabel" styleClass="actionLabel" text="Depth" GridPane.columnSpan="2" GridPane.rowIndex="4">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -58,7 +58,7 @@
             <Insets left="15.0" />
          </padding>
       </Label>
-      <Label fx:id="numOfActionsLabel" styleClass="actionLabel" text="Num of actions" GridPane.columnIndex="1" GridPane.rowIndex="5">
+      <Label fx:id="numOfActionsLabel" styleClass="actionLabel" text="Num of actions" GridPane.columnSpan="2" GridPane.rowIndex="5">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>

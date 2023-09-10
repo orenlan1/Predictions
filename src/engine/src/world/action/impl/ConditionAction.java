@@ -24,11 +24,11 @@ public abstract class ConditionAction extends ActionImpl {
         this.elseActions = elseActions;
     }
 
-    public abstract boolean evaluate(EntityInstance entityInstance) throws Exception;
+    public abstract boolean evaluate(EntityInstance entityInstance, Integer currTick) throws Exception;
 
     @Override
     public void activate(EntityInstance entityInstance, int currTick) throws Exception {
-        boolean conditionRes = evaluate(entityInstance);
+        boolean conditionRes = evaluate(entityInstance, currTick);
 
         if (conditionRes) {
             for (Action action : thenActions) {

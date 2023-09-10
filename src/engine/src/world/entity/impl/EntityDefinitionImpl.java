@@ -38,9 +38,6 @@ public class EntityDefinitionImpl implements EntityDefinition {
     }
 
     @Override
-    public void setPopulation(int population) { this.population = population;}
-
-    @Override
     public void killInstance() { population--; }
 
     @Override

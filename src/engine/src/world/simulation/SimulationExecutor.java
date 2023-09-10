@@ -24,7 +24,7 @@ public class SimulationExecutor {
             return new SimulationRunnerDTO(Boolean.FALSE, e.getMessage(), world.getSimulationID(), Boolean.FALSE);
         }
         if (ticks != null && seconds != null) {
-            if (world.ticks >= ticks)
+            if (world.getTicks() >= ticks)
                 return new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.TRUE);
             else
                 return new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.FALSE);
@@ -47,8 +47,8 @@ public class SimulationExecutor {
                 for (EntityInstance entityInstance : entityDefinition.getEntityInstances()) {
                     if (entityInstance.isAlive()) {
                         for (Rule rule : rules) {
-                            if (rule.getActivation().isActive(world.ticks))
-                                rule.performActions(entityInstance, world.ticks);
+                            if (rule.getActivation().isActive(world.getTicks()))
+                                rule.performActions(entityInstance, world.getTicks());
                         }
                     }
                 }
@@ -56,9 +56,9 @@ public class SimulationExecutor {
             world.tick();
 
             if (ticks != null && seconds != null)
-                valid = world.ticks < ticks && System.currentTimeMillis() - start < (seconds * 1000L);
+                valid = world.getTicks() < ticks && System.currentTimeMillis() - start < (seconds * 1000L);
             else if (ticks != null)
-                valid = world.ticks < ticks;
+                valid = world.getTicks() < ticks;
             else
                 valid = System.currentTimeMillis() - start < (seconds * 1000L);
         }
@@ -73,7 +73,6 @@ public class SimulationExecutor {
         }
         world.updatePopulation(sumPopulation);
 
-        //List<EntityDefinition> newEntityDefinitions = new ArrayList<>(world.getEntityDefinitions());
         List<EntityDefinition> newEntityDefinitions = new ArrayList<>();
         for (EntityDefinition entityDefinition : (world.getEntityDefinitions())) {
             newEntityDefinitions.add(entityDefinition.cloneEntityDefinition());

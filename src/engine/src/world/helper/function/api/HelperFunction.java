@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface HelperFunction {
     String getName();
-    Object invoke(EntityInstance entityInstance) throws Exception;
+    Object invoke(EntityInstance entityInstance, Integer currTick) throws Exception;
     int getNumOfArgs();
     List<String> getTypeOfArgs();
 }

@@ -7,6 +7,7 @@ import world.entity.api.EntityInstance;
 import world.exceptions.InvalidConditionOperatorException;
 import world.exceptions.InvalidVariableTypeException;
 import world.expressions.api.Expression;
+import world.expressions.impl.HelperFunctionExpression;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 
@@ -26,10 +27,17 @@ public class SingularCondition extends ConditionAction {
     }
 
     @Override
-    public boolean evaluate(EntityInstance entityInstance) throws Exception, InvalidConditionOperatorException, InvalidVariableTypeException {
+    public boolean evaluate(EntityInstance entityInstance, Integer currTick) throws Exception, InvalidConditionOperatorException, InvalidVariableTypeException {
         Object propertyValue = this.property.evaluate(entityInstance);
         String propType = this.property.getType();
-        Object expValue = value.evaluate(entityInstance);
+
+        Object expValue = null;
+        if (value instanceof HelperFunctionExpression) {
+            HelperFunctionExpression helperValue = (HelperFunctionExpression) value;
+            expValue = helperValue.evaluate(entityInstance, currTick);
+        } else
+            expValue = value.evaluate(entityInstance);
+
         String expType = value.getType();
 
         switch (operator) {

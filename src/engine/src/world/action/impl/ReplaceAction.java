@@ -7,6 +7,9 @@ import world.context.ContextImpl;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ReplaceAction implements Action {
     private ActionType actionType = ActionType.REPLACE;
@@ -46,6 +49,16 @@ public class ReplaceAction implements Action {
         return removedEntityDefinition;
     }
 
+    @Override
+    public EntityDefinition getSecondaryEntityDefinition() {
+        return createdEntityDefinition;
+    }
 
+    @Override
+    public List<String> getArguments() {
+        List<String> args = new ArrayList<>();
+        args.add(mode);
+        return args;
+    }
 
 }

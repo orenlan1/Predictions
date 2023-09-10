@@ -19,8 +19,8 @@ public class KillAction implements Action {
         this.entityDefinition = entityDefinition;
         this.secondaryEntity = secondaryEntity;
         this.entitiesContext = entitiesContext;
-
     }
+
     @Override
     public ActionType getActionType() {
         return actionType;
@@ -35,7 +35,11 @@ public class KillAction implements Action {
     @Override
     public void activate(EntityInstance entityInstance, int currTick) throws Exception {
         entityInstance.kill();
-        //entityDefinition.removeEntity(entityInstance);
+    }
+
+    @Override
+    public EntityDefinition getSecondaryEntityDefinition() {
+        return null;
     }
 
     @Override

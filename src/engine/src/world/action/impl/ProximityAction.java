@@ -7,6 +7,7 @@ import world.context.ContextImpl;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.expressions.api.Expression;
+import world.expressions.impl.HelperFunctionExpression;
 import world.grid.Grid;
 import world.grid.GridCoordinate;
 
@@ -33,7 +34,14 @@ public class ProximityAction implements Action {
     @Override
     public void activate(EntityInstance sourceInstance, int currTick) throws Exception {
         List<EntityInstance> targetEntities = targetEntity.getEntityInstances();
-        int depthLevel = (int) of.evaluate(sourceInstance);
+
+        int depthLevel;
+        if (of instanceof HelperFunctionExpression) {
+            HelperFunctionExpression helperOf = (HelperFunctionExpression) of;
+            depthLevel = (int) helperOf.evaluate(sourceInstance, currTick);
+        } else
+            depthLevel = (int) of.evaluate(sourceInstance);
+
         GridCoordinate sourceCoordinate = sourceInstance.getCoordinate();
         for ( EntityInstance targetInstance : targetEntities) {
             GridCoordinate targetCoordinate = targetInstance.getCoordinate();
@@ -51,11 +59,24 @@ public class ProximityAction implements Action {
 
     @Override
     public ActionType getActionType() {
-        return null;
+        return actionType;
     }
 
     @Override
     public EntityDefinition getEntityDefinition() {
-        return null;
+        return sourceEntity;
+    }
+
+    @Override
+    public EntityDefinition getSecondaryEntityDefinition() {
+        return targetEntity;
+    }
+
+    @Override
+    public List<String> getArguments() {
+        List<String> args = new ArrayList<>();
+        args.add(of.toString());
+        args.add(Integer.toString(actionList.size()));
+        return args;
     }
 }

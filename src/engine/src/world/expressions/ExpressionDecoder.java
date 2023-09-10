@@ -37,7 +37,6 @@ public class ExpressionDecoder {
         Expression expression = null;
         try {
             if ( expressionName.contains("percent")) {
-               // String arg = expressionName.split("\\(")[1].split("\\)")[0];
                 String arg = extractCharsBetweenParentheses(expressionName);
                 String[] parts = arg.split(",");
                 String value = parts[0];

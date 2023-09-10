@@ -19,8 +19,8 @@ public class EvaluateFunction extends HelperFunctionImpl {
         this.functionContext = context;
     }
 
-
-    public Object invoke(EntityInstance entityInstance) throws Exception{
+    @Override
+    public Object invoke(EntityInstance entityInstance, Integer currTick) throws Exception{
         if ( functionContext.getPrimaryEntity().getName().equals(entityName)) {
             PropertyDefinition propertyDefinition = functionContext.getPrimaryEntity().getPropertyByName(propertyName);
             return entityInstance.getPropertyByName(propertyName).getValue();

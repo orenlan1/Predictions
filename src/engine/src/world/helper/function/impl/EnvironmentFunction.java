@@ -13,7 +13,7 @@ public class EnvironmentFunction extends HelperFunctionImpl {
     }
 
     @Override
-    public Object invoke(EntityInstance entityInstance) {
+    public Object invoke(EntityInstance entityInstance, Integer currTick) {
         return propertyInstance.getValue();
     }
 }

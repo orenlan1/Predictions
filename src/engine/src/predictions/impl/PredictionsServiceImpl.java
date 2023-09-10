@@ -10,6 +10,7 @@ import world.environment.api.ActiveEnvironment;
 import world.environment.api.EnvironmentVariablesManager;
 import world.factory.DTOFactory;
 import world.file.reader.EngineFileReader;
+import world.grid.Grid;
 import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
@@ -31,9 +32,10 @@ public class PredictionsServiceImpl implements PredictionsService {
        try {
            this.world = fileReader.checkFileValidation(fileName);
        } catch (Exception e) {
-           return new FileReaderDTO(Boolean.FALSE, e.getMessage());
+           return new FileReaderDTO(Boolean.FALSE, e.getMessage(), null);
        }
-        return new FileReaderDTO(Boolean.TRUE, null);
+       Grid grid = world.getGrid();
+       return new FileReaderDTO(Boolean.TRUE, null, new GridDTO(grid.getRows(), grid.getCols()));
     }
 
     @Override
@@ -76,14 +78,14 @@ public class PredictionsServiceImpl implements PredictionsService {
             PropertyInstance propertyInstance = activeEnvironment.getProperty(dto.getName()).get();
             AbstractPropertyDefinition.PropertyType type = propertyInstance.getPropertyDefinition().getType();
 
-        try {
-            EnvVariablesUpdater envVariablesUpdater = new EnvVariablesUpdater();
-            envVariablesUpdater.updateVariable(propertyInstance, type, dto, world.ticks);
-        } catch (NumberFormatException e) {
-            return new EnvVariableSetValidationDTO(Boolean.FALSE, String.format("Failed to assign the value \"%s\" to the environment variable \"%s\" due to incompatible types", dto.getValue(), dto.getName()));
-        }
-        catch (Exception e) {
-            return new EnvVariableSetValidationDTO(Boolean.FALSE, String.format("Failed to assign the value \"%s\" to the environment variable \"%s\". ", dto.getValue(), dto.getName()) + e.getMessage());
+            try {
+                EnvVariablesUpdater envVariablesUpdater = new EnvVariablesUpdater();
+                envVariablesUpdater.updateVariable(propertyInstance, type, dto, world.getTicks());
+            } catch (NumberFormatException e) {
+                return new EnvVariableSetValidationDTO(Boolean.FALSE, String.format("Failed to assign the value \"%s\" to the environment variable \"%s\" due to incompatible types", dto.getValue(), dto.getName()));
+            } catch (Exception e) {
+                return new EnvVariableSetValidationDTO(Boolean.FALSE, String.format("Failed to assign the value \"%s\" to the environment variable \"%s\". ", dto.getValue(), dto.getName()) + e.getMessage());
+            }
         }
         return new EnvVariableSetValidationDTO(Boolean.TRUE, null);
     }

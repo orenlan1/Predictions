@@ -53,7 +53,6 @@ public class PredictionsApp extends Application {
         DetailsController detailsController = detailsLoader.getController();
         detailsController.setPredictionsController(predictionsController);
         predictionsController.setDetailsController(detailsController);
-        detailsController.setGridSize(100, 65);
 
         NewExecutionController newExecutionController = newExecutionLoader.getController();
         newExecutionController.setPredictionsController(predictionsController);

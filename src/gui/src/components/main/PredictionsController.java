@@ -92,6 +92,7 @@ public class PredictionsController {
         FileReaderDTO DTO = predictionsService.readFileAndLoad(selectedFile.getAbsolutePath());
         if (DTO.isValid()) {
             String absolutePath = selectedFile.getAbsolutePath();
+            detailsController.setGridSize(DTO.getGridDTO().getX(), DTO.getGridDTO().getY());
             loadedFilePathProperty.set(absolutePath);
             isFileSelected.set(true);
             detailsController.clearDetails(event);

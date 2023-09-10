@@ -17,7 +17,7 @@ public class World {
     private EnvironmentVariablesManager environmentVariablesManager;
     private ActiveEnvironment activeEnvironment;
     private final List<Rule> rules;
-    public static int ticks = 0;
+    private int ticks;
     private int population;
     private int simulationID = 0;
     private Termination termination;
@@ -26,6 +26,7 @@ public class World {
     private int threadCount;
 
     public World() {
+        ticks = 0;
         population = 0;
         nameToEntityDefinition = new HashMap<>();
         rules = new ArrayList<>();
@@ -63,6 +64,8 @@ public class World {
     public ActiveEnvironment getActiveEnvironment() {
         return activeEnvironment;
     }
+
+    public int getTicks(){ return ticks; }
 
     public void tick() { ticks++; }
 
@@ -110,6 +113,8 @@ public class World {
     public void setGrid(Grid grid) {
         this.grid = grid;
     }
+
+    public Grid getGrid() { return grid; }
 
     public void setThreadCount(int threadCount) {
         this.threadCount = threadCount;

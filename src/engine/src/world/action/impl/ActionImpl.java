@@ -33,6 +33,13 @@ public abstract class ActionImpl implements Action {
         return entityDefinition;
     }
 
+    @Override
+    public EntityDefinition getSecondaryEntityDefinition() {
+        if (secondaryEntity != null)
+            return secondaryEntity.getSecondaryEntityDefinition();
+        else
+            return null;
+    }
 
     @Override
     public String toString() {

@@ -22,7 +22,8 @@ public class SecondaryEntity {
         return secondaryEntityDefinition;
     }
 
-    public List<EntityInstance> computeSecondaryEntitiesForAction() throws Exception {
+
+    public List<EntityInstance> computeSecondaryEntitiesForAction(Integer currTicks) throws Exception {
         Random random = new Random();
         List<EntityInstance> secondaryEntityInstances = secondaryEntityDefinition.getEntityInstances();
         List<EntityInstance> computedList = new ArrayList<>();
@@ -37,7 +38,7 @@ public class SecondaryEntity {
                 count = secondaryEntityListSize;
             if ( condition != null) {
                 for ( EntityInstance entityInstance : secondaryEntityInstances){
-                    if ( condition.evaluate(entityInstance))
+                    if (condition.evaluate(entityInstance, currTicks))
                         computedList.add(entityInstance);
                 }
             }

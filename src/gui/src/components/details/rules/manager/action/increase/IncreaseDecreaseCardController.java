@@ -23,7 +23,7 @@ public class IncreaseDecreaseCardController implements CardController {
     public void setCard(ActionDTO dto) {
         setTypeLabel(dto.getType());
         setMainEntityLabel(dto.getPrimaryEntity());
-        setSecondaryEntityLabel(dto.getSecondaryEntity(), dto.isSecondaryEntity());
+        setSecondaryEntityLabel(dto.getSecondaryEntity());
         setByLabel(dto.getArgs().get(0));
     }
 
@@ -35,8 +35,8 @@ public class IncreaseDecreaseCardController implements CardController {
         mainEntityLabel.textProperty().set("Main entity: " + entity);
     }
 
-    public void setSecondaryEntityLabel(String entity, boolean secondary) {
-        if (secondary)
+    public void setSecondaryEntityLabel(String entity) {
+        if (entity != null)
             secondaryEntityLabel.textProperty().set("Secondary entity: " + entity);
         else
             secondaryEntityLabel.textProperty().set("No secondary entity");

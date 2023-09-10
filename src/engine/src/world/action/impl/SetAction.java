@@ -6,6 +6,7 @@ import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.exceptions.InvalidVariableTypeException;
 import world.expressions.api.Expression;
+import world.expressions.impl.HelperFunctionExpression;
 import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
@@ -30,7 +31,15 @@ public class SetAction extends ActionImpl{
         AbstractPropertyDefinition.PropertyType type = property.getPropertyDefinition().getType();
 
         try {
-            Object value = expression.evaluate(entityInstance);
+            Object value = null;
+            if (expression instanceof HelperFunctionExpression) {
+                HelperFunctionExpression helperExpression = (HelperFunctionExpression) expression;
+                value = helperExpression.evaluate(entityInstance, currTick);
+            } else
+                value = expression.evaluate(entityInstance);
+
+
+
             if (type.equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
                 if ((value instanceof Integer)) {
                     IntegerPropertyDefinition intProperty = (IntegerPropertyDefinition) property.getPropertyDefinition();

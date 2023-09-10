@@ -16,7 +16,7 @@ public class PercentFunction extends HelperFunctionImpl {
     }
 
     @Override
-    public Object invoke(EntityInstance entityInstance)  throws Exception{
+    public Object invoke(EntityInstance entityInstance, Integer currTick)  throws Exception{
         Object val = value.evaluate(entityInstance);
         Object percentOfVal = percent.evaluate(entityInstance);
         if (!(val instanceof Float)) {

@@ -24,14 +24,14 @@ public class MultipleCondition extends ConditionAction {
     }
 
     @Override
-    public boolean evaluate(EntityInstance entityInstance) throws Exception, InvalidConditionOperatorException, InvalidVariableTypeException {
+    public boolean evaluate(EntityInstance entityInstance, Integer currTicks) throws Exception, InvalidConditionOperatorException, InvalidVariableTypeException {
         boolean conditionRes = false, tempRes;
 
         if (logic.equals("and"))
             conditionRes = true;
 
         for (ConditionAction condition : conditions) {
-            tempRes = condition.evaluate(entityInstance);
+            tempRes = condition.evaluate(entityInstance, currTicks);
 
             if (logic.equals("or"))
                 conditionRes = conditionRes || tempRes;

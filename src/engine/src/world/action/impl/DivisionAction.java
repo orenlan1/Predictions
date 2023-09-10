@@ -7,6 +7,7 @@ import world.entity.api.EntityInstance;
 import world.exceptions.InvalidVariableTypeException;
 import world.exceptions.MismatchTypesException;
 import world.expressions.api.Expression;
+import world.expressions.impl.HelperFunctionExpression;
 import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
@@ -21,8 +22,21 @@ public class DivisionAction extends CalculationAction {
     public void activate(EntityInstance entityInstance, int currTick) throws Exception {
         PropertyInstance property = entityInstance.getPropertyByName(propertyDefinition.getName());
         AbstractPropertyDefinition.PropertyType type = propertyDefinition.getType();
-        Object arg1Value = arg1.evaluate(entityInstance);
-        Object arg2Value = arg2.evaluate(entityInstance);
+
+        Object arg1Value = null;
+        Object arg2Value = null;
+
+        if (arg1 instanceof HelperFunctionExpression) {
+            HelperFunctionExpression helperArg1 = (HelperFunctionExpression) arg1;
+            arg1Value = helperArg1.evaluate(entityInstance, currTick);
+        } else
+            arg1Value = arg1.evaluate(entityInstance);
+
+        if (arg2 instanceof HelperFunctionExpression) {
+            HelperFunctionExpression helperArg2 = (HelperFunctionExpression) arg2;
+            arg2Value = helperArg2.evaluate(entityInstance, currTick);
+        } else
+            arg2Value = arg2.evaluate(entityInstance);
 
 
         if (type.equals(AbstractPropertyDefinition.PropertyType.FLOAT)) {

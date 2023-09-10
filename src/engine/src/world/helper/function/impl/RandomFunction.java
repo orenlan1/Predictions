@@ -13,7 +13,7 @@ public class RandomFunction extends HelperFunctionImpl {
     }
 
     @Override
-    public Object invoke(EntityInstance entityInstance) throws NumberFormatException {
+    public Object invoke(EntityInstance entityInstance, Integer currTick) throws NumberFormatException {
         Integer value = -1;
         try {
             value = Integer.parseInt(arg);

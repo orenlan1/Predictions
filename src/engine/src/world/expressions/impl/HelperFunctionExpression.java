@@ -19,8 +19,12 @@ public class HelperFunctionExpression extends ExpressionImpl {
 
     @Override
     public Object evaluate(EntityInstance entityInstance) throws Exception {
+        return null;
+    }
+
+    public Object evaluate(EntityInstance entityInstance, Integer currTick) throws Exception {
         String arg = expression.split("\\(")[1].split("\\)")[0];
-        return helperFunction.invoke(entityInstance);
+        return helperFunction.invoke(entityInstance, currTick);
     }
 
     public HelperFunction getHelperFunction() {

@@ -37,7 +37,7 @@ public class SingleConditionCardController implements CardController {
         ConditionActionDTO conditionDto = dto.getConditionActionDTO();
         setTypeLabel(dto.getType());
         setMainEntityLabel(dto.getPrimaryEntity());
-        setSecondaryEntityLabel(dto.getSecondaryEntity(), dto.isSecondaryEntity());
+        setSecondaryEntityLabel(dto.getSecondaryEntity());
         setValueLabel(dto.getArgs().get(0));
         setOperatorLabel(dto.getArgs().get(1));
         setPropertyLabel(dto.getArgs().get(2));
@@ -48,8 +48,8 @@ public class SingleConditionCardController implements CardController {
         mainEntityLabel.textProperty().set("Main entity: " + entity);
     }
 
-    public void setSecondaryEntityLabel(String entity, boolean secondary) {
-        if (secondary)
+    public void setSecondaryEntityLabel(String entity) {
+        if (entity != null)
             secondaryEntityLabel.textProperty().set("Secondary entity: " + entity);
         else
             secondaryEntityLabel.textProperty().set("No secondary entity");

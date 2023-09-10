@@ -28,7 +28,12 @@ public class IncreaseAction extends ActionImpl {
     public void activate(EntityInstance entityInstance, int currTick) throws Exception {
         PropertyInstance property = entityInstance.getPropertyByName(propertyDefinition.getName());
         try {
-            Object value = by.evaluate(entityInstance);
+            Object value = null;
+            if (by instanceof HelperFunctionExpression) {
+                HelperFunctionExpression helperBy = (HelperFunctionExpression) by;
+                value = helperBy.evaluate(entityInstance, currTick);
+            } else
+                value = by.evaluate(entityInstance);
             Object newValue = null;
 
             if (propertyDefinition.getType().equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {

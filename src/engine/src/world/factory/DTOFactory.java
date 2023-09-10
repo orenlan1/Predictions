@@ -5,6 +5,7 @@ import dto.*;
 import world.action.api.ActionType;
 import world.action.impl.ConditionAction;
 import world.action.impl.MultipleCondition;
+import world.action.impl.SecondaryEntity;
 import world.action.impl.SingularCondition;
 import world.termination.Termination;
 import world.action.api.Action;
@@ -51,28 +52,25 @@ public class DTOFactory {
         return new RuleDTO(rule.getName(),rule.getActivation().getTicks(),rule.getActivation().getProbability(), actionsDTO.size(), actionsDTO);
     }
 
-    /*public RuleDTO creatRuleDTO(Rule rule) {
-        List<String> actionsNames = new ArrayList<>();
-        for (Action action : rule.getaActionsToPerform()) {
-            actionsNames.add(action.getActionType().toString());
-        }
-        return new RuleDTO(rule.getName(),rule.getActivation().getTicks(),rule.getActivation().getProbability(), actionsNames.size(), actionsNames);
-    }*/
 
     public ActionDTO createActionDTO(Action action) {
+        String secondaryEntityName = null;
+        EntityDefinition secondaryEntity = action.getSecondaryEntityDefinition();
+        if (secondaryEntity != null)
+            secondaryEntityName = secondaryEntity.getName();
         if (action.getActionType().equals(ActionType.CONDITION)) {
             if (action instanceof SingularCondition) {
                 SingularCondition condition = (SingularCondition) action;
                 ConditionActionDTO conditionActionDTO = new ConditionActionDTO(Boolean.TRUE, condition.getNumThen(), condition.getNumElse(), null);
-                return new ActionDTO(action.getActionType().toString(), action.getEntityDefinition().getName(), null, Boolean.FALSE, action.getArguments(), conditionActionDTO);
+                return new ActionDTO(action.getActionType().toString(), action.getEntityDefinition().getName(), secondaryEntityName, Boolean.FALSE, action.getArguments(), conditionActionDTO);
             } else {
                 MultipleCondition condition = (MultipleCondition) action;
                 ConditionActionDTO conditionActionDTO = new ConditionActionDTO(Boolean.FALSE, condition.getNumThen(), condition.getNumElse(), condition.getNumOfSubConditions());
-                return new ActionDTO(action.getActionType().toString(), action.getEntityDefinition().getName(), null, Boolean.FALSE, action.getArguments(), conditionActionDTO);
+                return new ActionDTO(action.getActionType().toString(), action.getEntityDefinition().getName(), secondaryEntityName, Boolean.FALSE, action.getArguments(), conditionActionDTO);
             }
         }
         else
-            return new ActionDTO(action.getActionType().toString(), action.getEntityDefinition().getName(), null, Boolean.FALSE, action.getArguments(), null);
+            return new ActionDTO(action.getActionType().toString(), action.getEntityDefinition().getName(), secondaryEntityName, Boolean.FALSE, action.getArguments(), null);
     }
 
     public TerminationDTO createTerminationDTO(Termination termination) {

@@ -31,7 +31,7 @@ public class MultiplicationDivisionCardController implements CardController {
     public void setCard(ActionDTO dto) {
         setArgsLabels(dto.getArgs().get(0), dto.getArgs().get(1));
         setMainEntityLabel(dto.getPrimaryEntity());
-        setSecondaryEntityLabel(dto.getSecondaryEntity(), dto.isSecondaryEntity());
+        setSecondaryEntityLabel(dto.getSecondaryEntity());
         setTypeLabel(dto.getType());
     }
 
@@ -44,8 +44,8 @@ public class MultiplicationDivisionCardController implements CardController {
         mainEntityLabel.textProperty().set("Main entity: " + entity);
     }
 
-    public void setSecondaryEntityLabel(String entity, boolean secondary) {
-        if (secondary)
+    public void setSecondaryEntityLabel(String entity) {
+        if (entity != null)
             secondaryEntityLabel.textProperty().set("Secondary entity: " + entity);
         else
             secondaryEntityLabel.textProperty().set("No secondary entity");
