@@ -62,22 +62,33 @@ public class ExpressionDecoder {
             }
             else if (expressionName.contains("evaluate")) {
                 String arg = expressionName.split("\\(")[1].split("\\)")[0];
+                if ( !arg.contains(".")) {
+                    throw new HelperFunctionFormatException("evaluate","entity.property name",arg);
+                }
                 String[] parts = arg.split("\\.");
+                if ( parts.length > 2) {
+                    throw new HelperFunctionFormatException("evaluate","entity.property name",arg);
+                }
                 String entityName = parts[0];
                 String propertyName = parts[1];
-                Context context = createContextForFunction(primaryEntity, secondaryEntity);
-                AbstractPropertyDefinition.PropertyType type = getEvaluateType(entitiesContext, entityName, propertyName, actionName);
+                AbstractPropertyDefinition.PropertyType type = getTypeOfHelperFuncArg(entitiesContext, entityName, propertyName, actionName,"evaluate");
                 EvaluateFunction evaluateFunction = new EvaluateFunction(entityName, propertyName, entitiesContext);
                 expression = new HelperFunctionExpression(expressionName, type.toString().toLowerCase(), evaluateFunction);
             }
             else if ( expressionName.contains("ticks")) {
                 String arg = expressionName.split("\\(")[1].split("\\)")[0];
+                if ( !arg.contains(".")) {
+                    throw new HelperFunctionFormatException("evaluate","entity.property name",arg);
+                }
                 String[] parts = arg.split("\\.");
+                if ( parts.length > 2) {
+                    throw new HelperFunctionFormatException("evaluate","entity.property name",arg);
+                }
                 String entityName = parts[0];
                 String propertyName = parts[1];
-                Context context = createContextForFunction(primaryEntity, secondaryEntity);
-                TicksFunction ticksFunction = new TicksFunction(entityName, propertyName, context);
-                expression = new HelperFunctionExpression(expressionName, "string", ticksFunction);
+                AbstractPropertyDefinition.PropertyType type = getTypeOfHelperFuncArg(entitiesContext, entityName, propertyName, actionName,"ticks");
+                TicksFunction ticksFunction = new TicksFunction(entityName, propertyName, entitiesContext);
+                expression = new HelperFunctionExpression(expressionName, "float", ticksFunction);
             }
         } catch (NumberFormatException  e) {
             throw new RuntimeException(e);
@@ -99,16 +110,7 @@ public class ExpressionDecoder {
     }
 
 
-    public static Context createContextForFunction(EntityDefinition primaryEntity, SecondaryEntity secondaryEntity) {
-        if ( secondaryEntity == null) {
-            return new ContextImpl(primaryEntity, null);
-        }
-        else {
-            return new ContextImpl(primaryEntity, secondaryEntity.getSecondaryEntityDefinition());
-        }
-    }
-
-    public static AbstractPropertyDefinition.PropertyType  getEvaluateType(Context context, String entityName, String propertyName, String actionName) throws Exception {
+    public static AbstractPropertyDefinition.PropertyType  getTypeOfHelperFuncArg(Context context, String entityName, String propertyName, String actionName, String funcName) throws Exception {
         if ( context.getPrimaryEntity().getName().equals(entityName)) {
             PropertyDefinition propertyDefinition = context.getPrimaryEntity().getPropertyByName(propertyName);
             return propertyDefinition.getType();
@@ -118,9 +120,9 @@ public class ExpressionDecoder {
                 PropertyDefinition propertyDefinition = context.getSecondaryEntity().getPropertyByName(propertyName);
                 return propertyDefinition.getType();
             }
+            else throw new HelperFunctionException(entityName, funcName, actionName);
         }
-        else throw new HelperFunctionException(entityName, "evaluate", actionName);
-        return null;
+        else throw new HelperFunctionException(entityName, funcName, actionName);
     }
 
     public static Expression isPropertyName(String expressionName, EntityDefinition entityDefinition, SecondaryEntity secondaryEntity, Context entitiesContext)  {
