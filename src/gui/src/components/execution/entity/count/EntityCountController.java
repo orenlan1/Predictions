@@ -17,11 +17,32 @@ public class EntityCountController {
 
     @FXML
     public void initialize() {
-        populationCount.focusedProperty().addListener((observable, oldValue, newValue) -> {
+        populationCount.getEditor().setOnAction(event -> { validateAndCommitInput(); });
+
+        populationCount.getEditor().focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                populationCount.increment(0); // won't change value, but will commit editor
+                validateAndCommitInput();
             }
         });
+    }
+
+    private void validateAndCommitInput() {
+        String text = populationCount.getEditor().getText();
+        if (isDecimalValue(text)) {
+            populationCount.getValueFactory().setValue(Integer.parseInt(text));
+        } else {
+            populationCount.getValueFactory().setValue(populationCount.getValueFactory().getValue());
+            populationCount.getEditor().textProperty().set(populationCount.getValueFactory().getValue().toString());
+        }
+    }
+
+    private boolean isDecimalValue(String value) {
+        try {
+            Integer.parseInt(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     public void setCard(String name, Integer maxPopulation) {

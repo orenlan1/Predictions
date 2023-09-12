@@ -4,7 +4,11 @@ import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.exceptions.EntityPropertyNameExistException;
 import world.exceptions.EntityPropertyNotExistException;
+import world.grid.Grid;
+import world.grid.GridCoordinate;
 import world.property.api.PropertyDefinition;
+import world.property.impl.PropertyInstanceImpl;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,12 +67,32 @@ public class EntityDefinitionImpl implements EntityDefinition {
         this.propertiesList.add(propertyDefinition);
     }
 
+    @Override
+    public EntityInstance createEntityInstance(EntityDefinition entityDefinition, Grid grid) {
+        EntityInstance newEntityInstance = new EntityInstanceImpl(entityDefinition);
+        for (PropertyDefinition propertyDefinition : entityDefinition.getPropertiesList()) {
+            Object value = propertyDefinition.generateValue();
+            newEntityInstance.addPropertyInstance(new PropertyInstanceImpl(propertyDefinition,value));
+        }
+        newEntityInstance.setCoordinate(grid);
+        return newEntityInstance;
+    }
+
+    public EntityInstance createEntityInstance(EntityDefinition entityDefinition, GridCoordinate coordinate) {
+        EntityInstance newEntityInstance = new EntityInstanceImpl(entityDefinition);
+        for (PropertyDefinition propertyDefinition : entityDefinition.getPropertiesList()) {
+            Object value = propertyDefinition.generateValue();
+            newEntityInstance.addPropertyInstance(new PropertyInstanceImpl(propertyDefinition,value));
+        }
+        newEntityInstance.setCoordinate(coordinate);
+        return newEntityInstance;
+    }
 
     @Override
-    public void createEntityInstancesPopulation() {
+    public void createEntityInstancesPopulation(Grid grid) {
         entityInstances = new LinkedList<>();
         for ( int i = 0; i < population; i++) {
-            entityInstances.add(EntityInstance.createEntityInstance(this));
+            entityInstances.add(createEntityInstance(this, grid));
         }
     }
 

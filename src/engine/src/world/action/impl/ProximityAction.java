@@ -38,7 +38,7 @@ public class ProximityAction implements Action {
         int depthLevel;
         if (of instanceof HelperFunctionExpression) {
             HelperFunctionExpression helperOf = (HelperFunctionExpression) of;
-            depthLevel = (int) helperOf.evaluate(sourceInstance, currTick);
+            depthLevel = ((Float) helperOf.evaluate(sourceInstance, currTick)).intValue();
         } else
             depthLevel = (int) of.evaluate(sourceInstance);
 
@@ -46,7 +46,7 @@ public class ProximityAction implements Action {
         for ( EntityInstance targetInstance : targetEntities) {
             GridCoordinate targetCoordinate = targetInstance.getCoordinate();
             if (sourceCoordinate.isCoordinateInProximity(targetCoordinate,depthLevel)) {
-                for ( Action action : actionList) {
+                for (Action action : actionList) {
                     action.activate(sourceInstance, currTick);
                 }
             }

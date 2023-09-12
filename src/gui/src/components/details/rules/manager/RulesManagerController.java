@@ -5,9 +5,8 @@ import components.details.rules.manager.rule.RuleCardController;
 import dto.RuleDTO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
+import javafx.scene.layout.*;
 
 import java.net.URL;
 import java.util.List;
@@ -16,14 +15,19 @@ import java.util.List;
 public class RulesManagerController {
 
     @FXML
-    private VBox actionsContainer;
+    private BorderPane rulesAndActionsContainer;
 
     @FXML
-    private HBox rulesAndActionsContainer;
+    private FlowPane actionsContainer;
 
     @FXML
-    private VBox rulesContainer;
+    private FlowPane rulesContainer;
 
+    @FXML
+    public void initialize() {
+        HBox.setHgrow(rulesContainer, Priority.ALWAYS);
+        HBox.setHgrow(actionsContainer, Priority.ALWAYS);
+    }
 
     public void showRuleCards(List<RuleDTO> DTOs) throws Exception {
         rulesContainer.getChildren().clear();

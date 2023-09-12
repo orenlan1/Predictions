@@ -116,6 +116,9 @@ public class RuleCardController {
             case "PROXIMITY":
                 actionDetailsFXML = getClass().getResource("/components/details/rules/manager/action/proximity/proximityActionDetails.fxml");
                 break;
+            case "REPLACE":
+                actionDetailsFXML = getClass().getResource(("/components/details/rules/manager/action/replace/replaceActionDetails.fxml"));
+                break;
         }
 
         loader = new FXMLLoader(actionDetailsFXML);

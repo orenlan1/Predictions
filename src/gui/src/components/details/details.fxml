@@ -36,7 +36,7 @@
       </VBox>
    </left>
    <center>
-      <ScrollPane id="entitiesListScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" stylesheets="@detailsSheet.css" BorderPane.alignment="TOP_LEFT">
+      <ScrollPane id="entitiesListScrollPane" fx:id="detailsScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" BorderPane.alignment="TOP_LEFT">
          <content>
             <FlowPane id="entitiesListFlowPane" fx:id="detailsFlowPane" hgap="15.0" prefHeight="350.0" prefWidth="1000.0" vgap="15.0">
                <padding>

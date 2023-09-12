@@ -44,7 +44,7 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: left;
     -fx-background-size: contain;
-    -fx-background-color: none;
+    -fx-background-color: transparent;
 }
 
 .menu-item .label {

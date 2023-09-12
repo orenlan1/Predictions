@@ -6,9 +6,7 @@ import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.rule.api.Rule;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class SimulationExecutor {
 
@@ -16,10 +14,9 @@ public class SimulationExecutor {
     public SimulationRunnerDTO runSimulation(World world) {
         Integer seconds = world.getTermination().getSecondCount();
         Integer ticks = world.getTermination().getTicksCount();
-        boolean valid = true;
         world.resetTicks();
         try {
-            simulationRulesPerform(valid, world, seconds, ticks);
+            simulationRulesPerform(world, seconds, ticks);
         } catch (Exception e) {
             return new SimulationRunnerDTO(Boolean.FALSE, e.getMessage(), world.getSimulationID(), Boolean.FALSE);
         }
@@ -36,14 +33,18 @@ public class SimulationExecutor {
     }
 
 
-    public void simulationRulesPerform(Boolean valid, World world, Integer seconds, Integer ticks) throws Exception {
+    public void simulationRulesPerform(World world, Integer seconds, Integer ticks) throws Exception {
         for (EntityDefinition entityDefinition : world.getEntityDefinitions()) {
-            entityDefinition.createEntityInstancesPopulation();
+            entityDefinition.createEntityInstancesPopulation(world.getGrid());
         }
+        Map<String, Map<Integer, Integer>> entityToPopulation = new HashMap<>();
+
         List<Rule> rules = world.getRules();
+        Boolean valid = true;
         long start = System.currentTimeMillis();
         while (valid) {
             for (EntityDefinition entityDefinition : world.getEntityDefinitions()) {
+                Map<Integer, Integer> populationOverTime = new LinkedHashMap<>();
                 for (EntityInstance entityInstance : entityDefinition.getEntityInstances()) {
                     if (entityInstance.isAlive()) {
                         for (Rule rule : rules) {
@@ -78,6 +79,6 @@ public class SimulationExecutor {
             newEntityDefinitions.add(entityDefinition.cloneEntityDefinition());
         }
 
-        world.addPastSimulation(new PastSimulation(newEntityDefinitions, world.getSimulationID(), date));
+        world.addPastSimulation(new PastSimulation(newEntityDefinitions, world.getSimulationID(), date, entityToPopulation));
     }
 }

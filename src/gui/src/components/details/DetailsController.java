@@ -4,19 +4,17 @@ import components.details.entity.EntityCardController;
 import components.details.environment.variable.EnvVariableCardController;
 import components.details.grid.GridCardController;
 import components.details.rules.manager.RulesManagerController;
-import components.details.rules.manager.rule.RuleCardController;
 import components.details.termination.TerminationCardController;
 import components.main.PredictionsController;
 import dto.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 
-import java.io.IOException;
+
 import java.net.URL;
 
 public class DetailsController {
@@ -43,7 +41,15 @@ public class DetailsController {
     private FlowPane detailsFlowPane;
 
     @FXML
-    private ScrollPane entitiesListScrollPane;
+    private ScrollPane detailsScrollPane;
+
+
+    public void showDetailsMenu(BorderPane borderPane) {
+        borderPane.setCenter(detailsBorderPane);
+        String cssFileName = getClass().getResource("detailsSheet.css").toExternalForm();
+        borderPane.getStylesheets().add(cssFileName);
+    }
+
 
     private PredictionsController predictionsController;
     private Integer x;
@@ -60,14 +66,9 @@ public class DetailsController {
         this.predictionsController = predictionsController;
     }
 
-    public void showDetailsMenu(BorderPane borderPane) {
-        borderPane.setCenter(detailsBorderPane);
-        String cssFileName = getClass().getResource("detailsSheet.css").toExternalForm();
-        borderPane.getStylesheets().add(cssFileName);
-    }
-
     public void showEnvVariables(ActionEvent event) throws Exception {
         detailsFlowPane.getChildren().clear();
+        detailsBorderPane.setCenter(detailsScrollPane);
 
         for (PropertyDTO dto : predictionsController.getEnvVariablesDTO()) {
             URL envVariableDetailsFXML = getClass().getResource("/components/details/environment/variable/environmentVariableDetails.fxml");
@@ -84,6 +85,7 @@ public class DetailsController {
 
     public void showEntities(ActionEvent event) throws Exception {
         detailsFlowPane.getChildren().clear();
+        detailsBorderPane.setCenter(detailsScrollPane);
 
         for (EntityDTO dto: predictionsController.getEntitiesDTO()) {
             URL entityDetailsFXML = getClass().getResource("/components/details/entity/entityDetails.fxml");
@@ -101,6 +103,7 @@ public class DetailsController {
 
     public void showGridAndTermination(ActionEvent event) throws Exception {
         detailsFlowPane.getChildren().clear();
+        detailsBorderPane.setCenter(detailsScrollPane);
         showTermination();
         showGrid();
     }
@@ -134,15 +137,15 @@ public class DetailsController {
 
         URL rulesManagerDetailsFXML = getClass().getResource("/components/details/rules/manager/rulesManager.fxml");
         FXMLLoader loader = new FXMLLoader(rulesManagerDetailsFXML);
-        Parent rulesManager = loader.load();
+        BorderPane rulesManager = loader.load();
 
         RulesManagerController rulesManagerController = loader.getController();
         rulesManagerController.showRuleCards(predictionsController.getRulesDTO());
-
-        detailsFlowPane.getChildren().add(rulesManager);
+        detailsBorderPane.setCenter(rulesManager);
     }
 
     public void clearDetails(ActionEvent event) {
+        detailsBorderPane.setCenter(detailsScrollPane);
         detailsFlowPane.getChildren().clear();
     }
 }

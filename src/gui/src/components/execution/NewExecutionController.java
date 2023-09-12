@@ -141,6 +141,11 @@ public class NewExecutionController {
             alert.setHeaderText(null);
             alert.show();
             return;
+        } else if (sumPopulation == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Can't start a simulation with 0 entities");
+            alert.setHeaderText(null);
+            alert.show();
+            return;
         } else {
             predictionsController.setEntitiesPopulation(entityInitializationDTOs);
         }

@@ -29,7 +29,7 @@
             <Image url="@entityIcon.png" />
          </image>
       </ImageView>
-      <ScrollPane GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
+      <ScrollPane id="propertiesScrollPane" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
          <content>
             <VBox fx:id="propertiesList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" styleClass="VBox-properties">
                <children>

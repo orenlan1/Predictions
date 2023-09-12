@@ -47,11 +47,33 @@ public class NumericalEnvVariableCardController implements EnvVariableCardContro
         fromLabel.textProperty().set("");
         setCheckBox.textProperty().set("Set value:");
         valueSetter.disableProperty().bind(isSetterChecked.not());
-        valueSetter.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue)
-                if (isNumericalValue(valueSetter.getValue()))
-                    valueSetter.increment(0); // won't change value, but will commit editor
+
+        valueSetter.getEditor().setOnAction(event -> { validateAndCommitInput(); });
+
+        valueSetter.getEditor().focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                validateAndCommitInput();
+            }
         });
+    }
+
+    private void validateAndCommitInput() {
+        String text = valueSetter.getEditor().getText();
+        if (isNumericalValue(text)) {
+            valueSetter.getValueFactory().setValue(Double.parseDouble(text));
+        } else {
+            valueSetter.getValueFactory().setValue(valueSetter.getValueFactory().getValue());
+            valueSetter.getEditor().textProperty().set(valueSetter.getValueFactory().getValue().toString());
+        }
+    }
+
+    private boolean isNumericalValue(String value) {
+        try {
+            Double.parseDouble(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     @FXML

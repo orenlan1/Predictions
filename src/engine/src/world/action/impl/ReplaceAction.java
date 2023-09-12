@@ -27,9 +27,9 @@ public class ReplaceAction implements Action {
 
     @Override
     public void activate(EntityInstance entityInstance, int currTick) throws Exception {
-        if ( mode.equals("scratch")) {
+        if (mode.equals("scratch")) {
             entityInstance.kill();
-            EntityInstance newEntity = EntityInstance.createEntityInstance(createdEntityDefinition);
+            EntityInstance newEntity = entityInstance.getEntityDefinition().createEntityInstance(createdEntityDefinition, entityInstance.getCoordinate());
             createdEntityDefinition.addEntityInstance(newEntity);
         }
         else if ( mode.equals("derived")) {

@@ -75,14 +75,14 @@ public class ExpressionDecoder {
                 EvaluateFunction evaluateFunction = new EvaluateFunction(entityName, propertyName, entitiesContext);
                 expression = new HelperFunctionExpression(expressionName, type.toString().toLowerCase(), evaluateFunction);
             }
-            else if ( expressionName.contains("ticks")) {
+            else if (expressionName.contains("ticks")) {
                 String arg = expressionName.split("\\(")[1].split("\\)")[0];
-                if ( !arg.contains(".")) {
-                    throw new HelperFunctionFormatException("evaluate","entity.property name",arg);
+                if (!arg.contains(".")) {
+                    throw new HelperFunctionFormatException("ticks", "entity.property name", arg);
                 }
                 String[] parts = arg.split("\\.");
-                if ( parts.length > 2) {
-                    throw new HelperFunctionFormatException("evaluate","entity.property name",arg);
+                if (parts.length > 2) {
+                    throw new HelperFunctionFormatException("ticks", "entity.property name", arg);
                 }
                 String entityName = parts[0];
                 String propertyName = parts[1];

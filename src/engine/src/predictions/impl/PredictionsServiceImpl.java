@@ -80,11 +80,9 @@ public class PredictionsServiceImpl implements PredictionsService {
 
             try {
                 EnvVariablesUpdater envVariablesUpdater = new EnvVariablesUpdater();
-                envVariablesUpdater.updateVariable(propertyInstance, type, dto, world.getTicks());
+                envVariablesUpdater.updateVariable(propertyInstance, type, dto);
             } catch (NumberFormatException e) {
                 return new EnvVariableSetValidationDTO(Boolean.FALSE, String.format("Failed to assign the value \"%s\" to the environment variable \"%s\" due to incompatible types", dto.getValue(), dto.getName()));
-            } catch (Exception e) {
-                return new EnvVariableSetValidationDTO(Boolean.FALSE, String.format("Failed to assign the value \"%s\" to the environment variable \"%s\". ", dto.getValue(), dto.getName()) + e.getMessage());
             }
         }
         return new EnvVariableSetValidationDTO(Boolean.TRUE, null);

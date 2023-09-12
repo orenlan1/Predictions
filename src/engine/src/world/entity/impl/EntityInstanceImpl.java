@@ -25,6 +25,11 @@ public class EntityInstanceImpl implements EntityInstance {
     }
 
     @Override
+    public EntityDefinition getEntityDefinition() {
+        return entityDefinition;
+    }
+
+    @Override
     public PropertyInstance getPropertyByName(String name) {
         return nameToProperty.get(name);
     }
@@ -53,15 +58,21 @@ public class EntityInstanceImpl implements EntityInstance {
         //entityDefinition.killInstance();
     }
 
+    @Override
     public void setCoordinate(Grid grid) {
         coordinate.setRandomlyCoordinate(grid, this);
+    }
+
+    @Override
+    public void setCoordinate(GridCoordinate coordinate) {
+        this.coordinate = coordinate;
     }
 
     public GridCoordinate getCoordinate() {
         return coordinate;
     }
 
-
+    @Override
     public void moveEntityCoordinate(Grid grid) {
         List<Direction> availableDirections = new ArrayList<>(Arrays.asList(Direction.values()));
         Collections.shuffle(availableDirections);
@@ -80,6 +91,7 @@ public class EntityInstanceImpl implements EntityInstance {
         boolean derivedProperty = false;
         EntityInstance newDerivedEntity = new EntityInstanceImpl(createdEntityDefinition);
         List<PropertyDefinition> newEntityProperties = createdEntityDefinition.getPropertiesList();
+        newDerivedEntity.setCoordinate(this.getCoordinate());
         for (PropertyDefinition createdProperty : newEntityProperties) {
             for (PropertyDefinition propertyDefinition : entityDefinition.getPropertiesList()) {
                 if (propertyDefinition.getName().equals(createdProperty.getName()) && propertyDefinition.getType().equals(createdProperty.getType())) {
