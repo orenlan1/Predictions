@@ -3,6 +3,7 @@ package components.main;
 import components.details.DetailsController;
 import components.execution.NewExecutionController;
 import components.queue.management.QueueManagementController;
+import components.results.ResultsController;
 import dto.*;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -52,6 +53,7 @@ public class PredictionsController {
     private QueueManagementController queueManagementController;
     private DetailsController detailsController;
     private NewExecutionController newExecutionController;
+    private ResultsController resultsController;
     private final SimpleStringProperty loadedFilePathProperty;
     private final SimpleBooleanProperty isFileSelected;
 
@@ -78,6 +80,23 @@ public class PredictionsController {
 
     public void setPredictionsService(PredictionsService predictionsService) {
         this.predictionsService = predictionsService;
+    }
+
+    public void setQueueManagementController(QueueManagementController queueManagementController) {
+        this.queueManagementController = queueManagementController;
+    }
+
+    public void setDetailsController(DetailsController detailsController) {
+        this.detailsController = detailsController;
+    }
+
+    public void setNewExecutionController(NewExecutionController newExecutionController) {
+        this.newExecutionController = newExecutionController;
+    }
+
+    public void setResultsController(ResultsController resultsController) {
+        this.resultsController = resultsController;
+        resultsController.setPredictionsController(this);
     }
 
     @FXML
@@ -121,16 +140,9 @@ public class PredictionsController {
         newExecutionController.showNewExecution(mainBorderPane);
     }
 
-    public void setQueueManagementController(QueueManagementController queueManagementController) {
-        this.queueManagementController = queueManagementController;
-    }
-
-    public void setDetailsController(DetailsController detailsController) {
-        this.detailsController = detailsController;
-    }
-
-    public void setNewExecutionController(NewExecutionController newExecutionController) {
-        this.newExecutionController = newExecutionController;
+    @FXML
+    public void viewResults(ActionEvent event) {
+        resultsController.showResults(mainBorderPane);
     }
 
     public List<PropertyDTO> getEnvVariablesDTO() { return predictionsService.getEnvPropertiesDTO().getPropertiesDTO(); }
@@ -159,6 +171,10 @@ public class PredictionsController {
 
     public SimulationRunnerDTO runSimulation() {
         return predictionsService.runSimulation();
+    }
+
+    public PastSimulationDTO getPastSimulation(int id) {
+        return predictionsService.getSimulationsDTO().getSimulationsList().get(id - 1);
     }
 
 }

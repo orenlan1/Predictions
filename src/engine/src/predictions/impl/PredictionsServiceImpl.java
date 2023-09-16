@@ -121,7 +121,7 @@ public class PredictionsServiceImpl implements PredictionsService {
                 }
                 pastEntityDTOList.add(new PastEntityDTO(entityDefinition.getName(), entityDefinition.getPopulation(), entityDefinition.getEntityInstances().size(), propertyDTOList));
             }
-            pastSimulationDTOList.add(new PastSimulationDTO(id, pastEntityDTOList, date));
+            pastSimulationDTOList.add(new PastSimulationDTO(id, pastEntityDTOList, date, pastSimulation.getEntityToPopulation()));
         }
         return new AllSimulationsDTO(pastSimulationDTOList);
     }

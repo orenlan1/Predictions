@@ -33,4 +33,7 @@ public class PastSimulation {
         return date;
     }
 
+    public Map<String, Map<Integer, Integer>> getEntityToPopulation() {
+        return entityToPopulation;
+    }
 }

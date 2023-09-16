@@ -28,8 +28,8 @@ public class SingularCondition extends ConditionAction {
 
     @Override
     public boolean evaluate(EntityInstance entityInstance, Integer currTick) throws Exception, InvalidConditionOperatorException, InvalidVariableTypeException {
-        Object propertyValue = this.property.evaluate(entityInstance);
-        String propType = this.property.getType();
+        Object propertyValue = property.evaluate(entityInstance);
+        String propType = property.getType();
 
         Object expValue = null;
         if (value instanceof HelperFunctionExpression) {

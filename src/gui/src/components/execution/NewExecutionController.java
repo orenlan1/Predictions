@@ -3,6 +3,7 @@ package components.execution;
 import components.execution.entity.count.EntityCountController;
 import components.execution.environment.variable.EnvVariableCardController;
 import components.main.PredictionsController;
+import components.results.ResultsController;
 import dto.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,6 +43,7 @@ public class NewExecutionController {
     private Integer maxPopulation;
 
     private PredictionsController predictionsController;
+    private ResultsController resultsController;
 
     public NewExecutionController() {
         envVariableCardControllers = new ArrayList<>();
@@ -60,6 +62,11 @@ public class NewExecutionController {
         this.predictionsController = predictionsController;
     }
 
+    public void setResultsController(ResultsController resultsController) {
+        this.resultsController = resultsController;
+        resultsController.setNewExecutionController(this);
+    }
+
     public void setMaxPopulation(Integer maxPopulation) {
         this.maxPopulation = maxPopulation;
     }
@@ -71,7 +78,6 @@ public class NewExecutionController {
         showEnvVariables();
         showEntityCounts();
     }
-
 
     public void showEnvVariables() throws Exception {
         envVariablesFlowPane.getChildren().clear();
@@ -158,7 +164,7 @@ public class NewExecutionController {
 
         EnvVariableSetValidationDTO valid = predictionsController.setEnvVariables(envVariablesDTOs);
         if (valid.getValidation()) {
-            predictionsController.runSimulation();
+            resultsController.addPastSimulation(predictionsController.runSimulation());
             clearNewExecution(event);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, valid.getMessage());

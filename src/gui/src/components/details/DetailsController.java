@@ -6,6 +6,7 @@ import components.details.grid.GridCardController;
 import components.details.rules.manager.RulesManagerController;
 import components.details.termination.TerminationCardController;
 import components.main.PredictionsController;
+import components.results.ResultsController;
 import dto.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,17 +44,16 @@ public class DetailsController {
     @FXML
     private ScrollPane detailsScrollPane;
 
+    private PredictionsController predictionsController;
+    private Integer x;
+    private Integer y;
+
 
     public void showDetailsMenu(BorderPane borderPane) {
         borderPane.setCenter(detailsBorderPane);
         String cssFileName = getClass().getResource("detailsSheet.css").toExternalForm();
         borderPane.getStylesheets().add(cssFileName);
     }
-
-
-    private PredictionsController predictionsController;
-    private Integer x;
-    private Integer y;
 
     public void setGridSize(Integer x, Integer y) {
         this.x = x;
@@ -132,7 +132,7 @@ public class DetailsController {
         detailsFlowPane.getChildren().add(gridCard);
     }
 
-    public void showRules() throws Exception {
+    public void showRules(ActionEvent event) throws Exception {
         detailsFlowPane.getChildren().clear();
 
         URL rulesManagerDetailsFXML = getClass().getResource("/components/details/rules/manager/rulesManager.fxml");

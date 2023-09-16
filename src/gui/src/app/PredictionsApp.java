@@ -4,6 +4,7 @@ import components.details.DetailsController;
 import components.execution.NewExecutionController;
 import components.main.PredictionsController;
 import components.queue.management.QueueManagementController;
+import components.results.ResultsController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -40,6 +41,10 @@ public class PredictionsApp extends Application {
         FXMLLoader newExecutionLoader = new FXMLLoader(newExecutionFXML);
         BorderPane newExecution = newExecutionLoader.load();
 
+        URL resultsFXML = getClass().getResource("/components/results/results.fxml");
+        FXMLLoader resultsLoader = new FXMLLoader(resultsFXML);
+        BorderPane results = resultsLoader.load();
+
         PredictionsController predictionsController = loader.getController();
         PredictionsService predictionsService = new PredictionsServiceImpl();
         predictionsController.setPrimaryStage(primaryStage);
@@ -57,6 +62,10 @@ public class PredictionsApp extends Application {
         NewExecutionController newExecutionController = newExecutionLoader.getController();
         newExecutionController.setPredictionsController(predictionsController);
         predictionsController.setNewExecutionController(newExecutionController);
+
+        ResultsController resultsController = resultsLoader.getController();
+        predictionsController.setResultsController(resultsController);
+        newExecutionController.setResultsController(resultsController);
 
         primaryStage.setTitle("Predictions");
         Scene scene = new Scene(borderPane,1400,600);

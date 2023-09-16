@@ -1,0 +1,49 @@
+.chart, .chart-plot-background, .chart-legend {
+    -fx-background-color: transparent;
+}
+
+.chart-title {
+    -fx-font-family: Verdana;
+    -fx-font-size: 20px;
+}
+
+.chart-legend-item-symbol{
+    -fx-background-radius: 0;
+}
+
+.chart-vertical-grid-lines, .chart-horizontal-grid-lines {
+    -fx-stroke: #1a1919;
+    -fx-stroke-dash-array: null;
+}
+
+.axis {
+    -fx-tick-label-fill: #1a1919;
+    -fx-font-family: Verdana;
+    -fx-tick-length: 20;
+    -fx-minor-tick-length: 10;
+}
+
+.axis:left {
+    -fx-border-color: transparent #1a1919 transparent transparent;
+}
+
+.axis:bottom {
+    -fx-border-color: #1a1919 transparent transparent transparent;
+}
+
+.axis-label {
+    -fx-text-fill: #1a1919;
+}
+
+.axis-tick-mark {
+    -fx-stroke: #1a1919;
+}
+
+.axis-minor-tick-mark {
+    -fx-stroke: rgba(26, 25, 25, 0.3);
+}
+
+.chart-series-line {
+    -fx-stroke-width: 4px;
+    -fx-effect: null;
+}
