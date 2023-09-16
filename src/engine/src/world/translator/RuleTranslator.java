@@ -65,16 +65,20 @@ public class RuleTranslator {
         if ( !actionName.equals("proximity") && !actionName.equals("replace")) {
             String entityName = prdAction.getEntity();
             entityDefinition = getEntityDefinition(entityName, entitiesList);
-            if ( entitiesContext == null) {
+            if ( entitiesContext == null) { // Must be a new action
                 entitiesContext = createEntitiesContext(entityDefinition, secondaryEntity);
+
             }
-            if ( !isEntityRelatedToContext(entitiesContext,entityDefinition)) {
-                String primaryEntityName = entitiesContext.getPrimaryEntity().getName();
-                if (entitiesContext.getSecondaryEntity() != null) {
-                    String secondaryEntityName = entitiesContext.getSecondaryEntity().getName();
-                    throw new EntityNotRelatedToActionException(entityDefinition.getName(),actionName, primaryEntityName + "," + secondaryEntityName);
+            else { // Must be a sub action
+                if ( !isEntityRelatedToContext(entitiesContext,entityDefinition)) {
+                    String primaryEntityName = entitiesContext.getPrimaryEntity().getName();
+                    if (entitiesContext.getSecondaryEntity() != null) {
+                        String secondaryEntityName = entitiesContext.getSecondaryEntity().getName();
+                        throw new EntityNotRelatedToActionException(entityDefinition.getName(),actionName, primaryEntityName + "," + secondaryEntityName);
+                    }
+                    throw new EntityNotRelatedToActionException(entityDefinition.getName(),actionName, primaryEntityName);
                 }
-                throw new EntityNotRelatedToActionException(entityDefinition.getName(),actionName, primaryEntityName);
+                entitiesContext = createSubActionEntitiesContext(entityDefinition,entitiesContext);
             }
         }
 
@@ -215,7 +219,7 @@ public class RuleTranslator {
         }
         if (prdCondition.getPRDCondition() != null) {
             for (PRDCondition prdCondition1 : prdCondition.getPRDCondition()) {
-                conditions.add(translateConditionActionSecondary(prdCondition1, entityDefinition, activeEnvironment, secondaryEntity, entitiesContext));
+                conditions.add(translateConditionActionSecondary(prdCondition1, entityDefinition, activeEnvironment, secondaryEntity, entitiesContext, entityDefinitions));
             }
         }
 
@@ -237,7 +241,7 @@ public class RuleTranslator {
             return new MultipleCondition(conditions, logic, entityDefinition, thenActions, elseActions, secondaryEntity, entitiesContext);
     }
 
-    public static ConditionAction translateConditionActionSecondary(PRDCondition prdCondition, EntityDefinition entityDefinition, ActiveEnvironment activeEnvironment, SecondaryEntity secondaryEntity, Context entitiesContext) throws Exception {
+    public static ConditionAction translateConditionActionSecondary(PRDCondition prdCondition, EntityDefinition entityDefinition, ActiveEnvironment activeEnvironment, SecondaryEntity secondaryEntity, Context entitiesContext, List<EntityDefinition> entityDefinitions) throws Exception {
         String singularity = prdCondition.getSingularity();
         boolean boolSingularity = !singularity.equals("multiple");
 
@@ -247,9 +251,23 @@ public class RuleTranslator {
         List<Action> elseActions = new ArrayList<>();
         List<ConditionAction> conditions = new ArrayList<>();
 
+        String entityName = prdCondition.getEntity();
+        if ( entityName != null) {
+            entityDefinition = getEntityDefinition(entityName, entityDefinitions);
+            if (!isEntityRelatedToContext(entitiesContext, entityDefinition)) {
+                String primaryEntityName = entitiesContext.getPrimaryEntity().getName();
+                if (entitiesContext.getSecondaryEntity() != null) {
+                    String secondaryEntityName = entitiesContext.getSecondaryEntity().getName();
+                    throw new EntityNotRelatedToActionException(entityDefinition.getName(), "condition", primaryEntityName + "," + secondaryEntityName);
+                }
+                throw new EntityNotRelatedToActionException(entityDefinition.getName(), "condition", primaryEntityName);
+            }
+            entitiesContext = createSubActionEntitiesContext(entityDefinition, entitiesContext);
+        }
+
         if (prdCondition.getPRDCondition() != null) {
             for (PRDCondition prdCondition1 : prdCondition.getPRDCondition()) {
-                conditions.add(translateConditionActionSecondary(prdCondition1, entityDefinition, activeEnvironment, secondaryEntity, entitiesContext));
+                conditions.add(translateConditionActionSecondary(prdCondition1, entityDefinition, activeEnvironment, secondaryEntity, entitiesContext, entityDefinitions));
             }
         }
 
@@ -290,40 +308,27 @@ public class RuleTranslator {
 
 
     public static ReplaceAction translateReplaceAction(EntityDefinition mainEntity, EntityDefinition createdEntity,String mode, Context entitiesContext) throws Exception {
-//        if ( !isEntityRelatedToContext(entitiesContext,mainEntity) || !isEntityRelatedToContext(entitiesContext,createdEntity)) {
-//            String name = null;
-//            if (!isEntityRelatedToContext(entitiesContext,mainEntity)) {
-//                name = mainEntity.getName();
-//            }
-//            if (!isEntityRelatedToContext(entitiesContext,createdEntity)) {
-//                name = createdEntity.getName();
-//            }
-//            String primaryEntityName = entitiesContext.getPrimaryEntity().getName();
-//            if (entitiesContext.getSecondaryEntity() != null) {
-//                String secondaryEntityName = entitiesContext.getSecondaryEntity().getName();
-//                throw new EntityNotRelatedToActionException(name,"replace", primaryEntityName + "," + secondaryEntityName);
-//            }
-//            throw new EntityNotRelatedToActionException(name,"replace", primaryEntityName);
-//        }
+
         return new ReplaceAction(mode, mainEntity, createdEntity, entitiesContext);
     }
 
     public static ProximityAction translateProximityAction(EntityDefinition sourceEntity, EntityDefinition targetEntity, List<PRDAction> prdActions, String ofExpression, ActiveEnvironment activeEnvironment, List<EntityDefinition> entityDefinitions, Context entitiesContext) throws  Exception {
-//        if ( !isEntityRelatedToContext(entitiesContext,sourceEntity) || !isEntityRelatedToContext(entitiesContext,targetEntity)) {
-//            String name = null;
-//            if (!isEntityRelatedToContext(entitiesContext,sourceEntity)) {
-//                name = sourceEntity.getName();
-//            }
-//            if (!isEntityRelatedToContext(entitiesContext,targetEntity)) {
-//                name = targetEntity.getName();
-//            }
-//            String primaryEntityName = entitiesContext.getPrimaryEntity().getName();
-//            if (entitiesContext.getSecondaryEntity() != null) {
-//                String secondaryEntityName = entitiesContext.getSecondaryEntity().getName();
-//                throw new EntityNotRelatedToActionException(name,"replace", primaryEntityName + "," + secondaryEntityName);
-//            }
-//            throw new EntityNotRelatedToActionException(name,"replace", primaryEntityName);
-//        }
+        if ( !isEntityRelatedToContext(entitiesContext,sourceEntity) || !isEntityRelatedToContext(entitiesContext,targetEntity)) {
+            String name = null;
+            if (!isEntityRelatedToContext(entitiesContext,sourceEntity)) {
+                name = sourceEntity.getName();
+            }
+            if (!isEntityRelatedToContext(entitiesContext,targetEntity)) {
+                name = targetEntity.getName();
+            }
+            String primaryEntityName = entitiesContext.getPrimaryEntity().getName();
+            if (entitiesContext.getSecondaryEntity() != null) {
+                String secondaryEntityName = entitiesContext.getSecondaryEntity().getName();
+                throw new EntityNotRelatedToActionException(name,"replace", primaryEntityName + "," + secondaryEntityName);
+            }
+            throw new EntityNotRelatedToActionException(name,"replace", primaryEntityName);
+        }
+        entitiesContext = createSubActionEntitiesContext(sourceEntity,entitiesContext);
         Expression of = ExpressionDecoder.decode(ofExpression,activeEnvironment, sourceEntity, AbstractPropertyDefinition.PropertyType.DECIMAL,"proximity", null, entitiesContext);
         String type = of.getType();
         if ( !type.equals("float") && !type.equals("decimal") ) {
@@ -331,7 +336,7 @@ public class RuleTranslator {
         }
         ProximityAction proximityAction = new ProximityAction(sourceEntity,targetEntity,of, entitiesContext);
         for (PRDAction prdAction : prdActions) {
-            proximityAction.addAction(translateAction(prdAction, entityDefinitions, activeEnvironment, null, entitiesContext));
+            proximityAction.addAction(translateAction(prdAction, entityDefinitions, activeEnvironment, null, proximityAction.getEntitiesContext()));
         }
         return proximityAction;
     }
@@ -413,6 +418,19 @@ public class RuleTranslator {
         }
         else
             return false;
+    }
+
+    public static Context createSubActionEntitiesContext(EntityDefinition entityDefinition, Context entitiesContext) {
+        if ( entitiesContext.getSecondaryEntity() != null ) {
+            if ( entityDefinition == entitiesContext.getPrimaryEntity()) {
+                return entitiesContext;
+            }
+            else {
+                return new ContextImpl(entitiesContext.getSecondaryEntity(), entitiesContext.getPrimaryEntity());
+            }
+        }
+        else
+            return entitiesContext;
     }
 
 }

@@ -3,6 +3,7 @@ package world.grid;
 import world.entity.api.EntityInstance;
 
 import java.util.Random;
+import java.util.List;
 
 public class GridCoordinate {
     private int x;
@@ -16,17 +17,25 @@ public class GridCoordinate {
         this.maxCols = maxCols;
     }
 
+    public GridCoordinate(int x, int y, int maxCols, int maxRows) {
+        this.x = x;
+        this.y = y;
+        this.maxCols = maxCols;
+        this.maxRows = maxRows;
+    }
+
     public void setRandomlyCoordinate(Grid grid, EntityInstance entityInstance) {
+        List<GridCoordinate> gridCoordinateList = grid.getUntakenCoordinates();
         Random random = new Random();
-        do {
-            this.x = random.nextInt(maxCols) + 1;
-            this.y = random.nextInt(maxRows) + 1;
-        } while (!grid.addCoordinateToMap(entityInstance));
+        int index = random.nextInt(gridCoordinateList.size());
+        GridCoordinate instanceCoordinate = gridCoordinateList.get(index);
+        entityInstance.setCoordinate(instanceCoordinate);
+        grid.addCoordinateToMap(entityInstance);
     }
 
     public boolean move(Direction direction, Grid grid) {
-        this.x = (x + direction.getDeltaX() > maxCols)? (x + direction.getDeltaX()) % maxCols : x + direction.getDeltaX();
-        this.y = (y + direction.getDeltaY() > maxRows)? (x + direction.getDeltaY()) % maxRows : x + direction.getDeltaY();
+        this.x = (x + direction.getDeltaX() > maxCols) ? (x + direction.getDeltaX()) % maxCols : x + direction.getDeltaX();
+        this.y = (y + direction.getDeltaY() > maxRows) ? (y + direction.getDeltaY()) % maxRows : y + direction.getDeltaY();
         return !grid.isCoordinateTaken(this);
     }
 
@@ -39,17 +48,19 @@ public class GridCoordinate {
     }
 
     public boolean isCoordinateInProximity(GridCoordinate targetCoordinate,int proximityLevel) {
-        for (int i = -proximityLevel; i <= proximityLevel; i++) {
-            for (int j = -proximityLevel; j <= proximityLevel; j++) {
-                if (Math.abs(i) == proximityLevel || Math.abs(j) == proximityLevel) {
-                    int x = this.x + i;
-                    int y = this.y + j;
-                    if ( x > maxCols )
-                        x = x % maxCols;
-                    if ( y > maxRows )
-                        y = y % maxRows;
-                    if ( x == targetCoordinate.getX() && y == targetCoordinate.getY()) {
-                        return true;
+        for (int k = 1; k <= proximityLevel; k++) {
+            for (int i = -proximityLevel; i <= proximityLevel; i++) {
+                for (int j = -proximityLevel; j <= proximityLevel; j++) {
+                    if (Math.abs(i) == proximityLevel || Math.abs(j) == proximityLevel) {
+                        int x = this.x + i;
+                        int y = this.y + j;
+                        if (x > maxCols)
+                            x = x % maxCols;
+                        if (y > maxRows)
+                            y = y % maxRows;
+                        if (x == targetCoordinate.getX() && y == targetCoordinate.getY()) {
+                            return true;
+                        }
                     }
                 }
             }

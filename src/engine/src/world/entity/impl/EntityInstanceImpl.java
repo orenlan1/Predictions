@@ -55,16 +55,16 @@ public class EntityInstanceImpl implements EntityInstance {
     @Override
     public void kill() {
         alive = Boolean.FALSE;
+        //entityDefinition.killInstance();
     }
 
     @Override
     public void setCoordinate(Grid grid) {
-        if (coordinate != null)
-            coordinate.setRandomlyCoordinate(grid, this);
-        else {
-            coordinate = new GridCoordinate(grid.getRows(), grid.getCols());
-            coordinate.setRandomlyCoordinate(grid, this);
-        }
+        List<GridCoordinate> gridCoordinateList = grid.getUntakenCoordinates();
+        Random random = new Random();
+        int index = random.nextInt(gridCoordinateList.size());
+        this.coordinate = gridCoordinateList.get(index);
+        grid.addCoordinateToMap(this);
     }
 
     @Override

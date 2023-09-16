@@ -8,6 +8,7 @@ import world.exceptions.InvalidConditionOperatorException;
 import world.exceptions.InvalidVariableTypeException;
 import world.expressions.api.Expression;
 import world.expressions.impl.HelperFunctionExpression;
+import world.helper.function.impl.PercentFunction;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 
@@ -27,16 +28,52 @@ public class SingularCondition extends ConditionAction {
     }
 
     @Override
-    public boolean evaluate(EntityInstance entityInstance, Integer currTick) throws Exception, InvalidConditionOperatorException, InvalidVariableTypeException {
-        Object propertyValue = property.evaluate(entityInstance);
-        String propType = property.getType();
+    public boolean evaluate(int currTick, EntityInstance... entityInstance) throws Exception, InvalidConditionOperatorException, InvalidVariableTypeException {
+
+        Object propertyValue = null;
+
+        if (property instanceof HelperFunctionExpression) {
+            HelperFunctionExpression helperPropertyValue = (HelperFunctionExpression) property;
+            if (helperPropertyValue.getHelperFunction() instanceof PercentFunction) {
+                PercentFunction percentFunction = (PercentFunction) helperPropertyValue.getHelperFunction();
+                if ( entityInstance.length >=2)
+                    propertyValue = percentFunction.percentInvoke(entityInstance[0], entityInstance[1], currTick);
+                else
+                    propertyValue = percentFunction.percentInvoke(entityInstance[0], null, currTick);
+            }
+            else {
+                try {
+                    propertyValue = helperPropertyValue.evaluate(entityInstance[0], currTick);
+                } catch (Exception e) {
+                    if (entityInstance.length >= 2)
+                        propertyValue = helperPropertyValue.evaluate(entityInstance[1], currTick);
+                }
+            }
+        } else {
+            propertyValue = property.evaluate(entityInstance[0]);
+        }
+        String propType = this.property.getType();
 
         Object expValue = null;
         if (value instanceof HelperFunctionExpression) {
             HelperFunctionExpression helperValue = (HelperFunctionExpression) value;
-            expValue = helperValue.evaluate(entityInstance, currTick);
+            if (helperValue.getHelperFunction() instanceof PercentFunction) {
+                PercentFunction percentFunction = (PercentFunction) helperValue.getHelperFunction();
+                if ( entityInstance.length >=2)
+                    propertyValue = percentFunction.percentInvoke(entityInstance[0], entityInstance[1], currTick);
+                else
+                    propertyValue = percentFunction.percentInvoke(entityInstance[0], null, currTick);
+            }
+            else {
+                try {
+                    expValue = helperValue.evaluate(entityInstance[0], currTick);
+                } catch (Exception e) {
+                    if (entityInstance.length >= 2)
+                        propertyValue = helperValue.evaluate(entityInstance[1], currTick);
+                }
+            }
         } else
-            expValue = value.evaluate(entityInstance);
+            expValue = value.evaluate(entityInstance[0]);
 
         String expType = value.getType();
 

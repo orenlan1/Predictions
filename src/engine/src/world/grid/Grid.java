@@ -2,7 +2,9 @@ package world.grid;
 
 import world.entity.api.EntityInstance;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Grid {
@@ -32,18 +34,26 @@ public class Grid {
         entityMap.remove(coordinate);
     }
 
-    public boolean addCoordinateToMap(EntityInstance entityInstance) {
+    public void addCoordinateToMap(EntityInstance entityInstance) {
         if ( entityMap.containsKey(entityInstance.getCoordinate())){
-            return false;
+            return;
         }
         else {
             entityMap.put(entityInstance.getCoordinate(),entityInstance);
-            return true;
         }
     }
 
-
-
-
+    public List<GridCoordinate> getUntakenCoordinates() {
+        List<GridCoordinate> untakenCoordinates = new ArrayList<>();
+        for (int i = 1; i <= cols; i++) {
+            for ( int j = 1; j <= rows; j++) {
+                GridCoordinate newCoordinate = new GridCoordinate(i,j,cols,rows);
+                if ( !entityMap.containsKey(newCoordinate))
+                    untakenCoordinates.add(newCoordinate);
+                
+            }
+        }
+        return untakenCoordinates;
+    }
 }
 

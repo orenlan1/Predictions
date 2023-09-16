@@ -3,7 +3,9 @@ package world;
 import java.util.*;
 
 import dto.EntityInitializationDTO;
+import world.action.api.Action;
 import world.entity.api.EntityDefinition;
+import world.entity.api.EntityInstance;
 import world.environment.api.ActiveEnvironment;
 import world.environment.api.EnvironmentVariablesManager;
 import world.exceptions.RuleNameExistException;
@@ -119,4 +121,33 @@ public class World {
     public void setThreadCount(int threadCount) {
         this.threadCount = threadCount;
     }
+
+    public void  moveAllEntitiesCoordinates(Grid grid) {
+        for (EntityDefinition entityDefinition : this.getEntityDefinitions()) {
+            for (EntityInstance entityInstance : entityDefinition.getEntityInstances()) {
+                entityInstance.moveEntityCoordinate(grid);
+            }
+        }
+    }
+
+    public List<Rule> computeActiveRules(int tick) {
+        List<Rule> activeRules = new ArrayList<>();
+        for (Rule rule : rules) {
+            if (rule.getActivation().isActive(tick)) {
+                activeRules.add(rule);
+            }
+        }
+        return activeRules;
+    }
+
+    public List<Action> getActiveRulesActions(List<Rule> activeRules) {
+        List<Action> actionList = new ArrayList<>();
+        for ( Rule rule : activeRules) {
+            actionList.addAll(rule.getaActionsToPerform());
+        }
+        return actionList;
+    }
+
+
+
 }

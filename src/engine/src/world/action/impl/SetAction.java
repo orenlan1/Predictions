@@ -7,6 +7,7 @@ import world.entity.api.EntityInstance;
 import world.exceptions.InvalidVariableTypeException;
 import world.expressions.api.Expression;
 import world.expressions.impl.HelperFunctionExpression;
+import world.helper.function.impl.PercentFunction;
 import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
@@ -26,17 +27,37 @@ public class SetAction extends ActionImpl{
     }
 
     @Override
-    public void activate(EntityInstance entityInstance, int currTick) throws Exception {
-        PropertyInstance property = entityInstance.getPropertyByName(propertyDefinition.getName());
+    public void activate(int currTick, EntityInstance... entityInstance) throws Exception {
+        PropertyInstance property = null;
+        if (entityInstance[0].getEntityDefinition() == entityDefinition) {
+            property = entityInstance[0].getPropertyByName(propertyDefinition.getName());
+        }
+        else {
+            property = entityInstance[1].getPropertyByName(propertyDefinition.getName());
+        }
         AbstractPropertyDefinition.PropertyType type = property.getPropertyDefinition().getType();
 
         try {
             Object value = null;
             if (expression instanceof HelperFunctionExpression) {
                 HelperFunctionExpression helperExpression = (HelperFunctionExpression) expression;
-                value = helperExpression.evaluate(entityInstance, currTick);
+                if (helperExpression.getHelperFunction() instanceof PercentFunction) {
+                    PercentFunction percentFunction = (PercentFunction) helperExpression.getHelperFunction();
+                    if ( entityInstance.length >=2)
+                        value = percentFunction.percentInvoke(entityInstance[0], entityInstance[1], currTick);
+                    else
+                        value = percentFunction.percentInvoke(entityInstance[0], null, currTick);
+                }
+                else {
+                    try {
+                        value = helperExpression.evaluate(entityInstance[0], currTick);
+                    } catch (Exception e) {
+                        if (entityInstance.length >= 2)
+                            value = helperExpression.evaluate(entityInstance[1], currTick);
+                    }
+                }
             } else
-                value = expression.evaluate(entityInstance);
+                value = expression.evaluate(entityInstance[0]);
 
 
 

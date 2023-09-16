@@ -6,6 +6,7 @@ import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.expressions.api.Expression;
 import world.expressions.impl.HelperFunctionExpression;
+import world.helper.function.impl.PercentFunction;
 import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
@@ -25,15 +26,35 @@ public class IncreaseAction extends ActionImpl {
     }
 
     @Override
-    public void activate(EntityInstance entityInstance, int currTick) throws Exception {
-        PropertyInstance property = entityInstance.getPropertyByName(propertyDefinition.getName());
+    public void activate(int currTick, EntityInstance... entityInstance) throws Exception {
+        PropertyInstance property = null;
+        if (entityInstance[0].getEntityDefinition() == entityDefinition) {
+            property = entityInstance[0].getPropertyByName(propertyDefinition.getName());
+        }
+        else {
+            property = entityInstance[1].getPropertyByName(propertyDefinition.getName());
+        }
         try {
             Object value = null;
             if (by instanceof HelperFunctionExpression) {
                 HelperFunctionExpression helperBy = (HelperFunctionExpression) by;
-                value = helperBy.evaluate(entityInstance, currTick);
+                if (helperBy.getHelperFunction() instanceof PercentFunction) {
+                    PercentFunction percentFunction = (PercentFunction) helperBy.getHelperFunction();
+                    if ( entityInstance.length >=2)
+                        value = percentFunction.percentInvoke(entityInstance[0], entityInstance[1], currTick);
+                    else
+                        value = percentFunction.percentInvoke(entityInstance[0], null, currTick);
+                }
+                else {
+                    try {
+                        value = helperBy.evaluate(entityInstance[0], currTick);
+                    } catch (Exception e) {
+                        if (entityInstance.length >= 2)
+                            value = helperBy.evaluate(entityInstance[1], currTick);
+                    }
+                }
             } else
-                value = by.evaluate(entityInstance);
+                value = by.evaluate(entityInstance[0]);
             Object newValue = null;
 
             if (propertyDefinition.getType().equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {

@@ -21,19 +21,13 @@ public class TicksFunction extends HelperFunctionImpl{
 
     @Override
     public Object invoke(EntityInstance entityInstance, Integer currTick) throws Exception {
-        if (functionContext.getPrimaryEntity().getName().equals(entityName)) {
-            PropertyDefinition propertyDefinition = functionContext.getPrimaryEntity().getPropertyByName(propertyName);
+
+        if ( entityName.equals(entityInstance.getEntityDefinition().getName())) {
+            PropertyDefinition propertyDefinition = entityInstance.getEntityDefinition().getPropertyByName(propertyName);
             PropertyInstance propertyInstance = entityInstance.getPropertyByName(propertyName);
             return currTick - propertyInstance.getLastUpdateTick();
-
         }
-        if (functionContext.getSecondaryEntity() != null) {
-            if (functionContext.getSecondaryEntity().getName().equals(entityName)) {
-                PropertyDefinition propertyDefinition = functionContext.getSecondaryEntity().getPropertyByName(propertyName);
-                PropertyInstance propertyInstance = entityInstance.getPropertyByName(propertyName);
-                return currTick - propertyInstance.getLastUpdateTick();
-            }
-        }
-        throw new SimulationFunctionsException(entityName, "evaluate");
+        else
+            throw new SimulationFunctionsException(entityName, "evaluate");
     }
 }

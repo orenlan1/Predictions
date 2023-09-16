@@ -1,5 +1,6 @@
 package world.property.impl;
 
+import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 
@@ -33,6 +34,26 @@ public class PropertyInstanceImpl implements PropertyInstance {
     @Override
     public void updateValue(Object value, int currTick)
     {
+        if (propertyDefinition.getType().equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
+            if (value instanceof Integer) {
+                IntegerPropertyDefinition intPropertyDef = (IntegerPropertyDefinition) propertyDefinition;
+                int to = intPropertyDef.getTo();
+                int from = intPropertyDef.getFrom();
+                if ((Integer) value > to || (Integer) value < from) {
+                    return;
+                }
+            }
+        }
+        else if (propertyDefinition.getType().equals(AbstractPropertyDefinition.PropertyType.FLOAT)) {
+            if (value instanceof Float) {
+                FloatPropertyDefinition floatPropertyDef = (FloatPropertyDefinition) propertyDefinition;
+                float to = floatPropertyDef.getTo();
+                float from = floatPropertyDef.getFrom();
+                if ((float) value > to || (float) value < from) {
+                    return;
+                }
+            }
+        }
         this.value = value;
         lastUpdateTick = currTick;
     }

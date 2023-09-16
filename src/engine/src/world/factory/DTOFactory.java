@@ -1,11 +1,8 @@
 package world.factory;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import dto.*;
 import world.action.api.ActionType;
-import world.action.impl.ConditionAction;
 import world.action.impl.MultipleCondition;
-import world.action.impl.SecondaryEntity;
 import world.action.impl.SingularCondition;
 import world.termination.Termination;
 import world.action.api.Action;
@@ -62,15 +59,15 @@ public class DTOFactory {
             if (action instanceof SingularCondition) {
                 SingularCondition condition = (SingularCondition) action;
                 ConditionActionDTO conditionActionDTO = new ConditionActionDTO(Boolean.TRUE, condition.getNumThen(), condition.getNumElse(), null);
-                return new ActionDTO(action.getActionType().toString(), action.getEntityDefinition().getName(), secondaryEntityName, Boolean.FALSE, action.getArguments(), conditionActionDTO);
+                return new ActionDTO(action.getActionType().toString(), action.getMainEntityDefinition().getName(), secondaryEntityName, Boolean.FALSE, action.getArguments(), conditionActionDTO);
             } else {
                 MultipleCondition condition = (MultipleCondition) action;
                 ConditionActionDTO conditionActionDTO = new ConditionActionDTO(Boolean.FALSE, condition.getNumThen(), condition.getNumElse(), condition.getNumOfSubConditions());
-                return new ActionDTO(action.getActionType().toString(), action.getEntityDefinition().getName(), secondaryEntityName, Boolean.FALSE, action.getArguments(), conditionActionDTO);
+                return new ActionDTO(action.getActionType().toString(), action.getMainEntityDefinition().getName(), secondaryEntityName, Boolean.FALSE, action.getArguments(), conditionActionDTO);
             }
         }
         else
-            return new ActionDTO(action.getActionType().toString(), action.getEntityDefinition().getName(), secondaryEntityName, Boolean.FALSE, action.getArguments(), null);
+            return new ActionDTO(action.getActionType().toString(), action.getMainEntityDefinition().getName(), secondaryEntityName, Boolean.FALSE, action.getArguments(), null);
     }
 
     public TerminationDTO createTerminationDTO(Termination termination) {
