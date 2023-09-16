@@ -60,7 +60,11 @@ public class EntityInstanceImpl implements EntityInstance {
 
     @Override
     public void setCoordinate(Grid grid) {
-        coordinate.setRandomlyCoordinate(grid, this);
+        List<GridCoordinate> gridCoordinateList = grid.getUntakenCoordinates();
+        Random random = new Random();
+        int index = random.nextInt(gridCoordinateList.size());
+        this.coordinate = gridCoordinateList.get(index);
+        grid.addCoordinateToMap(this);
     }
 
     @Override

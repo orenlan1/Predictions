@@ -26,16 +26,16 @@ public class ReplaceAction implements Action {
     }
 
     @Override
-    public void activate(EntityInstance entityInstance, int currTick) throws Exception {
-        if (mode.equals("scratch")) {
-            entityInstance.kill();
-            EntityInstance newEntity = entityInstance.getEntityDefinition().createEntityInstance(createdEntityDefinition, entityInstance.getCoordinate());
-            createdEntityDefinition.addEntityInstance(newEntity);
-        }
-        else if ( mode.equals("derived")) {
-            EntityInstance newEntity = entityInstance.createDerivedEntityInstance(createdEntityDefinition);
-            createdEntityDefinition.addEntityInstance(newEntity);
-            entityInstance.kill();
+    public void activate(int currTick, EntityInstance... entityInstance) throws Exception {
+        if (entityInstance[0].isAlive()) {
+            entityInstance[0].kill();
+            if (mode.equals("scratch")) {
+                EntityInstance newEntity = entityInstance[0].getEntityDefinition().createEntityInstance(createdEntityDefinition, entityInstance[0].getCoordinate());
+                createdEntityDefinition.addEntityInstance(newEntity);
+            } else if (mode.equals("derived")) {
+                EntityInstance newEntity = entityInstance[0].createDerivedEntityInstance(createdEntityDefinition);
+                createdEntityDefinition.addEntityInstance(newEntity);
+            }
         }
     }
 
@@ -45,13 +45,23 @@ public class ReplaceAction implements Action {
     }
 
     @Override
-    public EntityDefinition getEntityDefinition() {
+    public EntityDefinition getMainEntityDefinition() {
         return removedEntityDefinition;
     }
 
     @Override
     public EntityDefinition getSecondaryEntityDefinition() {
         return createdEntityDefinition;
+    }
+
+    @Override
+    public SecondaryEntity getSecondaryEntityComponent() {
+        return null;
+    }
+
+    @Override
+    public Context getEntitiesContext() {
+        return entitiesContext;
     }
 
     @Override

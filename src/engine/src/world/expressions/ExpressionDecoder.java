@@ -88,7 +88,7 @@ public class ExpressionDecoder {
                 String propertyName = parts[1];
                 AbstractPropertyDefinition.PropertyType type = getTypeOfHelperFuncArg(entitiesContext, entityName, propertyName, actionName,"ticks");
                 TicksFunction ticksFunction = new TicksFunction(entityName, propertyName, entitiesContext);
-                expression = new HelperFunctionExpression(expressionName, "float", ticksFunction);
+                expression = new HelperFunctionExpression(expressionName, "decimal", ticksFunction);
             }
         } catch (NumberFormatException  e) {
             throw new RuntimeException(e);

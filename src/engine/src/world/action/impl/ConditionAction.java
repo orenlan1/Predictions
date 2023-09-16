@@ -24,19 +24,27 @@ public abstract class ConditionAction extends ActionImpl {
         this.elseActions = elseActions;
     }
 
-    public abstract boolean evaluate(EntityInstance entityInstance, Integer currTick) throws Exception;
+    public abstract boolean evaluate(int currTick, EntityInstance... entityInstance) throws Exception;
 
     @Override
-    public void activate(EntityInstance entityInstance, int currTick) throws Exception {
-        boolean conditionRes = evaluate(entityInstance, currTick);
+    public void activate(int currTick, EntityInstance... entityInstance) throws Exception {
+        boolean conditionRes = evaluate(currTick, entityInstance);
 
         if (conditionRes) {
             for (Action action : thenActions) {
-                action.activate(entityInstance, currTick);
+                if (action.getActionType().equals(ActionType.REPLACE)) {
+                    entityInstance[0].setReplaceAction(action);
+                    entityInstance[0].setToReplace(true);
+                } else
+                    action.activate(currTick, entityInstance);
             }
         } else {
             for (Action action : elseActions) {
-                action.activate(entityInstance, currTick);
+                if (action.getActionType().equals(ActionType.REPLACE)) {
+                    entityInstance[0].setReplaceAction(action);
+                    entityInstance[0].setToReplace(true);
+                } else
+                    action.activate(currTick, entityInstance);
             }
         }
     }

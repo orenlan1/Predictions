@@ -48,8 +48,8 @@ public class SecondaryEntity {
             if ( computedList.isEmpty())
                 return computedList;
             int size = computedList.size();
-            int randomIndex = random.nextInt(size);
             for ( int i = count; i > 0; i--) {
+                int randomIndex = random.nextInt(size);
                 resultList.add(computedList.get(randomIndex));
             }
         }

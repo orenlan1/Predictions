@@ -29,7 +29,7 @@ public abstract class ActionImpl implements Action {
     }
 
     @Override
-    public EntityDefinition getEntityDefinition() {
+    public EntityDefinition getMainEntityDefinition() {
         return entityDefinition;
     }
 
@@ -39,6 +39,17 @@ public abstract class ActionImpl implements Action {
             return secondaryEntity.getSecondaryEntityDefinition();
         else
             return null;
+    }
+
+
+    @Override
+    public Context getEntitiesContext() {
+        return entitiesContext;
+    }
+
+    @Override
+    public SecondaryEntity getSecondaryEntityComponent() {
+        return secondaryEntity;
     }
 
     @Override

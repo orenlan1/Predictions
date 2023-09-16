@@ -27,14 +27,29 @@ public class KillAction implements Action {
     }
 
     @Override
-    public EntityDefinition getEntityDefinition() {
+    public EntityDefinition getMainEntityDefinition() {
         return entityDefinition;
     }
 
 
     @Override
-    public void activate(EntityInstance entityInstance, int currTick) throws Exception {
-        entityInstance.kill();
+    public void activate(int currTick, EntityInstance... entityInstance) throws Exception {
+        if (entityDefinition == entityInstance[0].getEntityDefinition() )
+                entityInstance[0].kill();
+        else {
+            if (entityInstance.length >= 2)
+                entityInstance[1].kill();
+        }
+    }
+
+    @Override
+    public SecondaryEntity getSecondaryEntityComponent() {
+        return secondaryEntity;
+    }
+
+    @Override
+    public Context getEntitiesContext() {
+        return entitiesContext;
     }
 
     @Override

@@ -23,6 +23,7 @@ public abstract class ExpressionImpl implements Expression {
         this.type = type;
     }
 
+
     @Override
     public String getType() {
         return type;
