@@ -14,6 +14,6 @@ public class PropertyNameExpression extends ExpressionImpl {
 
     @Override
     public Object evaluate(EntityInstance entityInstance) {
-        return property;
+        return entityInstance.getPropertyByName(property.getName()).getValue();
     }
 }

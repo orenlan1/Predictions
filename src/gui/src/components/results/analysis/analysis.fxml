@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<BorderPane fx:id="analysisScreen" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.results.past.AnalysisController">
+<BorderPane fx:id="analysisScreen" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.results.analysis.AnalysisController">
    <top>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="infoLabel" text="Please select the analysis to show:" />
             <HBox alignment="CENTER" spacing="50.0">
                <children>
-                  <Button fx:id="graphButton" mnemonicParsing="false" onAction="#showGraph" prefHeight="40.0" prefWidth="150.0" text="Poppulation graph" />
+                  <Button fx:id="graphButton" mnemonicParsing="false" onAction="#showGraph" prefHeight="40.0" prefWidth="150.0" text="Population graph" />
                   <Button fx:id="propertyAnalysisButton" mnemonicParsing="false" onAction="#showPropertyAnalysis" prefHeight="40.0" prefWidth="150.0" text="Property analysis" />
                </children>
                <VBox.margin>
@@ -31,4 +31,11 @@
          </BorderPane.margin>
       </VBox>
    </top>
+   <bottom>
+      <Button mnemonicParsing="false" onAction="#rerunSimulation" prefHeight="40.0" prefWidth="100.0" text="Rerun" BorderPane.alignment="BOTTOM_RIGHT">
+         <BorderPane.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </BorderPane.margin>
+      </Button>
+   </bottom>
 </BorderPane>

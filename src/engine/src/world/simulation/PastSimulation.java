@@ -1,6 +1,7 @@
 package world.simulation;
 
 import world.entity.api.EntityDefinition;
+import world.environment.api.ActiveEnvironment;
 
 import java.text.DateFormat;
 import java.util.Collection;
@@ -13,12 +14,14 @@ public class PastSimulation {
     private final int id;
     private final Date date;
     private final Map<String , Map<Integer, Integer>> entityToPopulation;
+    private final ActiveEnvironment activeEnvironment;
 
-    public PastSimulation(Collection<EntityDefinition> entityDefinitions, int simulationID, Date date, Map<String , Map<Integer, Integer>> entityToPopulation) {
+    public PastSimulation(Collection<EntityDefinition> entityDefinitions, int simulationID, Date date, Map<String , Map<Integer, Integer>> entityToPopulation, ActiveEnvironment activeEnvironment) {
         entities = entityDefinitions;
         id = simulationID;
         this.date = date;
         this.entityToPopulation = entityToPopulation;
+        this.activeEnvironment = activeEnvironment;
     }
 
     public Collection<EntityDefinition> getEntities() {
@@ -35,5 +38,9 @@ public class PastSimulation {
 
     public Map<String, Map<Integer, Integer>> getEntityToPopulation() {
         return entityToPopulation;
+    }
+
+    public ActiveEnvironment getActiveEnvironment() {
+        return activeEnvironment;
     }
 }

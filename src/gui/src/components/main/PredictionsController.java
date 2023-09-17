@@ -116,6 +116,7 @@ public class PredictionsController {
             isFileSelected.set(true);
             detailsController.clearDetails(event);
             newExecutionController.clearNewExecution(event);
+            resultsController.hardReset();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, DTO.getError());
             alert.setHeaderText(null);
@@ -175,6 +176,10 @@ public class PredictionsController {
 
     public PastSimulationDTO getPastSimulation(int id) {
         return predictionsService.getSimulationsDTO().getSimulationsList().get(id - 1);
+    }
+
+    public HistogramDTO getHistogram(String entity, String property) {
+        return predictionsService.getHistogram(entity, property);
     }
 
 }

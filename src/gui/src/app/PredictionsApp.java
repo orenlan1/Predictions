@@ -8,6 +8,7 @@ import components.results.ResultsController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -27,7 +28,7 @@ public class PredictionsApp extends Application {
 
         URL mainFXML = getClass().getResource("/components/main/predictionsScene.fxml");
         FXMLLoader loader = new FXMLLoader(mainFXML);
-        BorderPane borderPane = loader.load();
+        ScrollPane borderPane = loader.load();
 
         URL detailsFXML = getClass().getResource("/components/details/details.fxml");
         FXMLLoader detailsLoader = new FXMLLoader(detailsFXML);

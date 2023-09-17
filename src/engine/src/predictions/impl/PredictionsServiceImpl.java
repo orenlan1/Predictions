@@ -121,40 +121,47 @@ public class PredictionsServiceImpl implements PredictionsService {
                 }
                 pastEntityDTOList.add(new PastEntityDTO(entityDefinition.getName(), entityDefinition.getPopulation(), entityDefinition.getEntityInstances().size(), propertyDTOList));
             }
-            pastSimulationDTOList.add(new PastSimulationDTO(id, pastEntityDTOList, date, pastSimulation.getEntityToPopulation()));
+            List<EnvVariablesDTO> envVariablesDTOs = new ArrayList<>();
+            for (PropertyInstance envVariable : pastSimulation.getActiveEnvironment().getEnvironmentVariables()) {
+                envVariablesDTOs.add(dtoFactory.createEnvVariableDTO(envVariable));
+            }
+
+            pastSimulationDTOList.add(new PastSimulationDTO(id, pastEntityDTOList, date, pastSimulation.getEntityToPopulation(), envVariablesDTOs));
         }
         return new AllSimulationsDTO(pastSimulationDTOList);
     }
 
 
-
-    public HistogramDTO getHistogram(String propertyName) {
+    @Override
+    public HistogramDTO getHistogram(String entityName, String propertyName) {
         Collection<EntityDefinition> entityDefinitions = world.getEntityDefinitions();
         Map<Object, Integer> valueToAmount = new HashMap<>();
 
         for (EntityDefinition entityDefinition : entityDefinitions) {
-            List<EntityInstance> entityInstances = entityDefinition.getEntityInstances();
-            for (EntityInstance entityInstance : entityInstances) {
-                Object key = (entityInstance.getPropertyByName(propertyName).getValue());
+            if (entityDefinition.getName().equals(entityName)) {
+                List<EntityInstance> entityInstances = entityDefinition.getEntityInstances();
+                for (EntityInstance entityInstance : entityInstances) {
+                    Object key = (entityInstance.getPropertyByName(propertyName).getValue());
 
-                if (key instanceof Integer || key instanceof Float) {
-                    Number numKey = (Number) key;
-                    if (valueToAmount.containsKey(numKey))
-                        valueToAmount.put(numKey, valueToAmount.get(numKey) + 1);
-                    else
-                        valueToAmount.put(numKey, 1);
-                } else if (key instanceof Boolean) {
-                    Boolean boolKey = (Boolean) key;
-                    if (valueToAmount.containsKey(boolKey))
-                        valueToAmount.put(boolKey, valueToAmount.get(boolKey) + 1);
-                    else
-                        valueToAmount.put(boolKey, 1);
-                } else if (key instanceof String) {
-                    String strKey = (String) key;
-                    if (valueToAmount.containsKey(strKey))
-                        valueToAmount.put(strKey, valueToAmount.get(strKey) + 1);
-                    else
-                        valueToAmount.put(strKey, 1);
+                    if (key instanceof Integer || key instanceof Float) {
+                        Number numKey = (Number) key;
+                        if (valueToAmount.containsKey(numKey))
+                            valueToAmount.put(numKey, valueToAmount.get(numKey) + 1);
+                        else
+                            valueToAmount.put(numKey, 1);
+                    } else if (key instanceof Boolean) {
+                        Boolean boolKey = (Boolean) key;
+                        if (valueToAmount.containsKey(boolKey))
+                            valueToAmount.put(boolKey, valueToAmount.get(boolKey) + 1);
+                        else
+                            valueToAmount.put(boolKey, 1);
+                    } else if (key instanceof String) {
+                        String strKey = (String) key;
+                        if (valueToAmount.containsKey(strKey))
+                            valueToAmount.put(strKey, valueToAmount.get(strKey) + 1);
+                        else
+                            valueToAmount.put(strKey, 1);
+                    }
                 }
             }
         }

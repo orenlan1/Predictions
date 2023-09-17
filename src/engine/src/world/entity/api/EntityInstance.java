@@ -1,11 +1,9 @@
 package world.entity.api;
 
-import world.entity.impl.EntityInstanceImpl;
+import world.action.api.Action;
 import world.grid.Grid;
 import world.grid.GridCoordinate;
-import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
-import world.property.impl.PropertyInstanceImpl;
 
 
 public interface EntityInstance {
@@ -19,8 +17,8 @@ public interface EntityInstance {
     void setCoordinate(GridCoordinate coordinate);
     GridCoordinate getCoordinate();
     void moveEntityCoordinate(Grid grid);
-
-
-
-
+    boolean isToReplace();
+    void setToReplace(boolean toReplace);
+    Action getReplaceAction();
+    void setReplaceAction(Action action);
 }

@@ -54,8 +54,15 @@ public class PropertyInstanceImpl implements PropertyInstance {
                 }
             }
         }
-        this.value = value;
-        lastUpdateTick = currTick;
+        if (value instanceof String) {
+            if (!((this.value).equals(value))) {
+                this.value = value;
+                lastUpdateTick = currTick;
+            }
+        } else if (this.value != value) {
+            this.value = value;
+            lastUpdateTick = currTick;
+        }
     }
 
     public int getLastUpdateTick() {

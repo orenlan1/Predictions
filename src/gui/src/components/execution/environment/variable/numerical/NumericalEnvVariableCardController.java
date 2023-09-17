@@ -135,13 +135,19 @@ public class NumericalEnvVariableCardController implements EnvVariableCardContro
     public UserInputEnvironmentVariableDTO getInput() {
         String value;
         if (setCheckBox.isSelected())
-            /*if (typeLabel.getText().contains("decimal")) {
-                value = valueSetter.getValue().toString().split("\\.")[0];
-            } else*/
                 value = valueSetter.getValue().toString();
         else
             value = null;
 
         return new UserInputEnvironmentVariableDTO(nameLabel.getText().substring(6), value);
     }
+
+    @Override
+    public void setValue(String value) {
+        setCheckBox.setSelected(true);
+        setChecked(new ActionEvent());
+        valueSetter.getValueFactory().setValue(Double.parseDouble(value));
+        valueSetter.getEditor().textProperty().set(value);
+    }
+
 }

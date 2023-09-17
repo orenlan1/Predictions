@@ -1,11 +1,9 @@
 package components.results;
 
-import components.details.DetailsController;
 import components.execution.NewExecutionController;
 import components.main.PredictionsController;
-import components.results.past.AnalysisController;
+import components.results.analysis.AnalysisController;
 import dto.SimulationRunnerDTO;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -15,7 +13,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -38,6 +35,7 @@ public class ResultsController {
 
     private PredictionsController predictionsController;
     private NewExecutionController newExecutionController;
+    private BorderPane mainBorderPane;
 
     public void setPredictionsController(PredictionsController predictionsController) {
         this.predictionsController = predictionsController;
@@ -50,6 +48,7 @@ public class ResultsController {
     public void showResults(BorderPane borderPane) {
         borderPane.setCenter(resultsBorderPane);
         resultsBorderPane.setCenter(resultsScrollPane);
+        mainBorderPane = borderPane;
     }
 
     public void addPastSimulation(SimulationRunnerDTO dto) {
@@ -79,7 +78,7 @@ public class ResultsController {
     public void showAnalysis(int id) {
         clearResults();
 
-        URL analysisFXML = getClass().getResource("/components/results/past/analysis.fxml");
+        URL analysisFXML = getClass().getResource("/components/results/analysis/analysis.fxml");
         FXMLLoader analysisLoader = new FXMLLoader(analysisFXML);
         BorderPane analysisScreen;
         try {
@@ -88,13 +87,22 @@ public class ResultsController {
             throw new RuntimeException(e);
         }
         AnalysisController analysisController = analysisLoader.getController();
-        //TODO analysisController.setDto(predictionsController.getPastSimulation(id));
+        analysisController.setDto(predictionsController.getPastSimulation(id));
         analysisController.setResultsFlowPane(resultsFlowPane);
+        analysisController.setNewExecutionController(newExecutionController);
+        analysisController.setMainBorderPane(mainBorderPane);
 
         resultsBorderPane.setCenter(analysisScreen);
     }
 
     public void clearResults() {
+        resultsBorderPane.setCenter(resultsScrollPane);
         resultsFlowPane.getChildren().clear();
+    }
+
+    public void hardReset() {
+        resultsBorderPane.setCenter(resultsScrollPane);
+        resultsFlowPane.getChildren().clear();
+        pastSimulations.getPanes().clear();
     }
 }
