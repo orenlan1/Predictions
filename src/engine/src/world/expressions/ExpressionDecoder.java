@@ -43,6 +43,15 @@ public class ExpressionDecoder {
                 String percent = parts[1];
                 Expression valExp = ExpressionDecoder.decode(value, activeEnvironment, primaryEntity, AbstractPropertyDefinition.PropertyType.FLOAT, actionName, secondaryEntity, entitiesContext);
                 Expression percentExp = ExpressionDecoder.decode(percent, activeEnvironment, primaryEntity, AbstractPropertyDefinition.PropertyType.FLOAT, actionName, secondaryEntity, entitiesContext);
+                if (valExp.getType().equals("boolean"))
+                    throw new MismatchTypesException("Percent function", "number", "boolean");
+                else if (valExp.getType().equals("string"))
+                    throw new MismatchTypesException("Percent function", "number", "string");
+                else if (percentExp.getType().equals("boolean"))
+                    throw new MismatchTypesException("Percent function", "number", "boolean");
+                else if (percentExp.getType().equals("string"))
+                    throw new MismatchTypesException("Percent function", "number", "string");
+
                 PercentFunction percentFunction = new PercentFunction(valExp, percentExp);
                 expression = new HelperFunctionExpression(expressionName, "float", percentFunction);
             }
