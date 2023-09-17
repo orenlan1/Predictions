@@ -1,6 +1,7 @@
 package world.entity.impl;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import world.action.api.Action;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.grid.Direction;
@@ -17,6 +18,8 @@ public class EntityInstanceImpl implements EntityInstance {
     private Map<String, PropertyInstance> nameToProperty;
     private GridCoordinate coordinate;
     private boolean alive;
+    private boolean toReplace;
+    private Action replaceAction;
 
     public EntityInstanceImpl(EntityDefinition entityDefinition) {
         this.entityDefinition = entityDefinition;
@@ -34,15 +37,6 @@ public class EntityInstanceImpl implements EntityInstance {
         return nameToProperty.get(name);
     }
 
-//    private static EntityInstance createEntityInstance(EntityDefinition entityDefinition){
-//
-//        EntityInstance newEntityInstance = new EntityInstanceImpl(entityDefinition);
-//        for (PropertyDefinition propertyDefinition : entityDefinition.getPropertiesList()) {
-//            Object value = propertyDefinition.generateValue();
-//            newEntityInstance.addPropertyInstance(new PropertyInstanceImpl(propertyDefinition,value));
-//        }
-//        return newEntityInstance;
-//    }
     
     @Override
     public void addPropertyInstance(PropertyInstance propertyInstance) {
@@ -55,7 +49,6 @@ public class EntityInstanceImpl implements EntityInstance {
     @Override
     public void kill() {
         alive = Boolean.FALSE;
-        //entityDefinition.killInstance();
     }
 
     @Override
@@ -113,6 +106,16 @@ public class EntityInstanceImpl implements EntityInstance {
         return newDerivedEntity;
     }
 
+    @Override
+    public boolean isToReplace() { return toReplace; }
 
+    @Override
+    public void setToReplace(boolean toReplace) { this.toReplace = toReplace; }
+
+    @Override
+    public Action getReplaceAction() { return replaceAction; }
+
+    @Override
+    public void setReplaceAction(Action action) { this.replaceAction = action; }
 
 }

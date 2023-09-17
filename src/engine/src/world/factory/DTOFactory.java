@@ -4,6 +4,7 @@ import dto.*;
 import world.action.api.ActionType;
 import world.action.impl.MultipleCondition;
 import world.action.impl.SingularCondition;
+import world.property.api.PropertyInstance;
 import world.termination.Termination;
 import world.action.api.Action;
 import world.entity.api.EntityDefinition;
@@ -74,5 +75,7 @@ public class DTOFactory {
         return new TerminationDTO(termination.getTicksCount(), termination.getSecondCount());
     }
 
-
+    public EnvVariablesDTO createEnvVariableDTO(PropertyInstance envVariable) {
+        return new EnvVariablesDTO(envVariable.getPropertyDefinition().getName(), envVariable.getValue().toString());
+    }
 }

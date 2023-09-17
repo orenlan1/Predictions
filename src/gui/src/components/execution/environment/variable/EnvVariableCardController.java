@@ -8,4 +8,5 @@ public interface EnvVariableCardController {
 
     void setCard(PropertyDTO dto);
     UserInputEnvironmentVariableDTO getInput();
+    void setValue(String value);
 }

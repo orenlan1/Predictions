@@ -50,7 +50,7 @@ public class SetEnvironmentVariables {
                         System.out.println("select 0 for \"false\" or 1 for \"true\"");
                     }
                     updateValue = scanner.nextLine();
-                    EnvVariableSetValidationDTO valid = predictionsService.setEnvironmentVariable(new UserInputEnvironmentVariableDTO(envProperty, updateValue));
+                    EnvVariableSetValidationDTO valid = predictionsService.setEnvironmentVariables(new UserInputEnvironmentVariableDTO(envProperty, updateValue));
                     if (valid.getValidation())
                         System.out.println("\nValue loaded successfully!");
                     else

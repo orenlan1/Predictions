@@ -68,4 +68,11 @@ public class StringEnvVariableCardController implements EnvVariableCardControlle
     public void setTypeLabel(String type) {
         typeLabel.textProperty().set("Type: " + type);
     }
+
+    @Override
+    public void setValue(String value) {
+        setCheckBox.setSelected(true);
+        setChecked(new ActionEvent());
+        textSetter.setText(value);
+    }
 }

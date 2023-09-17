@@ -55,4 +55,9 @@ public class EntityCountController {
     public EntityInitializationDTO getInfo() {
         return new EntityInitializationDTO(nameLabel.getText(), populationCount.getValue());
     }
+
+    public void setEntityCount(Integer count) {
+        populationCount.getValueFactory().setValue(count);
+        populationCount.getEditor().textProperty().set(count.toString());
+    }
 }

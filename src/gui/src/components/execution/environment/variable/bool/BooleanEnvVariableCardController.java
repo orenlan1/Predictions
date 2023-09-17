@@ -74,4 +74,14 @@ public class BooleanEnvVariableCardController implements EnvVariableCardControll
     public void setTypeLabel(String type) {
         typeLabel.textProperty().set("Type: " + type);
     }
+
+    @Override
+    public void setValue(String value) {
+        setCheckBox.setSelected(true);
+        setChecked(new ActionEvent());
+        if (value.toLowerCase().equals("true"))
+            validitySetter.textProperty().set("True");
+        else
+            validitySetter.textProperty().set("False");
+    }
 }

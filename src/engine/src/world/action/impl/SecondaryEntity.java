@@ -38,7 +38,7 @@ public class SecondaryEntity {
                 count = secondaryEntityListSize;
             if ( condition != null) {
                 for ( EntityInstance entityInstance : secondaryEntityInstances){
-                    if (condition.evaluate(entityInstance, currTicks))
+                    if (condition.evaluate(currTicks, entityInstance))
                         computedList.add(entityInstance);
                 }
             }

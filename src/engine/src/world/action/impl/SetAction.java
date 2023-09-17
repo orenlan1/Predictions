@@ -60,7 +60,6 @@ public class SetAction extends ActionImpl{
                 value = expression.evaluate(entityInstance[0]);
 
 
-
             if (type.equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
                 if ((value instanceof Integer)) {
                     IntegerPropertyDefinition intProperty = (IntegerPropertyDefinition) property.getPropertyDefinition();

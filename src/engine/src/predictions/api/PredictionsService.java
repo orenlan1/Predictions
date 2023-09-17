@@ -15,5 +15,5 @@ public interface PredictionsService {
     List<EnvVariablesDTO> getEnvVariablesDTOList();
     SimulationRunnerDTO runSimulation();
     AllSimulationsDTO getSimulationsDTO();
-    HistogramDTO getHistogram(String propertyName);
+    HistogramDTO getHistogram(String entityName, String propertyName);
 }

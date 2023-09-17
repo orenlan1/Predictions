@@ -43,7 +43,7 @@ public class RuleImpl implements Rule {
     @Override
     public void performActions(EntityInstance entityInstance, int currTick) throws Exception {
         for (Action action : actions) {
-            action.activate(entityInstance, currTick);
+            action.activate(currTick, entityInstance);
         }
     }
 }

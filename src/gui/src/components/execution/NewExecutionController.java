@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class NewExecutionController {
 
@@ -176,6 +177,33 @@ public class NewExecutionController {
     public void clearNewExecution(ActionEvent event) throws Exception {
         showEnvVariables();
         showEntityCounts();
+    }
+
+    public void setSimulationVariables(PastSimulationDTO dto) {
+        for (EnvVariablesDTO envVariablesDTO : dto.getEnvironmentVariables()) {
+            String name = envVariablesDTO.getName();
+            String value = envVariablesDTO.getValue();
+
+            for (EnvVariableCardController controller : envVariableCardControllers) {
+                if (controller.getInput().getName().equals(name)) {
+                    controller.setValue(value);
+                }
+            }
+        }
+
+        for (String name : dto.getEntityToPopulation().keySet()) {
+            Integer count = dto.getEntityToPopulation().get(name).get(0);
+
+            for (EntityCountController controller : entityCountControllers) {
+                if (controller.getInfo().getName().equals(name)) {
+                    controller.setEntityCount(count);
+                }
+            }
+        }
+    }
+
+    public HistogramDTO getHistogram(String entity, String property) {
+        return predictionsController.getHistogram(entity, property);
     }
 
 }
