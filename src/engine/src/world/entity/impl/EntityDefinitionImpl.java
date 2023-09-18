@@ -9,11 +9,12 @@ import world.grid.GridCoordinate;
 import world.property.api.PropertyDefinition;
 import world.property.impl.PropertyInstanceImpl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class EntityDefinitionImpl implements EntityDefinition {
+public class EntityDefinitionImpl implements EntityDefinition, Serializable {
     private final String name;
     private int population;
     private List<EntityInstance> entityInstances;

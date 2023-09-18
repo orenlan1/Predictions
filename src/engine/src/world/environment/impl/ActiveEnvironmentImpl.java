@@ -3,12 +3,13 @@ package world.environment.impl;
 import world.environment.api.ActiveEnvironment;
 import world.property.api.PropertyInstance;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class ActiveEnvironmentImpl implements ActiveEnvironment {
+public class ActiveEnvironmentImpl implements ActiveEnvironment, Serializable {
     Map<String, PropertyInstance> environmentVariables;
 
     public ActiveEnvironmentImpl() { environmentVariables = new HashMap<>(); }

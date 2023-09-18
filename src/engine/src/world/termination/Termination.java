@@ -1,6 +1,8 @@
 package world.termination;
 
-public class Termination {
+import java.io.Serializable;
+
+public class Termination implements Serializable {
     private final Integer ticksCount;
     private final Integer secondCount;
     private Boolean byUser;

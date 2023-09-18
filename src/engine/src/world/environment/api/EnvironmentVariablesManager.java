@@ -3,6 +3,7 @@ package world.environment.api;
 import world.exceptions.EnvironmentVariableNameExistException;
 import world.property.api.PropertyDefinition;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 public interface EnvironmentVariablesManager {

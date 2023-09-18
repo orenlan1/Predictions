@@ -5,11 +5,12 @@ import world.environment.api.EnvironmentVariablesManager;
 import world.exceptions.EnvironmentVariableNameExistException;
 import world.property.api.PropertyDefinition;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EnvironmentVariablesManagerImpl implements EnvironmentVariablesManager {
+public class EnvironmentVariablesManagerImpl implements EnvironmentVariablesManager, Serializable {
     Map<String, PropertyDefinition> nameToPropertyDefinition;
 
     public EnvironmentVariablesManagerImpl() {

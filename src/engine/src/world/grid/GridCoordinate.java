@@ -2,10 +2,11 @@ package world.grid;
 
 import world.entity.api.EntityInstance;
 
+import java.io.Serializable;
 import java.util.Random;
 import java.util.List;
 
-public class GridCoordinate {
+public class GridCoordinate implements Serializable {
     private int x;
     private int y;
 

@@ -6,9 +6,10 @@ import world.grid.Grid;
 import world.grid.GridCoordinate;
 import world.property.api.PropertyDefinition;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface EntityDefinition {
+public interface EntityDefinition  {
     String getName();
     int getPopulation();
     void setPopulation(Integer population);
