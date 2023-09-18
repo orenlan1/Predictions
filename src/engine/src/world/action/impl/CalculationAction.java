@@ -7,6 +7,7 @@ import world.entity.api.EntityInstance;
 import world.expressions.api.Expression;
 import world.property.api.PropertyDefinition;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

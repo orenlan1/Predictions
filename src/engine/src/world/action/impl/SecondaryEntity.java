@@ -3,11 +3,12 @@ package world.action.impl;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class SecondaryEntity {
+public class SecondaryEntity implements Serializable {
     private final EntityDefinition secondaryEntityDefinition;
     private final String count;
     private final ConditionAction condition;

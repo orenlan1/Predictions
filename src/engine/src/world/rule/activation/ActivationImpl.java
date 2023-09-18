@@ -2,9 +2,10 @@ package world.rule.activation;
 
 import world.World;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class ActivationImpl implements Activation{
+public class ActivationImpl implements Activation, Serializable {
     private final Double probability;
     private final Integer ticks;
 

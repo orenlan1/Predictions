@@ -39,7 +39,6 @@ public class AnalysisController {
     private PastSimulationDTO dto;
     private FlowPane resultsFlowPane;
     private BorderPane resultsBorderPane;
-    private BorderPane mainBorderPane;
     private NewExecutionController newExecutionController;
 
     public void setDto(PastSimulationDTO dto) {
@@ -56,7 +55,6 @@ public class AnalysisController {
 
     public void setResultsBorderPane(BorderPane resultsBorderPane) { this.resultsBorderPane = resultsBorderPane; }
 
-    public void setMainBorderPane(BorderPane mainBorderPane) { this.mainBorderPane = mainBorderPane; }
 
     @FXML
     public void showGraph(ActionEvent event) {
@@ -107,7 +105,7 @@ public class AnalysisController {
 
     @FXML
     public void rerunSimulation(ActionEvent event) throws Exception {
-        newExecutionController.showNewExecution(mainBorderPane);
+        newExecutionController.getPredictionsController().viewNewExecution(event);
         newExecutionController.setSimulationVariables(dto);
     }
 

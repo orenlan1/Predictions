@@ -100,7 +100,7 @@ public class PropertyChooserController {
 
     @FXML
     public void showHistogram(ActionEvent event) {
-        Map<Object, Integer> histogram = newExecutionController.getHistogram(entitySelector.getText(), propertySelector.getText()).getValueToAmount();
+        Map<Object, Integer> histogram = newExecutionController.getHistogram(dto.getId(), entitySelector.getText(), propertySelector.getText()).getValueToAmount();
 
     }
 

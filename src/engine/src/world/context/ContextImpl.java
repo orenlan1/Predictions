@@ -3,7 +3,9 @@ package world.context;
 import world.action.impl.SecondaryEntity;
 import world.entity.api.EntityDefinition;
 
-public class ContextImpl implements Context {
+import java.io.Serializable;
+
+public class ContextImpl implements Context, Serializable {
 
     EntityDefinition primaryEntityDefinition;
     EntityDefinition secondaryEntityDefinition; // can be null

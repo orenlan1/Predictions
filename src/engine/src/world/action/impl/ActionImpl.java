@@ -8,7 +8,9 @@ import world.entity.api.EntityInstance;
 import world.expressions.api.Expression;
 import world.property.api.PropertyDefinition;
 
-public abstract class ActionImpl implements Action {
+import java.io.Serializable;
+
+public abstract class ActionImpl implements Action, Serializable {
     protected final ActionType actionType;
     protected EntityDefinition entityDefinition;
     protected SecondaryEntity secondaryEntity;

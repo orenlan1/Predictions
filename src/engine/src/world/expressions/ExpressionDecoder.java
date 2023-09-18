@@ -16,8 +16,10 @@ import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 
+import java.io.Serializable;
 
-public class ExpressionDecoder {
+
+public class ExpressionDecoder implements Serializable {
     public static Expression decode(String expressionName, ActiveEnvironment activeEnvironment, EntityDefinition entityDefinition, AbstractPropertyDefinition.PropertyType type, String actionName, SecondaryEntity secondaryEntity, Context entitiesContext) throws Exception {
         Expression expression;
         expression = ExpressionDecoder.isHelperFunction(expressionName,activeEnvironment, entityDefinition,secondaryEntity, actionName, entitiesContext);

@@ -35,7 +35,6 @@ public class ResultsController {
 
     private PredictionsController predictionsController;
     private NewExecutionController newExecutionController;
-    private BorderPane mainBorderPane;
 
     public void setPredictionsController(PredictionsController predictionsController) {
         this.predictionsController = predictionsController;
@@ -48,14 +47,13 @@ public class ResultsController {
     public void showResults(BorderPane borderPane) {
         borderPane.setCenter(resultsBorderPane);
         resultsBorderPane.setCenter(resultsScrollPane);
-        mainBorderPane = borderPane;
     }
 
-    public void addPastSimulation(SimulationRunnerDTO dto) {
-        pastSimulations.getPanes().add(createTitledPane(dto.getId()));
+    public void addPastSimulation(Integer id) {
+        pastSimulations.getPanes().add(createTitledPane(id));
     }
 
-    public TitledPane createTitledPane(int id) {
+    public TitledPane createTitledPane(Integer id) {
         Button progressAndEntitiesButton = new Button("Progress and entities");
         Button analysisButton = new Button("Analysis");
 
@@ -75,7 +73,7 @@ public class ResultsController {
     }
 
 
-    public void showAnalysis(int id) {
+    public void showAnalysis(Integer id) {
         clearResults();
 
         URL analysisFXML = getClass().getResource("/components/results/analysis/analysis.fxml");
@@ -90,7 +88,6 @@ public class ResultsController {
         analysisController.setDto(predictionsController.getPastSimulation(id));
         analysisController.setResultsFlowPane(resultsFlowPane);
         analysisController.setNewExecutionController(newExecutionController);
-        analysisController.setMainBorderPane(mainBorderPane);
 
         resultsBorderPane.setCenter(analysisScreen);
     }

@@ -7,10 +7,11 @@ import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.property.api.PropertyDefinition;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KillAction implements Action {
+public class KillAction implements Action, Serializable {
     ActionType actionType = ActionType.KILL;
     private final EntityDefinition entityDefinition;
     private final SecondaryEntity secondaryEntity;

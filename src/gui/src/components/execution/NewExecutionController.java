@@ -63,6 +63,8 @@ public class NewExecutionController {
         this.predictionsController = predictionsController;
     }
 
+    public PredictionsController getPredictionsController() { return predictionsController; }
+
     public void setResultsController(ResultsController resultsController) {
         this.resultsController = resultsController;
         resultsController.setNewExecutionController(this);
@@ -165,8 +167,9 @@ public class NewExecutionController {
 
         EnvVariableSetValidationDTO valid = predictionsController.setEnvVariables(envVariablesDTOs);
         if (valid.getValidation()) {
-            resultsController.addPastSimulation(predictionsController.runSimulation());
+            Integer simulationID = predictionsController.runSimulation();
             clearNewExecution(event);
+            resultsController.addPastSimulation(simulationID);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, valid.getMessage());
             alert.setHeaderText(null);
@@ -202,8 +205,8 @@ public class NewExecutionController {
         }
     }
 
-    public HistogramDTO getHistogram(String entity, String property) {
-        return predictionsController.getHistogram(entity, property);
+    public HistogramDTO getHistogram(Integer id, String entity, String property) {
+        return predictionsController.getHistogram(id, entity, property);
     }
 
 }

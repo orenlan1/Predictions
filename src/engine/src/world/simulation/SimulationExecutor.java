@@ -156,7 +156,7 @@ public class SimulationExecutor implements Runnable {
         for (PropertyInstance envVariable : world.getActiveEnvironment().getEnvironmentVariables()) {
             PropertyInstance newEnvVariable = new PropertyInstanceImpl(envVariable.getPropertyDefinition(), envVariable.getValue());
             newActiveEnvironment.addPropertyInstance(newEnvVariable);
-        }
+        }*/
 
 
     }
