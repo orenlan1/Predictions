@@ -16,8 +16,10 @@ import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 
+import java.io.Serializable;
 
-public class ExpressionDecoder {
+
+public class ExpressionDecoder implements Serializable {
     public static Expression decode(String expressionName, ActiveEnvironment activeEnvironment, EntityDefinition entityDefinition, AbstractPropertyDefinition.PropertyType type, String actionName, SecondaryEntity secondaryEntity, Context entitiesContext) throws Exception {
         Expression expression;
         expression = ExpressionDecoder.isHelperFunction(expressionName,activeEnvironment, entityDefinition,secondaryEntity, actionName, entitiesContext);
@@ -43,6 +45,15 @@ public class ExpressionDecoder {
                 String percent = parts[1];
                 Expression valExp = ExpressionDecoder.decode(value, activeEnvironment, primaryEntity, AbstractPropertyDefinition.PropertyType.FLOAT, actionName, secondaryEntity, entitiesContext);
                 Expression percentExp = ExpressionDecoder.decode(percent, activeEnvironment, primaryEntity, AbstractPropertyDefinition.PropertyType.FLOAT, actionName, secondaryEntity, entitiesContext);
+                if (valExp.getType().equals("boolean"))
+                    throw new MismatchTypesException("Percent function", "number", "boolean");
+                else if (valExp.getType().equals("string"))
+                    throw new MismatchTypesException("Percent function", "number", "string");
+                else if (percentExp.getType().equals("boolean"))
+                    throw new MismatchTypesException("Percent function", "number", "boolean");
+                else if (percentExp.getType().equals("string"))
+                    throw new MismatchTypesException("Percent function", "number", "string");
+
                 PercentFunction percentFunction = new PercentFunction(valExp, percentExp);
                 expression = new HelperFunctionExpression(expressionName, "float", percentFunction);
             }

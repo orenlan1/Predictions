@@ -7,11 +7,12 @@ import world.context.ContextImpl;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ReplaceAction implements Action {
+public class ReplaceAction implements Action, Serializable {
     private ActionType actionType = ActionType.REPLACE;
     private final String mode;
     private EntityDefinition removedEntityDefinition;

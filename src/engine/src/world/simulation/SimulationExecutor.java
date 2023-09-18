@@ -12,32 +12,62 @@ import world.rule.api.Rule;
 
 import java.util.*;
 
-public class SimulationExecutor {
+public class SimulationExecutor implements Runnable {
+    private World world;
+    SimulationRunnerDTO simulationRunnerDTO;
 
+    public void setWorld(World world) { this.world = world; }
 
-    public SimulationRunnerDTO runSimulation(World world) {
+    public SimulationRunnerDTO getSimulationRunnerDTO() { return simulationRunnerDTO; }
+
+    @Override
+    public void run() {
         Integer seconds = world.getTermination().getSecondCount();
         Integer ticks = world.getTermination().getTicksCount();
         world.resetTicks();
         try {
             simulationRulesPerform(world, seconds, ticks);
         } catch (Exception e) {
-            return new SimulationRunnerDTO(Boolean.FALSE, e.getMessage(), world.getSimulationID(), Boolean.FALSE);
+            simulationRunnerDTO = new SimulationRunnerDTO(Boolean.FALSE, e.getMessage(), world.getSimulationID(), Boolean.FALSE);
+        } finally {
+            world.getPastSimulation().setRunning(false);
         }
         if (ticks != null && seconds != null) {
             if (world.getTicks() >= ticks)
-                return new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.TRUE);
+                simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.TRUE);
             else
-                return new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.FALSE);
+                simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.FALSE);
         }
         else if (ticks != null)
-            return new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.TRUE);
+            simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.TRUE);
         else
-            return new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.FALSE);
+            simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.FALSE);
     }
+
+    /*public void runSimulation() {
+        Integer seconds = world.getTermination().getSecondCount();
+        Integer ticks = world.getTermination().getTicksCount();
+        world.resetTicks();
+        try {
+            simulationRulesPerform(world, seconds, ticks);
+        } catch (Exception e) {
+            simulationRunnerDTO = new SimulationRunnerDTO(Boolean.FALSE, e.getMessage(), world.getSimulationID(), Boolean.FALSE);
+        }
+        if (ticks != null && seconds != null) {
+            if (world.getTicks() >= ticks)
+                simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.TRUE);
+            else
+                simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.FALSE);
+        }
+        else if (ticks != null)
+            simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.TRUE);
+        else
+            simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.FALSE);
+    }*/
 
 
     public void simulationRulesPerform(World world, Integer seconds, Integer ticks) throws Exception {
+        Thread currThread = Thread.currentThread();
         Map<String, Map<Integer, Integer>> entityToPopulation = new HashMap<>();
         for (EntityDefinition entityDefinition : world.getEntityDefinitions()) {
             entityDefinition.createEntityInstancesPopulation(world.getGrid());
@@ -46,33 +76,13 @@ public class SimulationExecutor {
             entityCount.put(0, entityDefinition.getPopulation());
         }
 
-        List<Rule> rules = world.getRules();
         Boolean valid = true;
         long start = System.currentTimeMillis();
+        Date date = new Date(start);
+        world.setPastSimulation(new PastSimulation(world.getEntityDefinitions(), world.getSimulationID(), date, entityToPopulation, world.getActiveEnvironment()));
+
         while (valid) {
             world.moveAllEntitiesCoordinates(world.getGrid());
-            /*List<Rule> activeRules = world.computeActiveRules(world.getTicks());
-            if (!activeRules.isEmpty()) {
-                List<Action> actionsList = world.getActiveRulesActions(activeRules);
-                for (EntityDefinition entityDefinition : world.getEntityDefinitions()) {
-                    for (EntityInstance entityInstance : entityDefinition.getEntityInstances()) {
-                        for (Action action : actionsList) {
-                            if (action.getMainEntityDefinition() == entityDefinition) {
-                                if (entityInstance.isAlive()) {
-                                    if (action.getSecondaryEntityComponent() != null) {
-                                        List<EntityInstance> secondaryEntityInstanceList = action.getSecondaryEntityComponent().computeSecondaryEntitiesForAction(world.getTicks());
-                                        for (EntityInstance secondaryEntityInstance : secondaryEntityInstanceList) {
-                                            action.activate(world.getTicks(), entityInstance, secondaryEntityInstance);
-                                        }
-                                    } else {
-                                        action.activate(world.getTicks(), entityInstance);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }*/
             for (EntityDefinition entityDefinition : world.getEntityDefinitions()) {
                 for (EntityInstance entityInstance : entityDefinition.getEntityInstances()) {
                     List<Rule> activeRules = world.computeActiveRules(world.getTicks());
@@ -133,13 +143,11 @@ public class SimulationExecutor {
                 valid = world.getTicks() < ticks;
             else if (seconds != null)
                 valid = System.currentTimeMillis() - start < (seconds * 1000L);
+
             //TODO - add user terminated
         }
 
-        world.updateSimulationID();
-        Date date = new Date(start);
-
-        List<EntityDefinition> newEntityDefinitions = new ArrayList<>();
+        /*List<EntityDefinition> newEntityDefinitions = new ArrayList<>();
         for (EntityDefinition entityDefinition : (world.getEntityDefinitions())) {
             newEntityDefinitions.add(entityDefinition.cloneEntityDefinition());
         }
@@ -148,8 +156,8 @@ public class SimulationExecutor {
         for (PropertyInstance envVariable : world.getActiveEnvironment().getEnvironmentVariables()) {
             PropertyInstance newEnvVariable = new PropertyInstanceImpl(envVariable.getPropertyDefinition(), envVariable.getValue());
             newActiveEnvironment.addPropertyInstance(newEnvVariable);
-        }
+        }*/
 
-        world.addPastSimulation(new PastSimulation(newEntityDefinitions, world.getSimulationID(), date, entityToPopulation, newActiveEnvironment));
+
     }
 }

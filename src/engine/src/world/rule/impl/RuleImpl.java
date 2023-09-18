@@ -8,12 +8,13 @@ import world.rule.activation.Activation;
 import world.rule.activation.ActivationImpl;
 import world.rule.api.Rule;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 
-public class RuleImpl implements Rule {
+public class RuleImpl implements Rule, Serializable {
     private final String name;
     private final List<Action> actions;
     private final Activation activation;

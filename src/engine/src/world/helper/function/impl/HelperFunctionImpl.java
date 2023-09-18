@@ -2,11 +2,12 @@ package world.helper.function.impl;
 
 import world.helper.function.api.HelperFunction;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class HelperFunctionImpl implements HelperFunction {
+public abstract class HelperFunctionImpl implements HelperFunction, Serializable {
     private final String name;
     private final int numOfArguments;
     private final List<String> argsTypes;

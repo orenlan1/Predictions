@@ -12,10 +12,11 @@ import world.grid.Grid;
 import world.grid.GridCoordinate;
 import world.helper.function.impl.PercentFunction;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProximityAction implements Action {
+public class ProximityAction implements Action, Serializable {
 
     private ActionType actionType = ActionType.PROXIMITY;
     private Expression of;

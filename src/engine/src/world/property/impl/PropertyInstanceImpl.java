@@ -4,7 +4,9 @@ import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 
-public class PropertyInstanceImpl implements PropertyInstance {
+import java.io.Serializable;
+
+public class PropertyInstanceImpl implements PropertyInstance, Serializable {
     private final PropertyDefinition propertyDefinition;
     protected Object value;
     protected int lastUpdateTick;

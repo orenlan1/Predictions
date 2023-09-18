@@ -2,12 +2,13 @@ package world.grid;
 
 import world.entity.api.EntityInstance;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Grid {
+public class Grid implements Serializable {
     private final int cols;
     private final int rows;
     private Map<GridCoordinate, EntityInstance> entityMap;

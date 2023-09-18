@@ -11,9 +11,10 @@ import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 import world.property.impl.PropertyInstanceImpl;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class EntityInstanceImpl implements EntityInstance {
+public class EntityInstanceImpl implements EntityInstance, Serializable {
     private final EntityDefinition entityDefinition;
     private Map<String, PropertyInstance> nameToProperty;
     private GridCoordinate coordinate;

@@ -15,6 +15,7 @@ public class PastSimulation {
     private final Date date;
     private final Map<String , Map<Integer, Integer>> entityToPopulation;
     private final ActiveEnvironment activeEnvironment;
+    private boolean running;
 
     public PastSimulation(Collection<EntityDefinition> entityDefinitions, int simulationID, Date date, Map<String , Map<Integer, Integer>> entityToPopulation, ActiveEnvironment activeEnvironment) {
         entities = entityDefinitions;
@@ -22,6 +23,7 @@ public class PastSimulation {
         this.date = date;
         this.entityToPopulation = entityToPopulation;
         this.activeEnvironment = activeEnvironment;
+        running = true;
     }
 
     public Collection<EntityDefinition> getEntities() {
@@ -43,4 +45,8 @@ public class PastSimulation {
     public ActiveEnvironment getActiveEnvironment() {
         return activeEnvironment;
     }
+
+    public boolean isRunning() { return running; }
+
+    public void setRunning(boolean running) { this.running = running; }
 }

@@ -6,7 +6,7 @@ import world.exceptions.SimulationFunctionsException;
 import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 
-public class TicksFunction extends HelperFunctionImpl{
+public class TicksFunction extends HelperFunctionImpl {
 
     private final String propertyName;
     private final String entityName;

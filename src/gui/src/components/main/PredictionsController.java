@@ -170,16 +170,15 @@ public class PredictionsController {
         predictionsService.setEntitiesPopulation(DTOs);
     }
 
-    public SimulationRunnerDTO runSimulation() {
+    public Integer runSimulation() {
         return predictionsService.runSimulation();
     }
 
     public PastSimulationDTO getPastSimulation(int id) {
-        return predictionsService.getSimulationsDTO().getSimulationsList().get(id - 1);
+        return predictionsService.getSimulationsDTO(id);
     }
 
-    public HistogramDTO getHistogram(String entity, String property) {
-        return predictionsService.getHistogram(entity, property);
+    public HistogramDTO getHistogram(Integer id, String entity, String property) {
+        return predictionsService.getHistogram(id, entity, property);
     }
-
 }

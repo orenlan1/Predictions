@@ -4,7 +4,9 @@ import world.property.api.PropertyDefinition;
 import world.property.impl.PropertyInstanceImpl;
 import world.value.generator.api.ValueGenerator;
 
-public abstract class AbstractPropertyDefinition<T> implements PropertyDefinition {
+import java.io.Serializable;
+
+public abstract class AbstractPropertyDefinition<T> implements PropertyDefinition, Serializable {
     public enum PropertyType {
         DECIMAL, FLOAT, BOOLEAN, STRING;
     }

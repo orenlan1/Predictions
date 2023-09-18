@@ -10,10 +10,11 @@ import world.helper.function.impl.RandomFunction;
 import world.property.api.AbstractPropertyDefinition;
 import world.property.api.PropertyDefinition;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class ExpressionImpl implements Expression {
+public abstract class ExpressionImpl implements Expression, Serializable {
     protected final String expression;
     protected final String type;
 

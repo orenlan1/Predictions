@@ -1,6 +1,5 @@
 package components.execution;
 
-import app.Toast;
 import components.execution.entity.count.EntityCountController;
 import components.execution.environment.variable.EnvVariableCardController;
 import components.main.PredictionsController;
@@ -11,11 +10,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class NewExecutionController {
 
@@ -43,7 +42,6 @@ public class NewExecutionController {
     private final List<EnvVariableCardController> envVariableCardControllers;
     private final List<EntityCountController> entityCountControllers;
     private Integer maxPopulation;
-    private Stage primaryStage;
 
     private PredictionsController predictionsController;
     private ResultsController resultsController;
@@ -65,13 +63,11 @@ public class NewExecutionController {
         this.predictionsController = predictionsController;
     }
 
+    public PredictionsController getPredictionsController() { return predictionsController; }
+
     public void setResultsController(ResultsController resultsController) {
         this.resultsController = resultsController;
         resultsController.setNewExecutionController(this);
-    }
-
-    public void setPrimaryStage(Stage prinaryStage) {
-        this.primaryStage = prinaryStage;
     }
 
     public void setMaxPopulation(Integer maxPopulation) {
@@ -171,14 +167,9 @@ public class NewExecutionController {
 
         EnvVariableSetValidationDTO valid = predictionsController.setEnvVariables(envVariablesDTOs);
         if (valid.getValidation()) {
-            resultsController.addPastSimulation(predictionsController.runSimulation());
+            Integer simulationID = predictionsController.runSimulation();
             clearNewExecution(event);
-
-            String toastMsg = "Simulation ended successfully!";
-            int toastMsgTime = 3500;
-            int fadeInTime = 500;
-            int fadeOutTime = 500;
-            Toast.makeText(primaryStage, toastMsg, toastMsgTime, fadeInTime, fadeOutTime);
+            resultsController.addPastSimulation(simulationID);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, valid.getMessage());
             alert.setHeaderText(null);
@@ -214,8 +205,8 @@ public class NewExecutionController {
         }
     }
 
-    public HistogramDTO getHistogram(String entity, String property) {
-        return predictionsController.getHistogram(entity, property);
+    public HistogramDTO getHistogram(Integer id, String entity, String property) {
+        return predictionsController.getHistogram(id, entity, property);
     }
 
 }

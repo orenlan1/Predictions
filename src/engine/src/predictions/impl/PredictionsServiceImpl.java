@@ -16,6 +16,7 @@ import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 import world.property.impl.PropertyInstanceImpl;
 import world.simulation.PastSimulation;
+import world.simulation.SimulationExecutionManager;
 import world.simulation.SimulationExecutor;
 import world.simulation.SimulationInfoBuilder;
 
@@ -23,29 +24,34 @@ import java.util.*;
 
 
 public class PredictionsServiceImpl implements PredictionsService {
-    private World world;
+    private SimulationExecutionManager simulationManager;
+
 
 
     @Override
     public FileReaderDTO readFileAndLoad(String fileName) {
+       World mainWorld = null;
        EngineFileReader fileReader = new EngineFileReader();
        try {
-           this.world = fileReader.checkFileValidation(fileName);
+           mainWorld = fileReader.checkFileValidation(fileName);
        } catch (Exception e) {
            return new FileReaderDTO(Boolean.FALSE, e.getMessage(), null);
        }
-       Grid grid = world.getGrid();
+       simulationManager = new SimulationExecutionManager(mainWorld.getThreadCount());
+       simulationManager.addWorldSimulation(mainWorld);
+       Grid grid = mainWorld.getGrid();
        return new FileReaderDTO(Boolean.TRUE, null, new GridDTO(grid.getRows(), grid.getCols()));
     }
 
     @Override
     public SimulationInfoDTO getSimulationInformation() {
         SimulationInfoBuilder simulationInfoBuilder = new SimulationInfoBuilder();
-        return simulationInfoBuilder.createSimulationInfo(world);
+        return simulationInfoBuilder.createSimulationInfo(simulationManager.getMainWorld());
     }
 
     @Override
     public void randomizeEnvProperties() {
+        World world = simulationManager.getMainWorld();
         EnvironmentVariablesManager envVariablesManager = world.getEnvironmentVariablesManager();
         ActiveEnvironment activeEnvironment = envVariablesManager.createActiveEnvironment();
 
@@ -59,6 +65,7 @@ public class PredictionsServiceImpl implements PredictionsService {
     public PropertiesDTO getEnvPropertiesDTO() {
         DTOFactory dtoFactory = new DTOFactory();
         List<PropertyDTO> DTOs = new ArrayList<>();
+        World world = simulationManager.getMainWorld();
         for (PropertyDefinition envProperty : world.getEnvironmentVariablesManager().getEnvironmentVariables()) {
             DTOs.add(dtoFactory.createPropertyDTO(envProperty));
         }
@@ -67,11 +74,12 @@ public class PredictionsServiceImpl implements PredictionsService {
 
     @Override
     public void setEntitiesPopulation(List<EntityInitializationDTO> DTOs) {
-        world.setEntitiesPopulation(DTOs);
+        simulationManager.getMainWorld().setEntitiesPopulation(DTOs);
     }
 
     @Override
     public EnvVariableSetValidationDTO setEnvironmentVariables(List<UserInputEnvironmentVariableDTO> DTOs) {
+        World world = simulationManager.getMainWorld();
         ActiveEnvironment activeEnvironment = world.getActiveEnvironment();
 
         for (UserInputEnvironmentVariableDTO dto : DTOs) {
@@ -89,8 +97,8 @@ public class PredictionsServiceImpl implements PredictionsService {
     }
 
     @Override
-    public List<EnvVariablesDTO> getEnvVariablesDTOList() {
-        ActiveEnvironment activeEnvironment = world.getActiveEnvironment();
+    public List<EnvVariablesDTO> getEnvVariablesDTOList(Integer id) {
+        ActiveEnvironment activeEnvironment = simulationManager.getSpecificWorld(id).getActiveEnvironment();
         List<EnvVariablesDTO> lst = new ArrayList<>();
         for (PropertyInstance property : activeEnvironment.getEnvironmentVariables()) {
             lst.add(new EnvVariablesDTO(property.getPropertyDefinition().getName(), property.getValue().toString()));
@@ -99,42 +107,44 @@ public class PredictionsServiceImpl implements PredictionsService {
     }
 
     @Override
-    public SimulationRunnerDTO runSimulation() {
+    public Integer runSimulation() {
+        World newWorld = simulationManager.getMainWorld().deepCopy();
         SimulationExecutor simulationExecutor = new SimulationExecutor();
-        return simulationExecutor.runSimulation(world);
+        simulationExecutor.setWorld(newWorld);
+        simulationManager.addWorldSimulation(newWorld);
+        Integer id = newWorld.getSimulationID();
+        simulationManager.getThreadExecutor().execute(simulationExecutor);
+        return id;
     }
 
     @Override
-    public AllSimulationsDTO getSimulationsDTO() {
+    public PastSimulationDTO getSimulationsDTO(Integer id) {
         DTOFactory dtoFactory = new DTOFactory();
-        List<PastSimulationDTO> pastSimulationDTOList = new ArrayList<>();
-        for (PastSimulation pastSimulation : world.getPastSimulations()) {
-            Collection<EntityDefinition> entityDefinitionCollection = pastSimulation.getEntities();
-            int id = pastSimulation.getSimulationId();
-            Date date = pastSimulation.getSimulationDate();
-            List<PastEntityDTO> pastEntityDTOList = new ArrayList<>();
-            for (EntityDefinition entityDefinition : entityDefinitionCollection) {
-                List<PropertyDTO> propertyDTOList = new ArrayList<>();
-                for (PropertyDefinition propertyDefinition : entityDefinition.getPropertiesList()) {
-                    PropertyDTO propertyDTO = dtoFactory.createPropertyDTO(propertyDefinition);
-                    propertyDTOList.add(propertyDTO);
-                }
-                pastEntityDTOList.add(new PastEntityDTO(entityDefinition.getName(), entityDefinition.getPopulation(), entityDefinition.getEntityInstances().size(), propertyDTOList));
-            }
-            List<EnvVariablesDTO> envVariablesDTOs = new ArrayList<>();
-            for (PropertyInstance envVariable : pastSimulation.getActiveEnvironment().getEnvironmentVariables()) {
-                envVariablesDTOs.add(dtoFactory.createEnvVariableDTO(envVariable));
-            }
 
-            pastSimulationDTOList.add(new PastSimulationDTO(id, pastEntityDTOList, date, pastSimulation.getEntityToPopulation(), envVariablesDTOs));
+        PastSimulation pastSimulation = simulationManager.getSpecificWorld(id).getPastSimulation();
+        Collection<EntityDefinition> entityDefinitionCollection = pastSimulation.getEntities();
+        Date date = pastSimulation.getSimulationDate();
+        List<PastEntityDTO> pastEntityDTOList = new ArrayList<>();
+        for (EntityDefinition entityDefinition : entityDefinitionCollection) {
+            List<PropertyDTO> propertyDTOList = new ArrayList<>();
+            for (PropertyDefinition propertyDefinition : entityDefinition.getPropertiesList()) {
+                PropertyDTO propertyDTO = dtoFactory.createPropertyDTO(propertyDefinition);
+                propertyDTOList.add(propertyDTO);
+            }
+            pastEntityDTOList.add(new PastEntityDTO(entityDefinition.getName(), entityDefinition.getPopulation(), entityDefinition.getEntityInstances().size(), propertyDTOList));
         }
-        return new AllSimulationsDTO(pastSimulationDTOList);
+        List<EnvVariablesDTO> envVariablesDTOs = new ArrayList<>();
+        for (PropertyInstance envVariable : pastSimulation.getActiveEnvironment().getEnvironmentVariables()) {
+            envVariablesDTOs.add(dtoFactory.createEnvVariableDTO(envVariable));
+        }
+
+        return new PastSimulationDTO(id, pastEntityDTOList, date, pastSimulation.getEntityToPopulation(), envVariablesDTOs);
     }
 
 
     @Override
-    public HistogramDTO getHistogram(String entityName, String propertyName) {
-        Collection<EntityDefinition> entityDefinitions = world.getEntityDefinitions();
+    public HistogramDTO getHistogram(Integer id, String entityName, String propertyName) {
+        Collection<EntityDefinition> entityDefinitions = simulationManager.getSpecificWorld(id).getEntityDefinitions();
         Map<Object, Integer> valueToAmount = new HashMap<>();
 
         for (EntityDefinition entityDefinition : entityDefinitions) {

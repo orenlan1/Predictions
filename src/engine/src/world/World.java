@@ -1,5 +1,6 @@
 package world;
 
+import java.io.*;
 import java.util.*;
 
 import dto.EntityInitializationDTO;
@@ -14,7 +15,7 @@ import world.rule.api.Rule;
 import world.simulation.PastSimulation;
 import world.termination.Termination;
 
-public class World {
+public class World implements Serializable {
     private final Map<String, EntityDefinition> nameToEntityDefinition;
     private EnvironmentVariablesManager environmentVariablesManager;
     private ActiveEnvironment activeEnvironment;
@@ -23,7 +24,7 @@ public class World {
     private int population;
     private int simulationID = 0;
     private Termination termination;
-    private final List<PastSimulation> pastSimulations;
+    private PastSimulation pastSimulation;
     private Grid grid;
     private int threadCount;
 
@@ -32,16 +33,20 @@ public class World {
         population = 0;
         nameToEntityDefinition = new HashMap<>();
         rules = new ArrayList<>();
-        pastSimulations = new ArrayList<>();
     }
-    public int getTotalPopulation() { return population; }
+
+    public int getTotalPopulation() {
+        return population;
+    }
 
     public void addEntityDefinition(String name, EntityDefinition entityDefinition) {
         nameToEntityDefinition.put(name, entityDefinition);
         population += entityDefinition.getPopulation();
     }
 
-    public void updatePopulation(int n) { population = n; }
+    public void updatePopulation(int n) {
+        population = n;
+    }
 
     public Optional<EntityDefinition> getEntityDefinitionByName(String name) {
         return Optional.ofNullable(nameToEntityDefinition.get(name));
@@ -67,11 +72,17 @@ public class World {
         return activeEnvironment;
     }
 
-    public int getTicks(){ return ticks; }
+    public int getTicks() {
+        return ticks;
+    }
 
-    public void tick() { ticks++; }
+    public void tick() {
+        ticks++;
+    }
 
-    public void resetTicks() { ticks = 0; }
+    public void resetTicks() {
+        ticks = 0;
+    }
 
     public List<Rule> getRules() {
         return rules;
@@ -104,25 +115,33 @@ public class World {
         this.termination = termination;
     }
 
-    public int getSimulationID() { return simulationID; }
+    public void setSimulationID(int id) { this.simulationID = id; }
 
-    public void updateSimulationID() { simulationID++; }
+    public int getSimulationID() {
+        return simulationID;
+    }
 
-    public void addPastSimulation(PastSimulation pastSimulation) { pastSimulations.add(pastSimulation); }
+    public void setPastSimulation(PastSimulation pastSimulation) {
+        this.pastSimulation = (pastSimulation);
+    }
 
-    public List<PastSimulation> getPastSimulations() { return pastSimulations;}
+    public PastSimulation getPastSimulation() {
+        return pastSimulation;
+    }
 
     public void setGrid(Grid grid) {
         this.grid = grid;
     }
 
-    public Grid getGrid() { return grid; }
+    public Grid getGrid() {
+        return grid;
+    }
 
     public void setThreadCount(int threadCount) {
         this.threadCount = threadCount;
     }
 
-    public void  moveAllEntitiesCoordinates(Grid grid) {
+    public void moveAllEntitiesCoordinates(Grid grid) {
         for (EntityDefinition entityDefinition : this.getEntityDefinitions()) {
             for (EntityInstance entityInstance : entityDefinition.getEntityInstances()) {
                 entityInstance.moveEntityCoordinate(grid);
@@ -142,12 +161,29 @@ public class World {
 
     public List<Action> getActiveRulesActions(List<Rule> activeRules) {
         List<Action> actionList = new ArrayList<>();
-        for ( Rule rule : activeRules) {
+        for (Rule rule : activeRules) {
             actionList.addAll(rule.getaActionsToPerform());
         }
         return actionList;
     }
 
+    public int getThreadCount() {
+        return threadCount;
+    }
 
+    public World deepCopy() {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            out.writeObject(this);
 
+            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            ObjectInputStream in = new ObjectInputStream(bis);
+            return (World) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+
+        }
+    }
 }

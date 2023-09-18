@@ -6,7 +6,9 @@ import world.property.api.PropertyInstance;
 import world.property.impl.FloatPropertyDefinition;
 import world.property.impl.IntegerPropertyDefinition;
 
-public class EnvVariablesUpdater {
+import java.io.Serializable;
+
+public class EnvVariablesUpdater implements Serializable {
     public void updateVariable(PropertyInstance propertyInstance, AbstractPropertyDefinition.PropertyType type, UserInputEnvironmentVariableDTO dto) throws NumberFormatException {
         if (dto.getValue() != null) {
             switch (type) {
