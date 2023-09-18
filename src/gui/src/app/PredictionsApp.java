@@ -63,6 +63,7 @@ public class PredictionsApp extends Application {
         NewExecutionController newExecutionController = newExecutionLoader.getController();
         newExecutionController.setPredictionsController(predictionsController);
         predictionsController.setNewExecutionController(newExecutionController);
+        newExecutionController.setPrimaryStage(primaryStage);
 
         ResultsController resultsController = resultsLoader.getController();
         predictionsController.setResultsController(resultsController);

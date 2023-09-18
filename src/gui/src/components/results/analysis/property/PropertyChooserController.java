@@ -52,7 +52,6 @@ public class PropertyChooserController {
         histogramButton.disableProperty().bind(enableButtons);
         consistencyButton.disableProperty().bind(enableButtons);
         meanButton.disableProperty().bind(enableButtons);
-
     }
 
     public void setNewExecutionController(NewExecutionController newExecutionController) {
@@ -101,7 +100,7 @@ public class PropertyChooserController {
     @FXML
     public void showHistogram(ActionEvent event) {
         Map<Object, Integer> histogram = newExecutionController.getHistogram(entitySelector.getText(), propertySelector.getText()).getValueToAmount();
-
+        int x = 5;
     }
 
     @FXML

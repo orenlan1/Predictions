@@ -10,8 +10,8 @@ public class GridTranslator {
         int rows = prdGrid.getRows();
         Integer columns = cols;
         Integer rowsInt = rows;
-        if ( cols < 10 || cols > 100 ) throw new GridException(columns.toString(),"columns");
-        if ( rows < 10 || rows > 100 ) throw new GridException(rowsInt.toString(),"rows");
+        if ( cols < 10 || cols > 100 ) throw new GridException(columns.toString(), "columns");
+        if ( rows < 10 || rows > 100 ) throw new GridException(rowsInt.toString(), "rows");
         return new Grid(prdGrid.getColumns(), prdGrid.getRows());
     }
 }
