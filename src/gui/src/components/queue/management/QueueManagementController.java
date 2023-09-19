@@ -1,6 +1,7 @@
 package components.queue.management;
 
 import components.main.PredictionsController;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -21,6 +22,18 @@ public class QueueManagementController {
     private GridPane queueGridPane;
 
     private PredictionsController predictionsController;
+    private ThreadPoolDelegate threadPoolDelegate;
+
+    public QueueManagementController() {
+        threadPoolDelegate = new ThreadPoolDelegate();
+    }
+
+    @FXML
+    public void initialize() {
+        currentlyRunningCounter.textProperty().bind(Bindings.concat("", threadPoolDelegate.runningSimulationsProperty()));
+        inQueueCounter.textProperty().bind(Bindings.concat("", threadPoolDelegate.simulationsInQueueProperty()));
+        finishedCounter.textProperty().bind(Bindings.concat("", threadPoolDelegate.finishedSimulationsProperty()));
+    }
 
 
     public void setPredictionsController(PredictionsController predictionsController) {
@@ -31,4 +44,11 @@ public class QueueManagementController {
         pane.setCenter(queueGridPane);
     }
 
+    public ThreadPoolDelegate getThreadPoolDelegate() { return threadPoolDelegate; }
+
+    public void resetThreadCount() {
+        threadPoolDelegate.simulationsInQueueProperty().set(0);
+        threadPoolDelegate.runningSimulationsProperty().set(0);
+        threadPoolDelegate.finishedSimulationsProperty().set(0);
+    }
 }

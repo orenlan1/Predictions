@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="jar" />
+    <orderEntry type="module" module-name="gui" />
   </component>
 </module>

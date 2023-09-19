@@ -1,5 +1,6 @@
 package world.simulation;
 
+import components.queue.management.ThreadPoolDelegate;
 import dto.SimulationRunnerDTO;
 import world.World;
 import world.action.api.Action;
@@ -15,7 +16,12 @@ import java.util.*;
 
 public class SimulationExecutor implements Runnable {
     private World world;
-    SimulationRunnerDTO simulationRunnerDTO;
+    private SimulationRunnerDTO simulationRunnerDTO;
+    private ThreadPoolDelegate threadPoolDelegate;
+
+    public SimulationExecutor(ThreadPoolDelegate threadPoolDelegate) {
+        this.threadPoolDelegate = threadPoolDelegate;
+    }
 
     public void setWorld(World world) { this.world = world; }
 
@@ -23,6 +29,8 @@ public class SimulationExecutor implements Runnable {
 
     @Override
     public void run() {
+        threadPoolDelegate.decreaseSimulationsInQueue();
+        threadPoolDelegate.increaseRunningSimulations();
         Integer seconds = world.getTermination().getSecondCount();
         Integer ticks = world.getTermination().getTicksCount();
         world.resetTicks();
@@ -32,6 +40,8 @@ public class SimulationExecutor implements Runnable {
             simulationRunnerDTO = new SimulationRunnerDTO(Boolean.FALSE, e.getMessage(), world.getSimulationID(), Boolean.FALSE);
         } finally {
             world.getPastSimulation().setRunning(false);
+            threadPoolDelegate.decreaseRunningSimulations();
+            threadPoolDelegate.increaseFinishedSimulations();
         }
         if (ticks != null && seconds != null) {
             if (world.getTicks() >= ticks)

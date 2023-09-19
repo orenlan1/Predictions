@@ -1,5 +1,6 @@
 package predictions.impl;
 
+import components.queue.management.ThreadPoolDelegate;
 import dto.*;
 import predictions.api.PredictionsService;
 import world.*;
@@ -108,9 +109,10 @@ public class PredictionsServiceImpl implements PredictionsService {
     }
 
     @Override
-    public Integer runSimulation() {
+    public Integer runSimulation(ThreadPoolDelegate threadPoolDelegate) {
         World newWorld = simulationManager.getMainWorld().deepCopy();
-        SimulationExecutor simulationExecutor = new SimulationExecutor();
+        SimulationExecutor simulationExecutor = new SimulationExecutor(threadPoolDelegate);
+        threadPoolDelegate.increaseSimulationsInQueue();
         simulationExecutor.setWorld(newWorld);
         simulationManager.addWorldSimulation(newWorld);
         Integer id = newWorld.getSimulationID();

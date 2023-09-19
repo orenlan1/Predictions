@@ -3,6 +3,7 @@ package components.execution;
 import components.execution.entity.count.EntityCountController;
 import components.execution.environment.variable.EnvVariableCardController;
 import components.main.PredictionsController;
+import components.queue.management.ThreadPoolDelegate;
 import components.results.ResultsController;
 import dto.*;
 import javafx.event.ActionEvent;
@@ -46,6 +47,7 @@ public class NewExecutionController {
 
     private PredictionsController predictionsController;
     private ResultsController resultsController;
+    private ThreadPoolDelegate threadPoolDelegate;
 
     public NewExecutionController() {
         envVariableCardControllers = new HashMap<>();
@@ -69,6 +71,10 @@ public class NewExecutionController {
     public void setResultsController(ResultsController resultsController) {
         this.resultsController = resultsController;
         resultsController.setNewExecutionController(this);
+    }
+
+    public void setThreadPoolDelegate(ThreadPoolDelegate threadPoolDelegate) {
+        this.threadPoolDelegate = threadPoolDelegate;
     }
 
     public void setMaxPopulation(Integer maxPopulation) {
@@ -168,7 +174,7 @@ public class NewExecutionController {
 
         EnvVariableSetValidationDTO valid = predictionsController.setEnvVariables(envVariablesDTOs);
         if (valid.getValidation()) {
-            Integer simulationID = predictionsController.runSimulation();
+            Integer simulationID = predictionsController.runSimulation(threadPoolDelegate);
             clearNewExecution(event);
             resultsController.addPastSimulation(simulationID);
             predictionsController.viewResults(event);

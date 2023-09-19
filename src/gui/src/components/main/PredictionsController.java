@@ -3,6 +3,7 @@ package components.main;
 import components.details.DetailsController;
 import components.execution.NewExecutionController;
 import components.queue.management.QueueManagementController;
+import components.queue.management.ThreadPoolDelegate;
 import components.results.ResultsController;
 import dto.*;
 import javafx.beans.binding.Bindings;
@@ -118,6 +119,7 @@ public class PredictionsController {
             detailsController.clearDetails(event);
             newExecutionController.clearNewExecution(event);
             resultsController.hardReset();
+            queueManagementController.resetThreadCount();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, DTO.getError());
             alert.setHeaderText(null);
@@ -171,8 +173,8 @@ public class PredictionsController {
         predictionsService.setEntitiesPopulation(DTOs);
     }
 
-    public Integer runSimulation() {
-        return predictionsService.runSimulation();
+    public Integer runSimulation(ThreadPoolDelegate threadPoolDelegate) {
+        return predictionsService.runSimulation(threadPoolDelegate);
     }
 
     public PastSimulationDTO getPastSimulation(int id) {
