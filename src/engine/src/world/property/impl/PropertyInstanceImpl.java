@@ -5,22 +5,28 @@ import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PropertyInstanceImpl implements PropertyInstance, Serializable {
     private final PropertyDefinition propertyDefinition;
     protected Object value;
     protected int lastUpdateTick;
+    List<Integer> updateTicksList;
 
     public PropertyInstanceImpl(PropertyDefinition propertyDefinition) { // Ctor for entity property
         this.propertyDefinition = propertyDefinition;
         this.value = propertyDefinition.generateValue();
         lastUpdateTick = 0;
+        updateTicksList = new ArrayList<>();
     }
 
     public PropertyInstanceImpl(PropertyDefinition propertyDefinition, Object value) { // Ctor for environment property
         this.propertyDefinition = propertyDefinition;
         this.value = value;
         lastUpdateTick = 0;
+        updateTicksList = new ArrayList<>();
     }
 
     @Override
@@ -59,13 +65,23 @@ public class PropertyInstanceImpl implements PropertyInstance, Serializable {
         if (value instanceof String) {
             if (!((this.value).equals(value))) {
                 this.value = value;
+                updateTicksList.add(currTick - lastUpdateTick);
                 lastUpdateTick = currTick;
             }
         } else if (this.value != value) {
             this.value = value;
+            updateTicksList.add(currTick - lastUpdateTick);
             lastUpdateTick = currTick;
         }
     }
+
+    public int getAvgUpdateTicks() {
+        return (updateTicksList.stream()
+                .mapToInt(Integer::intValue)
+                .sum()) / updateTicksList.size();
+    }
+
+
 
     public int getLastUpdateTick() {
         return lastUpdateTick;
