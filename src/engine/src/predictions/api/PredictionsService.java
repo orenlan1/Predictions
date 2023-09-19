@@ -6,6 +6,7 @@ import world.World;
 import world.exceptions.EntityPropertyNotExistException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PredictionsService {
     FileReaderDTO readFileAndLoad(String fileName);
@@ -20,6 +21,7 @@ public interface PredictionsService {
     HistogramDTO getHistogram(Integer id, String entityName, String propertyName);
     Double getConsistency(Integer id, String entityName, String propertyName);
     MeanPropertyDTO getMeanOfProperty(Integer id, String entityName, String propertyName) throws EntityPropertyNotExistException;
+    Map<Integer, Boolean> getAllSimulationsStatus();
 }
 
 

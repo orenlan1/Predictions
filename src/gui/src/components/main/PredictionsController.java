@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 public class PredictionsController {
 
@@ -192,4 +193,6 @@ public class PredictionsController {
     public MeanPropertyDTO getMeanOfProperty(Integer id, String entityName, String propertyName) throws EntityPropertyNotExistException {
         return predictionsService.getMeanOfProperty(id, entityName, propertyName);
     }
+
+    public Map<Integer, Boolean> getAllSimulationStatus() { return predictionsService.getAllSimulationsStatus(); }
 }

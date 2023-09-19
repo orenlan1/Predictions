@@ -156,7 +156,7 @@ public class PropertyChooserController {
             return;
         }
         if (meanDTO.isValid())
-            message = "The mean is: "  + meanDTO.getMean();
+            message = "The mean is: " + String.format("%.2f", meanDTO.getMean());
         else
             message = meanDTO.getMessage();
 

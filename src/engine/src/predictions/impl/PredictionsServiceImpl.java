@@ -29,7 +29,6 @@ public class PredictionsServiceImpl implements PredictionsService {
     private SimulationExecutionManager simulationManager;
 
 
-
     @Override
     public FileReaderDTO readFileAndLoad(String fileName) {
        World mainWorld = null;
@@ -41,6 +40,7 @@ public class PredictionsServiceImpl implements PredictionsService {
        }
        simulationManager = new SimulationExecutionManager(mainWorld.getThreadCount());
        simulationManager.addWorldSimulation(mainWorld);
+       mainWorld.setPastSimulation(new PastSimulation(null, 0, null, null, null));
        Grid grid = mainWorld.getGrid();
        return new FileReaderDTO(Boolean.TRUE, null, new GridDTO(grid.getRows(), grid.getCols()));
     }
@@ -114,6 +114,7 @@ public class PredictionsServiceImpl implements PredictionsService {
         SimulationExecutor simulationExecutor = new SimulationExecutor(threadPoolDelegate);
         threadPoolDelegate.increaseSimulationsInQueue();
         simulationExecutor.setWorld(newWorld);
+        newWorld.setPastSimulation(new PastSimulation(null, 0, null, null, null));
         simulationManager.addWorldSimulation(newWorld);
         Integer id = newWorld.getSimulationID();
         simulationManager.getThreadExecutor().execute(simulationExecutor);
@@ -141,7 +142,7 @@ public class PredictionsServiceImpl implements PredictionsService {
             envVariablesDTOs.add(dtoFactory.createEnvVariableDTO(envVariable));
         }
 
-        return new PastSimulationDTO(id, pastEntityDTOList, date, pastSimulation.getEntityToPopulation(), envVariablesDTOs);
+        return new PastSimulationDTO(id, pastEntityDTOList, date, pastSimulation.getEntityToPopulation(), envVariablesDTOs, pastSimulation.isRunning());
     }
 
 
@@ -220,7 +221,15 @@ public class PredictionsServiceImpl implements PredictionsService {
         }
 
         return new MeanPropertyDTO(true, mean,null);
+    }
 
+    @Override
+    public Map<Integer, Boolean> getAllSimulationsStatus() {
+        Map<Integer, Boolean> allSimulationsStatus = new HashMap<>();
+        for (Integer key : simulationManager.getAllSimulationsID()) {
+            allSimulationsStatus.put(key, simulationManager.getSpecificWorld(key).getPastSimulation().isRunning());
+        }
+        return allSimulationsStatus;
     }
 
 }

@@ -3,13 +3,14 @@ package world.simulation;
 import world.entity.api.EntityDefinition;
 import world.environment.api.ActiveEnvironment;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class PastSimulation {
+public class PastSimulation implements Serializable {
     private final Collection<EntityDefinition> entities;
     private final int id;
     private final Date date;

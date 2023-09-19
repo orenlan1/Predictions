@@ -10,13 +10,16 @@ public class PastSimulationDTO {
     private final Date date;
     private final Map<String , Map<Integer, Integer>> entityToPopulation;
     private final List<EnvVariablesDTO> environmentVariables;
+    private boolean running;
 
-    public PastSimulationDTO(int simulationID, List<PastEntityDTO> entitiesDTO, Date date, Map<String , Map<Integer, Integer>> entityToPopulation, List<EnvVariablesDTO> environmentVariables) {
+    public PastSimulationDTO(int simulationID, List<PastEntityDTO> entitiesDTO, Date date, Map<String,
+            Map<Integer, Integer>> entityToPopulation, List<EnvVariablesDTO> environmentVariables, boolean running) {
         this.id = simulationID;
         this.entitiesDTO = entitiesDTO;
         this.date = date;
         this.entityToPopulation = entityToPopulation;
         this.environmentVariables = environmentVariables;
+        this.running = running;
     }
 
     public int getId() {
@@ -38,4 +41,6 @@ public class PastSimulationDTO {
     public List<EnvVariablesDTO> getEnvironmentVariables() {
         return environmentVariables;
     }
+
+    public boolean isRunning() { return running; }
 }

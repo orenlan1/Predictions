@@ -3,8 +3,11 @@ package components.results.simulation.info;
 import components.results.ResultsController;
 import components.results.simulation.info.analysis.AnalysisController;
 import dto.PastSimulationDTO;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,26 +24,66 @@ public class SimulationInfoController {
     private Button analysisButton;
 
     @FXML
-    private TitledPane titledPaneName;
+    private TitledPane titledPane;
 
     private ResultsController resultsController;
     private Integer id;
     private BooleanProperty enableAnalysis;
+    private Thread backgroundThread;
+    private boolean isThreadRunning;
 
     public SimulationInfoController() {
         enableAnalysis = new SimpleBooleanProperty(false);
+        isThreadRunning = false;
     }
 
     @FXML
     public void initialize() {
-        //analysisButton.disableProperty().bind(enableAnalysis.not());
+        analysisButton.disableProperty().bind(enableAnalysis.not());
+        titledPane.expandedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                startBackgroundThread();
+            } else {
+                stopBackgroundThread();
+            }
+        });
+    }
+
+    private void startBackgroundThread() {
+        if (!isThreadRunning) {
+            isThreadRunning = true;
+            backgroundThread = new Thread(() -> {
+                while (isThreadRunning) {
+                    PastSimulationDTO dto = resultsController.getPastSimulationDTO(id);
+                    // Push the data to the GUI using Platform.runLater
+                    Platform.runLater(() -> {
+                        if (!dto.isRunning())
+                            markSimulationFinished();
+                    });
+
+                    try {
+                        Thread.sleep(200); // Sleep for 200ms
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            });
+            backgroundThread.start();
+        }
+    }
+
+    private void stopBackgroundThread() {
+        isThreadRunning = false;
+        if (backgroundThread != null) {
+            backgroundThread.interrupt();
+        }
     }
 
     public Integer getId() { return id; }
 
     public void setIdAndName(Integer id) {
         this.id = id;
-        titledPaneName.setText("Simulation " + id);
+        titledPane.setText("Simulation " + id);
     }
 
     public void setResultsController(ResultsController resultsController) {
@@ -66,9 +109,8 @@ public class SimulationInfoController {
 
     @FXML
     void showProgressAndEntities(ActionEvent event) {
-
+        //TODO
     }
 
     public void markSimulationFinished() { enableAnalysis.setValue(true); }
-
 }

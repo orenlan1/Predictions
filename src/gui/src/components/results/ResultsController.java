@@ -63,6 +63,13 @@ public class ResultsController {
     public void showResults(BorderPane borderPane) {
         borderPane.setCenter(resultsBorderPane);
         resultsBorderPane.setCenter(resultsScrollPane);
+
+        Map<Integer, Boolean> allSimulationsStatus = predictionsController.getAllSimulationStatus();
+        for (Integer key : idToSimulationInfoController.keySet()) {
+            if (!allSimulationsStatus.get(key))
+                idToSimulationInfoController.get(key).markSimulationFinished();
+        }
+        pastSimulations.setExpandedPane(null);
     }
 
     public void addPastSimulation(Integer id) throws Exception {
@@ -77,47 +84,11 @@ public class ResultsController {
         pastSimulations.getPanes().add(simulationInfo);
     }
 
-    /*public TitledPane createTitledPane(Integer id) {
-        Button progressAndEntitiesButton = new Button("Progress and entities");
-        Button analysisButton = new Button("Analysis");
-
-        progressAndEntitiesButton.setPrefWidth(150);
-        progressAndEntitiesButton.setPrefHeight(40);
-        analysisButton.setPrefWidth(150);
-        analysisButton.setPrefHeight(40);
-
-        //TODO progressAndEntitiesButton.setOnAction(event -> );
-        analysisButton.setOnAction(event -> showAnalysis(id));
-
-        VBox vbox = new VBox(progressAndEntitiesButton, analysisButton);
-        vbox.setAlignment(Pos.TOP_CENTER);
-        vbox.setSpacing(10);
-
-        return new TitledPane("Simulation " + id, vbox);
-    }*/
-
-
-    /*public void showAnalysis(Integer id) {
-        clearResults();
-
-        URL analysisFXML = getClass().getResource("/components/results/simulation/info/analysis/analysis.fxml");
-        FXMLLoader analysisLoader = new FXMLLoader(analysisFXML);
-        BorderPane analysisScreen;
-        try {
-            analysisScreen = analysisLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        AnalysisController analysisController = analysisLoader.getController();
-        analysisController.setDto(predictionsController.getPastSimulation(id));
-        analysisController.setNewExecutionController(newExecutionController);
-
-        resultsBorderPane.setCenter(analysisScreen);
-    }*/
-
     public PastSimulationDTO getPastSimulation(Integer id) {
         return predictionsController.getPastSimulation(id);
     }
+
+    public PastSimulationDTO getPastSimulationDTO(Integer id) { return predictionsController.getPastSimulation(id); }
 
     public void clearResults() {
         resultsBorderPane.setCenter(resultsScrollPane);

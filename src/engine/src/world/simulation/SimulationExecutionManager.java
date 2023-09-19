@@ -2,6 +2,7 @@ package world.simulation;
 
 import world.World;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -36,4 +37,6 @@ public class SimulationExecutionManager {
     public World getSpecificWorld(Integer id) {
         return idToWorld.getOrDefault(id, null);
     }
+
+    public Collection<Integer> getAllSimulationsID() { return idToWorld.keySet(); }
 }
