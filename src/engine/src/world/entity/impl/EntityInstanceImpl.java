@@ -120,4 +120,9 @@ public class EntityInstanceImpl implements EntityInstance, Serializable {
     @Override
     public void setReplaceAction(Action action) { this.replaceAction = action; }
 
+    @Override
+    public Collection<PropertyInstance> getPropertyInstances() {
+        return nameToProperty.values();
+    }
+
 }
