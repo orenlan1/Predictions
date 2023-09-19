@@ -8,6 +8,7 @@ import world.entity.api.EntityInstance;
 import world.environment.EnvVariablesUpdater;
 import world.environment.api.ActiveEnvironment;
 import world.environment.api.EnvironmentVariablesManager;
+import world.exceptions.EntityPropertyNotExistException;
 import world.factory.DTOFactory;
 import world.file.reader.EngineFileReader;
 import world.grid.Grid;
@@ -177,4 +178,47 @@ public class PredictionsServiceImpl implements PredictionsService {
         }
         return new HistogramDTO(valueToAmount);
     }
+
+    @Override
+    public Double getConsistency(Integer id, String entityName, String propertyName) {
+        EntityDefinition entityDefinition = simulationManager.getSpecificWorld(id).getNameToEntityDefinition().get(entityName);
+        List<Double> consistency = new ArrayList<>();
+        for (EntityInstance instance : entityDefinition.getEntityInstances()) {
+            consistency.add(instance.getPropertyByName(propertyName).getAvgUpdateTicks());
+        }
+        if (consistency.size() != 0)
+            return consistency.stream().mapToDouble(Double::doubleValue).sum() / consistency.size();
+        else
+            return 0d;
+    }
+
+
+    @Override
+    public MeanPropertyDTO getMeanOfProperty(Integer id, String entityName, String propertyName) throws EntityPropertyNotExistException {
+        EntityDefinition entityDefinition = simulationManager.getSpecificWorld(id).getNameToEntityDefinition().get(entityName);
+        AbstractPropertyDefinition.PropertyType type = entityDefinition.getPropertyByName(propertyName).getType();
+        Double mean = null;
+
+        if (type.equals(AbstractPropertyDefinition.PropertyType.BOOLEAN) || type.equals(AbstractPropertyDefinition.PropertyType.STRING))
+            return new MeanPropertyDTO(false, null, "The property is of type " + type.name() + ", hence not numerical. Can't calculate mean");
+
+        if (entityDefinition.getEntityInstances().size() == 0)
+            return new MeanPropertyDTO(false, null, "There are no instances of this entity, hence it's impossible to calculate the mean");
+
+        if (type.equals(AbstractPropertyDefinition.PropertyType.DECIMAL)) {
+            mean = entityDefinition.getEntityInstances().stream()
+                    .mapToInt((entityInstance) -> (int) entityInstance.getPropertyByName(propertyName).getValue())
+                    .sum() / (double) entityDefinition.getEntityInstances().size();
+        }
+
+        else if (type.equals(AbstractPropertyDefinition.PropertyType.FLOAT)) {
+            mean = entityDefinition.getEntityInstances().stream()
+                    .mapToDouble((entityInstance) -> (float) entityInstance.getPropertyByName(propertyName).getValue())
+                    .sum() / (double) entityDefinition.getEntityInstances().size();
+        }
+
+        return new MeanPropertyDTO(true, mean,null);
+
+    }
+
 }

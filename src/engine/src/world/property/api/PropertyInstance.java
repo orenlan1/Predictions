@@ -5,4 +5,6 @@ public interface PropertyInstance {
     Object getValue();
     void updateValue(Object value, int currTick);
     int getLastUpdateTick();
+    void addLastTick(Integer currTick);
+    Double getAvgUpdateTicks();
 }

@@ -6,6 +6,7 @@ import world.action.api.Action;
 import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.environment.api.ActiveEnvironment;
+import world.property.api.PropertyDefinition;
 import world.property.api.PropertyInstance;
 import world.property.impl.PropertyInstanceImpl;
 import world.rule.api.Rule;
@@ -147,17 +148,11 @@ public class SimulationExecutor implements Runnable {
             //TODO - add user terminated
         }
 
-        /*List<EntityDefinition> newEntityDefinitions = new ArrayList<>();
-        for (EntityDefinition entityDefinition : (world.getEntityDefinitions())) {
-            newEntityDefinitions.add(entityDefinition.cloneEntityDefinition());
+        for (EntityDefinition entityDefinition : world.getEntityDefinitions()) {
+            for (EntityInstance instance : entityDefinition.getEntityInstances()) {
+                for (PropertyInstance propertyInstance : instance.getPropertyInstances())
+                    propertyInstance.addLastTick(world.getTicks());
+            }
         }
-
-        ActiveEnvironment newActiveEnvironment = world.getEnvironmentVariablesManager().createActiveEnvironment();
-        for (PropertyInstance envVariable : world.getActiveEnvironment().getEnvironmentVariables()) {
-            PropertyInstance newEnvVariable = new PropertyInstanceImpl(envVariable.getPropertyDefinition(), envVariable.getValue());
-            newActiveEnvironment.addPropertyInstance(newEnvVariable);
-        }*/
-
-
     }
 }

@@ -70,19 +70,27 @@ public class PropertyInstanceImpl implements PropertyInstance, Serializable {
             }
         } else if (this.value != value) {
             this.value = value;
-            updateTicksList.add(currTick - lastUpdateTick);
+            updateTicksList.add((currTick - lastUpdateTick));
             lastUpdateTick = currTick;
         }
     }
 
-    public int getAvgUpdateTicks() {
-        return (updateTicksList.stream()
-                .mapToInt(Integer::intValue)
-                .sum()) / updateTicksList.size();
+    @Override
+    public void addLastTick(Integer currTick) {
+        updateTicksList.add(currTick - lastUpdateTick);
     }
 
+    @Override
+    public Double getAvgUpdateTicks() {
+        if (updateTicksList.size() != 0)
+            return (updateTicksList.stream()
+                    .mapToInt(Integer::intValue)
+                    .sum()) / (double) updateTicksList.size();
+        else
+            return 0d;
+    }
 
-
+    @Override
     public int getLastUpdateTick() {
         return lastUpdateTick;
     }

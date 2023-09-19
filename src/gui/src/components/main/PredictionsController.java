@@ -21,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import world.exceptions.EntityPropertyNotExistException;
 
 import java.io.File;
 import java.io.IOException;
@@ -180,5 +181,13 @@ public class PredictionsController {
 
     public HistogramDTO getHistogram(Integer id, String entity, String property) {
         return predictionsService.getHistogram(id, entity, property);
+    }
+
+    public Double getConsistencyAvg(Integer id, String entityName, String propertyName) {
+        return predictionsService.getConsistency(id, entityName, propertyName);
+    }
+
+    public MeanPropertyDTO getMeanOfProperty(Integer id, String entityName, String propertyName) throws EntityPropertyNotExistException {
+        return predictionsService.getMeanOfProperty(id, entityName, propertyName);
     }
 }

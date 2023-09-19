@@ -171,6 +171,7 @@ public class NewExecutionController {
             Integer simulationID = predictionsController.runSimulation();
             clearNewExecution(event);
             resultsController.addPastSimulation(simulationID);
+            predictionsController.viewResults(event);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, valid.getMessage());
             alert.setHeaderText(null);

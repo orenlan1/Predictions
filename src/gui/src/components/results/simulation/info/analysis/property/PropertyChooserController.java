@@ -2,10 +2,7 @@ package components.results.simulation.info.analysis.property;
 
 import components.execution.NewExecutionController;
 import components.results.simulation.info.analysis.property.histogram.HistogramController;
-import dto.HistogramDTO;
-import dto.PastEntityDTO;
-import dto.PastSimulationDTO;
-import dto.PropertyDTO;
+import dto.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,12 +11,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import world.exceptions.EntityPropertyNotExistException;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -140,12 +135,33 @@ public class PropertyChooserController {
 
     @FXML
     public void showConsistency(ActionEvent event) {
+        Double consistency = newExecutionController.getPredictionsController().getConsistencyAvg(dto.getId(), entitySelector.getText(), propertySelector.getText());
+        String message;
+        if (consistency == 0)
+            message = "Can't calculate the consistency for this entity and property, perhaps there are no entities of this type left";
+        else
+            message = "the consistency is: " + String.format("%.2f", consistency);
 
+        analysisScreen.setCenter(new Label(message));
     }
 
     @FXML
     public void showMean(ActionEvent event) {
+        String message;
+        MeanPropertyDTO meanDTO = null;
+        try {
+            meanDTO = newExecutionController.getPredictionsController().getMeanOfProperty(dto.getId(), entitySelector.getText(), propertySelector.getText());
+        } catch (EntityPropertyNotExistException e) {
+            analysisScreen.setCenter(new Label(e.getMessage()));
+            return;
+        }
+        if (meanDTO.isValid())
+            message = "The mean is: "  + meanDTO.getMean();
+        else
+            message = meanDTO.getMessage();
 
+
+        analysisScreen.setCenter(new Label(message));
     }
 
     public void clearAnalysisScreen() {

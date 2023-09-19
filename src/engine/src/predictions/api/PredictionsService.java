@@ -2,6 +2,7 @@ package predictions.api;
 
 import dto.*;
 import world.World;
+import world.exceptions.EntityPropertyNotExistException;
 
 import java.util.List;
 

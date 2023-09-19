@@ -85,6 +85,7 @@ public class EntityInstanceImpl implements EntityInstance, Serializable {
         }
     }
 
+    @Override
     public EntityInstance createDerivedEntityInstance(EntityDefinition createdEntityDefinition) {
         boolean derivedProperty = false;
         EntityInstance newDerivedEntity = new EntityInstanceImpl(createdEntityDefinition);

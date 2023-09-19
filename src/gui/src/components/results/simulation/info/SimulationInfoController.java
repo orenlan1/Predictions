@@ -33,7 +33,7 @@ public class SimulationInfoController {
 
     @FXML
     public void initialize() {
-        //TODO analysisButton.disableProperty().bind(enableAnalysis.not());
+        //analysisButton.disableProperty().bind(enableAnalysis.not());
     }
 
     public Integer getId() { return id; }

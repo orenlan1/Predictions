@@ -9,9 +9,9 @@
 <?import javafx.scene.text.Font?>
 
 
-<ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-border-color: red;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.results.simulation.info.analysis.property.histogram.HistogramController">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxWidth="500.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.results.simulation.info.analysis.property.histogram.HistogramController">
    <content>
-      <HBox id="histogramHBox" fx:id="histogramHBox" alignment="TOP_CENTER" maxWidth="500.0" prefWidth="350.0" spacing="60.0" style="-fx-border-color: blue;">
+      <HBox id="histogramHBox" fx:id="histogramHBox" alignment="TOP_CENTER" maxWidth="500.0" prefWidth="350.0" spacing="60.0">
          <children>
             <VBox fx:id="valueContainer" spacing="20.0">
                <children>
@@ -42,6 +42,9 @@
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
       </HBox>
    </content>
 </ScrollPane>
