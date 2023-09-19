@@ -13,6 +13,7 @@ import javafx.scene.layout.*;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,16 +40,16 @@ public class NewExecutionController {
     @FXML
     private Button runButton;
 
-    private final List<EnvVariableCardController> envVariableCardControllers;
-    private final List<EntityCountController> entityCountControllers;
+    private final Map<String, EnvVariableCardController> envVariableCardControllers;
+    private final Map<String, EntityCountController> entityCountControllers;
     private Integer maxPopulation;
 
     private PredictionsController predictionsController;
     private ResultsController resultsController;
 
     public NewExecutionController() {
-        envVariableCardControllers = new ArrayList<>();
-        entityCountControllers = new ArrayList<>();
+        envVariableCardControllers = new HashMap<>();
+        entityCountControllers = new HashMap<>();
     }
 
     @FXML
@@ -104,7 +105,7 @@ public class NewExecutionController {
             loader = new FXMLLoader(envVariableCardFXML);
             envVariableCard = loader.load();
             controller = loader.getController();
-            envVariableCardControllers.add(controller);
+            envVariableCardControllers.put(dto.getPropertyName() ,controller);
 
             controller.setCard(dto);
             envVariableCard.getStylesheets().add("/components/execution/environment/variable/envVariableCard.css");
@@ -122,7 +123,7 @@ public class NewExecutionController {
             FXMLLoader loader = new FXMLLoader(entityCountFXML);
             GridPane entityCountCard = loader.load();
             EntityCountController controller = loader.getController();
-            entityCountControllers.add(controller);
+            entityCountControllers.put(dto.getEntityName(), controller);
 
             controller.setCard(dto.getEntityName(), maxPopulation);
 
@@ -136,7 +137,7 @@ public class NewExecutionController {
         predictionsController.randomizeEnvironmentVariables();
 
         List<EntityInitializationDTO> entityInitializationDTOs = new ArrayList<>();
-        for (EntityCountController controller : entityCountControllers) {
+        for (EntityCountController controller : entityCountControllers.values()) {
             entityInitializationDTOs.add(controller.getInfo());
         }
 
@@ -161,7 +162,7 @@ public class NewExecutionController {
 
 
         List<UserInputEnvironmentVariableDTO> envVariablesDTOs = new ArrayList<>();
-        for (EnvVariableCardController controller : envVariableCardControllers) {
+        for (EnvVariableCardController controller : envVariableCardControllers.values()) {
             envVariablesDTOs.add(controller.getInput());
         }
 
@@ -186,22 +187,12 @@ public class NewExecutionController {
         for (EnvVariablesDTO envVariablesDTO : dto.getEnvironmentVariables()) {
             String name = envVariablesDTO.getName();
             String value = envVariablesDTO.getValue();
-
-            for (EnvVariableCardController controller : envVariableCardControllers) {
-                if (controller.getInput().getName().equals(name)) {
-                    controller.setValue(value);
-                }
-            }
+            envVariableCardControllers.get(name).setValue(value);
         }
 
         for (String name : dto.getEntityToPopulation().keySet()) {
             Integer count = dto.getEntityToPopulation().get(name).get(0);
-
-            for (EntityCountController controller : entityCountControllers) {
-                if (controller.getInfo().getName().equals(name)) {
-                    controller.setEntityCount(count);
-                }
-            }
+            entityCountControllers.get(name).setEntityCount(count);
         }
     }
 

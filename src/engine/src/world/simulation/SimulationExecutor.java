@@ -130,7 +130,7 @@ public class SimulationExecutor implements Runnable {
             }
             world.updatePopulation(sumPopulation);
 
-            if (world.getTicks() % 1 == 0) {
+            if (world.getTicks() % 1000 == 0) {
                 for (EntityDefinition entityDefinition : world.getEntityDefinitions()) {
                     Map<Integer, Integer> entityCount = entityToPopulation.get(entityDefinition.getName());
                     entityCount.put(world.getTicks(), entityDefinition.getPopulation());

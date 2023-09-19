@@ -1,7 +1,7 @@
-package components.results.analysis;
+package components.results.simulation.info.analysis;
 
 import components.execution.NewExecutionController;
-import components.results.analysis.property.PropertyChooserController;
+import components.results.simulation.info.analysis.property.PropertyChooserController;
 import dto.PastEntityDTO;
 import dto.PastSimulationDTO;
 import javafx.event.ActionEvent;
@@ -37,7 +37,6 @@ public class AnalysisController {
     private Button propertyAnalysisButton;
 
     private PastSimulationDTO dto;
-    private FlowPane resultsFlowPane;
     private BorderPane resultsBorderPane;
     private NewExecutionController newExecutionController;
 
@@ -45,9 +44,6 @@ public class AnalysisController {
         this.dto = dto;
     }
 
-    public void setResultsFlowPane(FlowPane resultsFlowPane) {
-        this.resultsFlowPane = resultsFlowPane;
-    }
 
     public void setNewExecutionController(NewExecutionController newExecutionController) {
         this.newExecutionController = newExecutionController;
@@ -79,17 +75,18 @@ public class AnalysisController {
 
         BorderPane chartContainer = new BorderPane(lineChart);
         chartContainer.setPadding(new Insets(20));
-        lineChart.getStylesheets().add("/components/results/analysis/graph.css");
+        lineChart.getStylesheets().add("/components/results/simulation/info/analysis/graph.css");
 
         analysisScreen.setCenter(chartContainer);
     }
 
     @FXML
     public void showPropertyAnalysis(ActionEvent event) throws Exception {
-        URL propertyAnalysisFXML = getClass().getResource("/components/results/analysis/property/propertyAnalysisChooser.fxml");
+        URL propertyAnalysisFXML = getClass().getResource("/components/results/simulation/info/analysis/property/propertyAnalysisChooser.fxml");
         FXMLLoader propertyAnalysisLoader = new FXMLLoader(propertyAnalysisFXML);
         VBox propertyAnalysisSelectors = propertyAnalysisLoader.load();
         PropertyChooserController propertyChooserController = propertyAnalysisLoader.getController();
+        propertyChooserController.setAnalysisScreen(analysisScreen);
 
         List<String> entityNames = new ArrayList<>();
         for (PastEntityDTO entity : dto.getEntitiesDTO()) {

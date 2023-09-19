@@ -1,6 +1,7 @@
-package components.results.analysis.property;
+package components.results.simulation.info.analysis.property;
 
 import components.execution.NewExecutionController;
+import components.results.simulation.info.analysis.property.histogram.HistogramController;
 import dto.HistogramDTO;
 import dto.PastEntityDTO;
 import dto.PastSimulationDTO;
@@ -11,10 +12,16 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,27 +43,45 @@ public class PropertyChooserController {
     @FXML
     private Button meanButton;
 
-    private BooleanProperty enableButtons = new SimpleBooleanProperty(false);
-    private StringProperty entitySelectorProperty = new SimpleStringProperty();
-    private StringProperty propertySelectorProperty = new SimpleStringProperty();
+    private BorderPane analysisScreen;
+    private BooleanProperty disableButtons;
     private PastSimulationDTO dto;
+    private StringProperty entitySelectorProperty;
+    private StringProperty propertySelectorProperty;
     private NewExecutionController newExecutionController;
+
+    public PropertyChooserController() {
+        disableButtons = new SimpleBooleanProperty(false);
+        entitySelectorProperty = new SimpleStringProperty();
+        propertySelectorProperty = new SimpleStringProperty();
+    }
 
     @FXML
     public void initialize() {
         entitySelectorProperty.bind(entitySelector.textProperty());
         propertySelectorProperty.bind(propertySelector.textProperty());
         propertySelector.disableProperty().bind(entitySelectorProperty.isEqualTo("Entity"));
-        enableButtons.bind(entitySelectorProperty.isEqualTo("Entity")
+        disableButtons.bind(entitySelectorProperty.isEqualTo("Entity")
                 .or(propertySelectorProperty.isEqualTo("Property")));
-        histogramButton.disableProperty().bind(enableButtons);
-        consistencyButton.disableProperty().bind(enableButtons);
-        meanButton.disableProperty().bind(enableButtons);
+        histogramButton.disableProperty().bind(disableButtons);
+        consistencyButton.disableProperty().bind(disableButtons);
+        meanButton.disableProperty().bind(disableButtons);
+
+        entitySelector.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (!(oldValue.equals(newValue)))
+                clearAnalysisScreen();
+        });
+        propertySelector.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (!(oldValue.equals(newValue)))
+                clearAnalysisScreen();
+        });
     }
 
     public void setNewExecutionController(NewExecutionController newExecutionController) {
         this.newExecutionController = newExecutionController;
     }
+
+    public void setAnalysisScreen(BorderPane borderPane) { this.analysisScreen = borderPane; }
 
     public void setDto(PastSimulationDTO dto) {
         this.dto = dto;
@@ -98,9 +123,19 @@ public class PropertyChooserController {
 
 
     @FXML
-    public void showHistogram(ActionEvent event) {
-        Map<Object, Integer> histogram = newExecutionController.getHistogram(dto.getId(), entitySelector.getText(), propertySelector.getText()).getValueToAmount();
+    public void showHistogram(ActionEvent event) throws Exception {
+        URL histogramFXML = getClass().getResource("/components/results/simulation/info/analysis/property/histogram/histogram.fxml");
+        FXMLLoader histogramLoader = new FXMLLoader(histogramFXML);
+        ScrollPane histogramNode = histogramLoader.load();
+        HistogramController histogramController = histogramLoader.getController();
 
+        Map<Object, Integer> histogram = newExecutionController.getHistogram(dto.getId(), entitySelector.getText(), propertySelector.getText()).getValueToAmount();
+        for (Object key : histogram.keySet()) {
+            histogramController.addPair(key, histogram.get(key));
+        }
+
+        histogramNode.getStylesheets().add("/components/results/simulation/info/analysis/property/histogram/histogram.css");
+        analysisScreen.setCenter(histogramNode);
     }
 
     @FXML
@@ -111,6 +146,10 @@ public class PropertyChooserController {
     @FXML
     public void showMean(ActionEvent event) {
 
+    }
+
+    public void clearAnalysisScreen() {
+        analysisScreen.setCenter(null);
     }
 
 }

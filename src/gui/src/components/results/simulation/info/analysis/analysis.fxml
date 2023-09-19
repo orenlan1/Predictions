@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<BorderPane fx:id="analysisScreen" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.results.analysis.AnalysisController">
+<BorderPane fx:id="analysisScreen" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.results.simulation.info.analysis.AnalysisController">
    <top>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>

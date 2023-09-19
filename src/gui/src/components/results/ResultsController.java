@@ -2,8 +2,9 @@ package components.results;
 
 import components.execution.NewExecutionController;
 import components.main.PredictionsController;
-import components.results.analysis.AnalysisController;
-import dto.SimulationRunnerDTO;
+import components.results.simulation.info.SimulationInfoController;
+import components.results.simulation.info.analysis.AnalysisController;
+import dto.PastSimulationDTO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -17,6 +18,8 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ResultsController {
 
@@ -35,6 +38,11 @@ public class ResultsController {
 
     private PredictionsController predictionsController;
     private NewExecutionController newExecutionController;
+    private Map<Integer, SimulationInfoController> idToSimulationInfoController;
+
+    public ResultsController() {
+        idToSimulationInfoController = new LinkedHashMap<>();
+    }
 
     public void setPredictionsController(PredictionsController predictionsController) {
         this.predictionsController = predictionsController;
@@ -44,16 +52,32 @@ public class ResultsController {
         this.newExecutionController = newExecutionController;
     }
 
+    public NewExecutionController getNewExecutionController() {
+        return newExecutionController;
+    }
+
+    public BorderPane getResultsBorderPane() {
+        return resultsBorderPane;
+    }
+
     public void showResults(BorderPane borderPane) {
         borderPane.setCenter(resultsBorderPane);
         resultsBorderPane.setCenter(resultsScrollPane);
     }
 
-    public void addPastSimulation(Integer id) {
-        pastSimulations.getPanes().add(createTitledPane(id));
+    public void addPastSimulation(Integer id) throws Exception {
+        URL simulationInfoFXML = getClass().getResource("/components/results/simulation/info/simulationInfo.fxml");
+        FXMLLoader simulationInfoLoader = new FXMLLoader(simulationInfoFXML);
+        TitledPane simulationInfo = simulationInfoLoader.load();
+        SimulationInfoController simulationInfoController = simulationInfoLoader.getController();
+        simulationInfoController.setIdAndName(id);
+        simulationInfoController.setResultsController(this);
+        idToSimulationInfoController.put(id, simulationInfoController);
+
+        pastSimulations.getPanes().add(simulationInfo);
     }
 
-    public TitledPane createTitledPane(Integer id) {
+    /*public TitledPane createTitledPane(Integer id) {
         Button progressAndEntitiesButton = new Button("Progress and entities");
         Button analysisButton = new Button("Analysis");
 
@@ -70,13 +94,13 @@ public class ResultsController {
         vbox.setSpacing(10);
 
         return new TitledPane("Simulation " + id, vbox);
-    }
+    }*/
 
 
-    public void showAnalysis(Integer id) {
+    /*public void showAnalysis(Integer id) {
         clearResults();
 
-        URL analysisFXML = getClass().getResource("/components/results/analysis/analysis.fxml");
+        URL analysisFXML = getClass().getResource("/components/results/simulation/info/analysis/analysis.fxml");
         FXMLLoader analysisLoader = new FXMLLoader(analysisFXML);
         BorderPane analysisScreen;
         try {
@@ -86,10 +110,13 @@ public class ResultsController {
         }
         AnalysisController analysisController = analysisLoader.getController();
         analysisController.setDto(predictionsController.getPastSimulation(id));
-        analysisController.setResultsFlowPane(resultsFlowPane);
         analysisController.setNewExecutionController(newExecutionController);
 
         resultsBorderPane.setCenter(analysisScreen);
+    }*/
+
+    public PastSimulationDTO getPastSimulation(Integer id) {
+        return predictionsController.getPastSimulation(id);
     }
 
     public void clearResults() {

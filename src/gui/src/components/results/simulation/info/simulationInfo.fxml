@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<TitledPane fx:id="titledPaneName" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.results.simulation.info.SimulationInfoController">
+   <content>
+      <VBox spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#showProgressAndEntities" prefHeight="40.0" prefWidth="150.0" text="Progress and entities" />
+            <Button fx:id="analysisButton" mnemonicParsing="false" onAction="#showAnalysis" prefHeight="40.0" prefWidth="150.0" text="Analysis" />
+         </children>
+      </VBox>
+   </content>
+</TitledPane>
