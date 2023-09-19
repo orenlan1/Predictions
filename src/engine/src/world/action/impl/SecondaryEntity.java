@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class SecondaryEntity implements Serializable {
     private final EntityDefinition secondaryEntityDefinition;
@@ -36,7 +37,7 @@ public class SecondaryEntity implements Serializable {
                 if ( entityInstance.isAlive())
                     resultList.add(entityInstance);
             }
-            return secondaryEntityDefinition.getEntityInstances();
+            return resultList;
         }
         else {
             int count = Integer.parseInt(this.count);
@@ -51,7 +52,9 @@ public class SecondaryEntity implements Serializable {
                 }
             }
             else {
-                computedList = secondaryEntityInstances;
+                computedList = secondaryEntityInstances.stream()
+                        .filter((EntityInstance::isAlive))
+                        .collect(Collectors.toList());
             }
             if ( computedList.isEmpty())
                 return computedList;
