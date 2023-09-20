@@ -41,7 +41,7 @@ public class SimulationExecutor implements Runnable {
         } finally {
             world.getPastSimulation().setRunning(false);
             threadPoolDelegate.decreaseRunningSimulations();
-            threadPoolDelegate.increaseFinishedSimulations();
+            threadPoolDelegate.increaseFinishedSimulations(world.getSimulationID());
         }
         if (ticks != null && seconds != null) {
             if (world.getTicks() >= ticks)

@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 public class QueueManagementController {
 
@@ -35,10 +36,11 @@ public class QueueManagementController {
         finishedCounter.textProperty().bind(Bindings.concat("", threadPoolDelegate.finishedSimulationsProperty()));
     }
 
-
     public void setPredictionsController(PredictionsController predictionsController) {
         this.predictionsController = predictionsController;
     }
+
+    public void setPrimaryStage(Stage primaryStage) { threadPoolDelegate.setPrimaryStage(primaryStage); }
 
     public void showQueueManagement(BorderPane pane) {
         pane.setCenter(queueGridPane);

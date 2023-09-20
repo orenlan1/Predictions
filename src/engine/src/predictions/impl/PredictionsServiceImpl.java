@@ -9,6 +9,7 @@ import world.entity.api.EntityInstance;
 import world.environment.EnvVariablesUpdater;
 import world.environment.api.ActiveEnvironment;
 import world.environment.api.EnvironmentVariablesManager;
+import world.environment.impl.ActiveEnvironmentImpl;
 import world.exceptions.EntityPropertyNotExistException;
 import world.factory.DTOFactory;
 import world.file.reader.EngineFileReader;
@@ -40,7 +41,6 @@ public class PredictionsServiceImpl implements PredictionsService {
        }
        simulationManager = new SimulationExecutionManager(mainWorld.getThreadCount());
        simulationManager.addWorldSimulation(mainWorld);
-       mainWorld.setPastSimulation(new PastSimulation(null, 0, null, null, null));
        Grid grid = mainWorld.getGrid();
        return new FileReaderDTO(Boolean.TRUE, null, new GridDTO(grid.getRows(), grid.getCols()));
     }
@@ -114,7 +114,6 @@ public class PredictionsServiceImpl implements PredictionsService {
         SimulationExecutor simulationExecutor = new SimulationExecutor(threadPoolDelegate);
         threadPoolDelegate.increaseSimulationsInQueue();
         simulationExecutor.setWorld(newWorld);
-        newWorld.setPastSimulation(new PastSimulation(null, 0, null, null, null));
         simulationManager.addWorldSimulation(newWorld);
         Integer id = newWorld.getSimulationID();
         simulationManager.getThreadExecutor().execute(simulationExecutor);

@@ -55,6 +55,7 @@ public class PredictionsApp extends Application {
         QueueManagementController queueManagementController = queueLoader.getController();
         queueManagementController.setPredictionsController(predictionsController);
         predictionsController.setQueueManagementController(queueManagementController);
+        queueManagementController.setPrimaryStage(primaryStage);
 
         DetailsController detailsController = detailsLoader.getController();
         detailsController.setPredictionsController(predictionsController);

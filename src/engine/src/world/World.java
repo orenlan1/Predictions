@@ -9,6 +9,7 @@ import world.entity.api.EntityDefinition;
 import world.entity.api.EntityInstance;
 import world.environment.api.ActiveEnvironment;
 import world.environment.api.EnvironmentVariablesManager;
+import world.environment.impl.ActiveEnvironmentImpl;
 import world.exceptions.RuleNameExistException;
 import world.grid.Grid;
 import world.rule.api.Rule;
@@ -33,6 +34,7 @@ public class World implements Serializable {
         population = 0;
         nameToEntityDefinition = new HashMap<>();
         rules = new ArrayList<>();
+        pastSimulation = new PastSimulation(new LinkedList<>(), 0, new Date(), new HashMap<>(), new ActiveEnvironmentImpl());
     }
 
     public int getTotalPopulation() {

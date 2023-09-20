@@ -1,12 +1,19 @@
 package components.queue.management;
 
+import app.Toast;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.stage.Stage;
 
 public class ThreadPoolDelegate {
     private final SimpleIntegerProperty runningSimulations = new SimpleIntegerProperty(0);
     private final SimpleIntegerProperty simulationsInQueue = new SimpleIntegerProperty(0);
     private final SimpleIntegerProperty finishedSimulations = new SimpleIntegerProperty(0);
+    private Stage primaryStage;
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 
     public int getRunningSimulations() {
         return runningSimulations.get();
@@ -48,8 +55,12 @@ public class ThreadPoolDelegate {
         Platform.runLater(() -> simulationsInQueue.set(simulationsInQueue.getValue() - 1));
     }
 
-    public void increaseFinishedSimulations() {
-        Platform.runLater(() -> finishedSimulations.set(finishedSimulations.getValue() + 1));
+    public void increaseFinishedSimulations(Integer id) {
+        Platform.runLater(() -> {
+            finishedSimulations.set(finishedSimulations.getValue() + 1);
+            Toast toast = new Toast(primaryStage);
+            toast.makeToast("Simulation " + id + " has finished running!\nYou can view its analysis in the Results screen");
+        });
     }
 
     public void decreaseFinishedSimulations() {
