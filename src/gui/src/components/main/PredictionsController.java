@@ -195,4 +195,16 @@ public class PredictionsController {
     }
 
     public Map<Integer, Boolean> getAllSimulationStatus() { return predictionsService.getAllSimulationsStatus(); }
+
+    public void pauseSimulation(Integer id) {
+        predictionsService.pauseSimulation(id);
+    }
+
+    public void resumeSimulation(Integer id) {
+        predictionsService.resumeSimulation(id);
+    }
+
+    public void stopSimulation(Integer id) {
+        predictionsService.stopSimulation(id);
+    }
 }

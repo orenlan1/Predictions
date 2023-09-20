@@ -55,44 +55,39 @@ public class SimulationExecutor implements Runnable {
             simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.FALSE);
     }
 
-    /*public void runSimulation() {
-        Integer seconds = world.getTermination().getSecondCount();
-        Integer ticks = world.getTermination().getTicksCount();
-        world.resetTicks();
-        try {
-            simulationRulesPerform(world, seconds, ticks);
-        } catch (Exception e) {
-            simulationRunnerDTO = new SimulationRunnerDTO(Boolean.FALSE, e.getMessage(), world.getSimulationID(), Boolean.FALSE);
-        }
-        if (ticks != null && seconds != null) {
-            if (world.getTicks() >= ticks)
-                simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.TRUE);
-            else
-                simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.FALSE);
-        }
-        else if (ticks != null)
-            simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.TRUE);
-        else
-            simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.FALSE);
-    }*/
-
-
     public void simulationRulesPerform(World world, Integer seconds, Integer ticks) throws Exception {
         Thread currThread = Thread.currentThread();
         Map<String, Map<Integer, Integer>> entityToPopulation = new HashMap<>();
+        Map<String, Integer> dynamicPopulation = new HashMap<>();
         for (EntityDefinition entityDefinition : world.getEntityDefinitions()) {
             entityDefinition.createEntityInstancesPopulation(world.getGrid());
             entityToPopulation.put(entityDefinition.getName(), new LinkedHashMap<>());
             Map<Integer, Integer> entityCount = entityToPopulation.get(entityDefinition.getName());
             entityCount.put(0, entityDefinition.getPopulation());
+            dynamicPopulation.put(entityDefinition.getName(), entityDefinition.getPopulation());
         }
 
         Boolean valid = true;
         long start = System.currentTimeMillis();
         Date date = new Date(start);
-        world.setPastSimulation(new PastSimulation(world.getEntityDefinitions(), world.getSimulationID(), date, entityToPopulation, world.getActiveEnvironment()));
+        world.setPastSimulation(new PastSimulation(world.getEntityDefinitions(), world.getSimulationID(), date, entityToPopulation, dynamicPopulation, world.getActiveEnvironment()));
 
         while (valid) {
+            if (world.isPaused()) {
+                synchronized (world.getPauseLock()) {
+                    while (world.isPaused()) {
+                        try {
+                            world.getPauseLock().wait();
+                        } catch (InterruptedException e) {
+                            throw new Exception(e);
+                        }
+                    }
+                }
+            }
+            if (world.isStopped()) {
+                valid = false;
+                break;
+            }
             world.moveAllEntitiesCoordinates(world.getGrid());
             for (EntityDefinition entityDefinition : world.getEntityDefinitions()) {
                 for (EntityInstance entityInstance : entityDefinition.getEntityInstances()) {
@@ -118,6 +113,8 @@ public class SimulationExecutor implements Runnable {
             }
 
             world.tick();
+            world.getPastSimulation().setTicks(world.getTicks());
+            world.getPastSimulation().setSeconds((int)(System.currentTimeMillis() - start) / 1000);
 
             for (EntityDefinition entDefinition : world.getEntityDefinitions()) {
                 List<EntityInstance> entitiesToReplace = new ArrayList<>();
@@ -138,6 +135,7 @@ public class SimulationExecutor implements Runnable {
                 entityInstances.removeIf(entityInstance -> !entityInstance.isAlive());
                 entityDefinition.setPopulation(entityInstances.size());
                 sumPopulation += entityInstances.size();
+                dynamicPopulation.put(entityDefinition.getName(), entityInstances.size());
             }
             world.updatePopulation(sumPopulation);
 

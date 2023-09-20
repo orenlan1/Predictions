@@ -7,19 +7,23 @@ import java.util.Map;
 public class PastSimulationDTO {
     private final int id;
     private final List<PastEntityDTO> entitiesDTO;
-    private final Date date;
-    private final Map<String , Map<Integer, Integer>> entityToPopulation;
+    private final Map<String, Map<Integer, Integer>> entityToPopulation;
+    private final Map<String, Integer> dynamicPopulation;
     private final List<EnvVariablesDTO> environmentVariables;
     private boolean running;
+    private final Integer ticks;
+    private final Integer seconds;
 
-    public PastSimulationDTO(int simulationID, List<PastEntityDTO> entitiesDTO, Date date, Map<String,
-            Map<Integer, Integer>> entityToPopulation, List<EnvVariablesDTO> environmentVariables, boolean running) {
+    public PastSimulationDTO(int simulationID, List<PastEntityDTO> entitiesDTO, Map<String, Map<Integer, Integer>> entityToPopulation,
+                             Map<String, Integer> dynamicPopulation, List<EnvVariablesDTO> environmentVariables, boolean running, Integer ticks, Integer seconds) {
         this.id = simulationID;
         this.entitiesDTO = entitiesDTO;
-        this.date = date;
+        this.dynamicPopulation = dynamicPopulation;
         this.entityToPopulation = entityToPopulation;
         this.environmentVariables = environmentVariables;
         this.running = running;
+        this.ticks = ticks;
+        this.seconds = seconds;
     }
 
     public int getId() {
@@ -30,9 +34,7 @@ public class PastSimulationDTO {
         return entitiesDTO;
     }
 
-    public Date getDate() {
-        return date;
-    }
+    public Map<String, Integer> getDynamicPopulation() { return dynamicPopulation; }
 
     public Map<String, Map<Integer, Integer>> getEntityToPopulation() {
         return entityToPopulation;
@@ -43,4 +45,8 @@ public class PastSimulationDTO {
     }
 
     public boolean isRunning() { return running; }
+
+    public Integer getTicks() { return ticks; }
+
+    public Integer getSeconds() { return seconds; }
 }

@@ -2,6 +2,7 @@ package components.results.simulation.info;
 
 import components.results.ResultsController;
 import components.results.simulation.info.analysis.AnalysisController;
+import components.results.simulation.info.progression.ProgressionController;
 import dto.PastSimulationDTO;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -31,6 +32,8 @@ public class SimulationInfoController {
     private BooleanProperty enableAnalysis;
     private Thread backgroundThread;
     private boolean isThreadRunning;
+    private BorderPane progressionScreen;
+    private ProgressionController progressionController;
 
     public SimulationInfoController() {
         enableAnalysis = new SimpleBooleanProperty(false);
@@ -47,6 +50,16 @@ public class SimulationInfoController {
                 stopBackgroundThread();
             }
         });
+
+        URL progressionFXML = getClass().getResource("/components/results/simulation/info/progression/progression.fxml");
+        FXMLLoader progressionLoader = new FXMLLoader(progressionFXML);
+        try {
+            progressionScreen = progressionLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        progressionController = progressionLoader.getController();
+        progressionScreen.getStylesheets().add("/components/results/simulation/info/progression/progression.css");
     }
 
     private void startBackgroundThread() {
@@ -57,8 +70,11 @@ public class SimulationInfoController {
                     PastSimulationDTO dto = resultsController.getPastSimulationDTO(id);
                     // Push the data to the GUI using Platform.runLater
                     Platform.runLater(() -> {
-                        if (!dto.isRunning())
+                        progressionController.setDto(dto);
+                        if (!dto.isRunning()) {
                             markSimulationFinished();
+                            isThreadRunning = false;
+                        }
                     });
 
                     try {
@@ -88,6 +104,7 @@ public class SimulationInfoController {
 
     public void setResultsController(ResultsController resultsController) {
         this.resultsController = resultsController;
+        progressionController.setResultsController(resultsController);
     }
 
     @FXML
@@ -110,6 +127,9 @@ public class SimulationInfoController {
     @FXML
     void showProgressAndEntities(ActionEvent event) {
         //TODO
+
+
+        resultsController.getResultsBorderPane().setCenter(progressionScreen);
     }
 
     public void markSimulationFinished() { enableAnalysis.setValue(true); }

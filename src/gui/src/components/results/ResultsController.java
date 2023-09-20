@@ -100,4 +100,16 @@ public class ResultsController {
         resultsFlowPane.getChildren().clear();
         pastSimulations.getPanes().clear();
     }
+
+    public void pauseSimulation(Integer id) {
+        predictionsController.pauseSimulation(id);
+    }
+
+    public void resumeSimulation(Integer id) {
+        predictionsController.resumeSimulation(id);
+    }
+
+    public void stopSimulation(Integer id) {
+        predictionsController.stopSimulation(id);
+    }
 }

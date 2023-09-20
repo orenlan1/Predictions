@@ -22,6 +22,9 @@ public interface PredictionsService {
     Double getConsistency(Integer id, String entityName, String propertyName);
     MeanPropertyDTO getMeanOfProperty(Integer id, String entityName, String propertyName) throws EntityPropertyNotExistException;
     Map<Integer, Boolean> getAllSimulationsStatus();
+    void pauseSimulation(Integer id);
+    void resumeSimulation(Integer id);
+    void stopSimulation(Integer id);
 }
 
 

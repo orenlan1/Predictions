@@ -28,13 +28,19 @@ public class World implements Serializable {
     private PastSimulation pastSimulation;
     private Grid grid;
     private int threadCount;
+    private boolean paused;
+    private boolean stopped;
+    private final Grid pauseLock;
 
     public World() {
         ticks = 0;
         population = 0;
         nameToEntityDefinition = new HashMap<>();
         rules = new ArrayList<>();
-        pastSimulation = new PastSimulation(new LinkedList<>(), 0, new Date(), new HashMap<>(), new ActiveEnvironmentImpl());
+        pastSimulation = new PastSimulation(new LinkedList<>(), 0, new Date(),new HashMap<>(), new HashMap<>(), new ActiveEnvironmentImpl());
+        paused = false;
+        stopped = false;
+        pauseLock = new Grid(0, 0);
     }
 
     public int getTotalPopulation() {
@@ -187,5 +193,39 @@ public class World implements Serializable {
             return null;
 
         }
+    }
+
+    public void stopSimulation() {
+        stopped = true;
+        synchronized (pauseLock) {
+            pauseLock.notifyAll();
+        }
+    }
+
+    public boolean isStopped() {
+        return stopped;
+    }
+
+    public Object getPauseLock() {
+        return pauseLock;
+    }
+
+    public void pauseSimulation() {
+        paused = true;
+    }
+
+    public void resumeSimulation() {
+        synchronized (pauseLock) {
+            paused = false;
+            pauseLock.notifyAll();
+        }
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }

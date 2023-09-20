@@ -126,7 +126,6 @@ public class PredictionsServiceImpl implements PredictionsService {
 
         PastSimulation pastSimulation = simulationManager.getSpecificWorld(id).getPastSimulation();
         Collection<EntityDefinition> entityDefinitionCollection = pastSimulation.getEntities();
-        Date date = pastSimulation.getSimulationDate();
         List<PastEntityDTO> pastEntityDTOList = new ArrayList<>();
         for (EntityDefinition entityDefinition : entityDefinitionCollection) {
             List<PropertyDTO> propertyDTOList = new ArrayList<>();
@@ -141,7 +140,7 @@ public class PredictionsServiceImpl implements PredictionsService {
             envVariablesDTOs.add(dtoFactory.createEnvVariableDTO(envVariable));
         }
 
-        return new PastSimulationDTO(id, pastEntityDTOList, date, pastSimulation.getEntityToPopulation(), envVariablesDTOs, pastSimulation.isRunning());
+        return new PastSimulationDTO(id, pastEntityDTOList, pastSimulation.getEntityToPopulation(), pastSimulation.getDynamicPopulation(), envVariablesDTOs, pastSimulation.isRunning(), pastSimulation.getTicks(), pastSimulation.getSeconds());
     }
 
 
@@ -229,6 +228,21 @@ public class PredictionsServiceImpl implements PredictionsService {
             allSimulationsStatus.put(key, simulationManager.getSpecificWorld(key).getPastSimulation().isRunning());
         }
         return allSimulationsStatus;
+    }
+
+    @Override
+    public void pauseSimulation(Integer id) {
+        simulationManager.getSpecificWorld(id).pauseSimulation();
+    }
+
+    @Override
+    public void resumeSimulation(Integer id) {
+        simulationManager.getSpecificWorld(id).resumeSimulation();
+    }
+
+    @Override
+    public void stopSimulation(Integer id) {
+        simulationManager.getSpecificWorld(id).stopSimulation();
     }
 
 }

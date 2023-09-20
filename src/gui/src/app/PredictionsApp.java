@@ -65,7 +65,6 @@ public class PredictionsApp extends Application {
         newExecutionController.setPredictionsController(predictionsController);
         predictionsController.setNewExecutionController(newExecutionController);
         newExecutionController.setThreadPoolDelegate(queueManagementController.getThreadPoolDelegate());
-        //newExecutionController.setPrimaryStage(primaryStage);
 
         ResultsController resultsController = resultsLoader.getController();
         predictionsController.setResultsController(resultsController);
