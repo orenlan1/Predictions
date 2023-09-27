@@ -21,7 +21,7 @@ public interface PredictionsService {
     HistogramDTO getHistogram(Integer id, String entityName, String propertyName);
     Double getConsistency(Integer id, String entityName, String propertyName);
     MeanPropertyDTO getMeanOfProperty(Integer id, String entityName, String propertyName) throws EntityPropertyNotExistException;
-    Map<Integer, Boolean> getAllSimulationsStatus();
+    SimulationsStatusDTO getAllSimulationsStatus();
     void pauseSimulation(Integer id);
     void resumeSimulation(Integer id);
     void stopSimulation(Integer id);

@@ -12,9 +12,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,12 +29,12 @@ public class SimulationInfoController {
     @FXML
     private TitledPane titledPane;
 
-    private ResultsController resultsController;
     private Integer id;
     private BooleanProperty enableAnalysis;
     private Thread backgroundThread;
     private boolean isThreadRunning;
     private BorderPane progressionScreen;
+    private ResultsController resultsController;
     private ProgressionController progressionController;
 
     public SimulationInfoController() {
@@ -45,6 +47,7 @@ public class SimulationInfoController {
         analysisButton.disableProperty().bind(enableAnalysis.not());
         titledPane.expandedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
+                clearPreviousSimulationInfo();
                 startBackgroundThread();
             } else {
                 stopBackgroundThread();
@@ -68,17 +71,24 @@ public class SimulationInfoController {
             backgroundThread = new Thread(() -> {
                 while (isThreadRunning) {
                     PastSimulationDTO dto = resultsController.getPastSimulationDTO(id);
-                    // Push the data to the GUI using Platform.runLater
                     Platform.runLater(() -> {
                         progressionController.setDto(dto);
-                        if (!dto.isRunning()) {
-                            markSimulationFinished();
+                        if (dto.isValid()) {
+                            if (!dto.isRunning()) {
+                                markSimulationFinished();
+                                isThreadRunning = false;
+                            }
+                        } else {
+                            markSimulationFailed();
                             isThreadRunning = false;
+                            Alert alert = new Alert(Alert.AlertType.ERROR, "Simulation " + dto.getId() + " had failed during its process.\n"
+                                    + "Original error message: "+ dto.getMessage());
+                            alert.setHeaderText(null);
+                            alert.show();
                         }
                     });
-
                     try {
-                        Thread.sleep(200); // Sleep for 200ms
+                        Thread.sleep(200);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     }
@@ -118,19 +128,27 @@ public class SimulationInfoController {
             throw new RuntimeException(e);
         }
         AnalysisController analysisController = analysisLoader.getController();
+
         analysisController.setDto(resultsController.getPastSimulation(id));
         analysisController.setNewExecutionController(resultsController.getNewExecutionController());
-
         resultsController.getResultsBorderPane().setCenter(analysisScreen);
     }
 
     @FXML
     void showProgressAndEntities(ActionEvent event) {
-        //TODO
-
-
         resultsController.getResultsBorderPane().setCenter(progressionScreen);
     }
 
-    public void markSimulationFinished() { enableAnalysis.setValue(true); }
+    public void markSimulationFinished() {
+        enableAnalysis.setValue(true);
+        titledPane.lookup(".titled-pane > .title > .text").setStyle("-fx-font-weight: bold;");
+        titledPane.textFillProperty().set(Color.GREEN);
+    }
+
+    public void markSimulationFailed() {
+        titledPane.lookup(".titled-pane > .title > .text").setStyle("-fx-font-weight: bold;");
+        titledPane.textFillProperty().set(Color.RED);
+    }
+
+    public void clearPreviousSimulationInfo() { resultsController.getResultsBorderPane().setCenter(null); }
 }

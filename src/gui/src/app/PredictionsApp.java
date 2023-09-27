@@ -7,6 +7,7 @@ import components.queue.management.QueueManagementController;
 import components.results.ResultsController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
@@ -28,7 +29,7 @@ public class PredictionsApp extends Application {
 
         URL mainFXML = getClass().getResource("/components/main/predictionsScene.fxml");
         FXMLLoader loader = new FXMLLoader(mainFXML);
-        ScrollPane borderPane = loader.load();
+        ScrollPane mainScrollPane = loader.load();
 
         URL detailsFXML = getClass().getResource("/components/details/details.fxml");
         FXMLLoader detailsLoader = new FXMLLoader(detailsFXML);
@@ -36,7 +37,7 @@ public class PredictionsApp extends Application {
 
         URL queueFXML = getClass().getResource("/components/queue/management/queueManagement.fxml");
         FXMLLoader queueLoader = new FXMLLoader(queueFXML);
-        GridPane queue = queueLoader.load();
+        Parent queue = queueLoader.load();
 
         URL newExecutionFXML = getClass().getResource("/components/execution/newExecution.fxml");
         FXMLLoader newExecutionLoader = new FXMLLoader(newExecutionFXML);
@@ -71,7 +72,21 @@ public class PredictionsApp extends Application {
         newExecutionController.setResultsController(resultsController);
 
         primaryStage.setTitle("Predictions");
-        Scene scene = new Scene(borderPane,1400,600);
+        primaryStage.widthProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue.intValue() < 700)
+                mainScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+            else
+                mainScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        }));
+
+        primaryStage.heightProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue.intValue() < 550)
+                mainScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+            else
+                mainScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        }));
+
+        Scene scene = new Scene(mainScrollPane,1400,600);
         scene.getStylesheets().add(cssFileName);
         primaryStage.setScene(scene);
         primaryStage.show();

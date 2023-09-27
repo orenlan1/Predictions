@@ -16,7 +16,6 @@ import java.util.*;
 
 public class SimulationExecutor implements Runnable {
     private World world;
-    private SimulationRunnerDTO simulationRunnerDTO;
     private ThreadPoolDelegate threadPoolDelegate;
 
     public SimulationExecutor(ThreadPoolDelegate threadPoolDelegate) {
@@ -24,8 +23,6 @@ public class SimulationExecutor implements Runnable {
     }
 
     public void setWorld(World world) { this.world = world; }
-
-    public SimulationRunnerDTO getSimulationRunnerDTO() { return simulationRunnerDTO; }
 
     @Override
     public void run() {
@@ -37,26 +34,16 @@ public class SimulationExecutor implements Runnable {
         try {
             simulationRulesPerform(world, seconds, ticks);
         } catch (Exception e) {
-            simulationRunnerDTO = new SimulationRunnerDTO(Boolean.FALSE, e.getMessage(), world.getSimulationID(), Boolean.FALSE);
+            world.getPastSimulation().setValid(false);
+            world.getPastSimulation().setMessage(e.getMessage());
         } finally {
             world.getPastSimulation().setRunning(false);
             threadPoolDelegate.decreaseRunningSimulations();
             threadPoolDelegate.increaseFinishedSimulations(world.getSimulationID());
         }
-        if (ticks != null && seconds != null) {
-            if (world.getTicks() >= ticks)
-                simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.TRUE);
-            else
-                simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.FALSE);
-        }
-        else if (ticks != null)
-            simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.TRUE);
-        else
-            simulationRunnerDTO = new SimulationRunnerDTO(Boolean.TRUE, null, world.getSimulationID(), Boolean.FALSE);
     }
 
     public void simulationRulesPerform(World world, Integer seconds, Integer ticks) throws Exception {
-        Thread currThread = Thread.currentThread();
         Map<String, Map<Integer, Integer>> entityToPopulation = new HashMap<>();
         Map<String, Integer> dynamicPopulation = new HashMap<>();
         for (EntityDefinition entityDefinition : world.getEntityDefinitions()) {
@@ -70,7 +57,8 @@ public class SimulationExecutor implements Runnable {
         Boolean valid = true;
         long start = System.currentTimeMillis();
         Date date = new Date(start);
-        world.setPastSimulation(new PastSimulation(world.getEntityDefinitions(), world.getSimulationID(), date, entityToPopulation, dynamicPopulation, world.getActiveEnvironment()));
+        world.setPastSimulation(new PastSimulation(world.getEntityDefinitions(), world.getSimulationID(), entityToPopulation,
+                dynamicPopulation, world.getActiveEnvironment(), ""));
 
         while (valid) {
             if (world.isPaused()) {
@@ -152,8 +140,6 @@ public class SimulationExecutor implements Runnable {
                 valid = world.getTicks() < ticks;
             else if (seconds != null)
                 valid = System.currentTimeMillis() - start < (seconds * 1000L);
-
-            //TODO - add user terminated
         }
 
         for (EntityDefinition entityDefinition : world.getEntityDefinitions()) {

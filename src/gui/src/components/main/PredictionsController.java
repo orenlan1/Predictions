@@ -9,12 +9,9 @@ import dto.*;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import predictions.api.PredictionsService;
 
@@ -25,8 +22,6 @@ import javafx.scene.control.Label;
 import world.exceptions.EntityPropertyNotExistException;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -194,7 +189,7 @@ public class PredictionsController {
         return predictionsService.getMeanOfProperty(id, entityName, propertyName);
     }
 
-    public Map<Integer, Boolean> getAllSimulationStatus() { return predictionsService.getAllSimulationsStatus(); }
+    public SimulationsStatusDTO getAllSimulationStatus() { return predictionsService.getAllSimulationsStatus(); }
 
     public void pauseSimulation(Integer id) {
         predictionsService.pauseSimulation(id);

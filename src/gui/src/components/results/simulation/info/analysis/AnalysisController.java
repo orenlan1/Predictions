@@ -68,7 +68,7 @@ public class AnalysisController {
             Map<Integer, Integer> population = map.get(key);
 
             for (Integer tick : population.keySet()) {
-                series.getData().add(new XYChart.Data(tick, population.get(tick)));
+                series.getData().add(new XYChart.Data<>(tick, population.get(tick)));
             }
             lineChart.getData().add(series);
         }

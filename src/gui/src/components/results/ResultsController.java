@@ -3,20 +3,16 @@ package components.results;
 import components.execution.NewExecutionController;
 import components.main.PredictionsController;
 import components.results.simulation.info.SimulationInfoController;
-import components.results.simulation.info.analysis.AnalysisController;
 import dto.PastSimulationDTO;
+import dto.SimulationsStatusDTO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.control.Accordion;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.VBox;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -64,10 +60,15 @@ public class ResultsController {
         borderPane.setCenter(resultsBorderPane);
         resultsBorderPane.setCenter(resultsScrollPane);
 
-        Map<Integer, Boolean> allSimulationsStatus = predictionsController.getAllSimulationStatus();
+        SimulationsStatusDTO allSimulationsStatus = predictionsController.getAllSimulationStatus();
+        Map<Integer, Boolean> simulationsRunning = allSimulationsStatus.getRunningSimulations();
+        Map<Integer, Boolean> simulationsValid = allSimulationsStatus.getValidSimulations();
         for (Integer key : idToSimulationInfoController.keySet()) {
-            if (!allSimulationsStatus.get(key))
-                idToSimulationInfoController.get(key).markSimulationFinished();
+            if (!simulationsRunning.get(key))
+                if (simulationsValid.get(key))
+                    idToSimulationInfoController.get(key).markSimulationFinished();
+                else
+                    idToSimulationInfoController.get(key).markSimulationFailed();
         }
         pastSimulations.setExpandedPane(null);
     }
@@ -89,11 +90,6 @@ public class ResultsController {
     }
 
     public PastSimulationDTO getPastSimulationDTO(Integer id) { return predictionsController.getPastSimulation(id); }
-
-    public void clearResults() {
-        resultsBorderPane.setCenter(resultsScrollPane);
-        resultsFlowPane.getChildren().clear();
-    }
 
     public void hardReset() {
         resultsBorderPane.setCenter(resultsScrollPane);

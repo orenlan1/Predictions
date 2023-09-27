@@ -10,3 +10,8 @@
     -fx-border-color: black;
     -fx-border-radius: 15px;
 }
+
+.button {
+    -fx-border-color: gray;
+    -fx-border-radius: 15px;
+}

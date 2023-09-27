@@ -33,8 +33,8 @@ public final class Toast {
         toastStage.initStyle(StageStyle.TRANSPARENT);
 
         Text text = new Text(toastMsg);
-        text.setFont(Font.font("Verdana", 20));
-        text.setFill(Color.RED);
+        text.setFont(Font.font("Verdana", 30));
+        text.setFill(Color.LIGHTGREEN);
 
         StackPane root = new StackPane(text);
         root.setStyle("-fx-background-radius: 20; -fx-background-color: rgba(0, 0, 0, 0.2); -fx-padding: 50px;");

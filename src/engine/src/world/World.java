@@ -37,7 +37,7 @@ public class World implements Serializable {
         population = 0;
         nameToEntityDefinition = new HashMap<>();
         rules = new ArrayList<>();
-        pastSimulation = new PastSimulation(new LinkedList<>(), 0, new Date(),new HashMap<>(), new HashMap<>(), new ActiveEnvironmentImpl());
+        pastSimulation = new PastSimulation(new LinkedList<>(), 0, new HashMap<>(), new HashMap<>(), new ActiveEnvironmentImpl(), "");
         paused = false;
         stopped = false;
         pauseLock = new Grid(0, 0);
@@ -198,6 +198,7 @@ public class World implements Serializable {
     public void stopSimulation() {
         stopped = true;
         synchronized (pauseLock) {
+            paused = false;
             pauseLock.notifyAll();
         }
     }

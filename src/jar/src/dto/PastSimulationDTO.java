@@ -13,8 +13,10 @@ public class PastSimulationDTO {
     private boolean running;
     private final Integer ticks;
     private final Integer seconds;
+    private final boolean valid;
+    private final String message;
 
-    public PastSimulationDTO(int simulationID, List<PastEntityDTO> entitiesDTO, Map<String, Map<Integer, Integer>> entityToPopulation,
+    public PastSimulationDTO(int simulationID, List<PastEntityDTO> entitiesDTO, Map<String, Map<Integer, Integer>> entityToPopulation, boolean valid, String message,
                              Map<String, Integer> dynamicPopulation, List<EnvVariablesDTO> environmentVariables, boolean running, Integer ticks, Integer seconds) {
         this.id = simulationID;
         this.entitiesDTO = entitiesDTO;
@@ -24,6 +26,8 @@ public class PastSimulationDTO {
         this.running = running;
         this.ticks = ticks;
         this.seconds = seconds;
+        this.valid = valid;
+        this.message = message;
     }
 
     public int getId() {
@@ -49,4 +53,8 @@ public class PastSimulationDTO {
     public Integer getTicks() { return ticks; }
 
     public Integer getSeconds() { return seconds; }
+
+    public boolean isValid() { return valid; }
+
+    public String getMessage() { return message; }
 }

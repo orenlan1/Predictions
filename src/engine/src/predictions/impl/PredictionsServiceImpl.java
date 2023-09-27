@@ -54,13 +54,11 @@ public class PredictionsServiceImpl implements PredictionsService {
     @Override
     public void randomizeEnvProperties() {
         World world = simulationManager.getMainWorld();
-        EnvironmentVariablesManager envVariablesManager = world.getEnvironmentVariablesManager();
-        ActiveEnvironment activeEnvironment = envVariablesManager.createActiveEnvironment();
+        ActiveEnvironment activeEnvironment = world.getActiveEnvironment();
 
-        for (PropertyDefinition propertyDefinition : envVariablesManager.getEnvironmentVariables()) {
-            activeEnvironment.addPropertyInstance(new PropertyInstanceImpl(propertyDefinition, propertyDefinition.generateValue()));
+        for (PropertyInstance envVariable : activeEnvironment.getEnvironmentVariables()) {
+            envVariable.updateValue(envVariable.getPropertyDefinition().generateValue(), 0);
         }
-        world.setActiveEnvironment(activeEnvironment);
     }
 
     @Override
@@ -140,7 +138,8 @@ public class PredictionsServiceImpl implements PredictionsService {
             envVariablesDTOs.add(dtoFactory.createEnvVariableDTO(envVariable));
         }
 
-        return new PastSimulationDTO(id, pastEntityDTOList, pastSimulation.getEntityToPopulation(), pastSimulation.getDynamicPopulation(), envVariablesDTOs, pastSimulation.isRunning(), pastSimulation.getTicks(), pastSimulation.getSeconds());
+        return new PastSimulationDTO(id, pastEntityDTOList, pastSimulation.getEntityToPopulation(), pastSimulation.isValid(), pastSimulation.getMessage(),
+                pastSimulation.getDynamicPopulation(), envVariablesDTOs, pastSimulation.isRunning(), pastSimulation.getTicks(), pastSimulation.getSeconds());
     }
 
 
@@ -222,18 +221,18 @@ public class PredictionsServiceImpl implements PredictionsService {
     }
 
     @Override
-    public Map<Integer, Boolean> getAllSimulationsStatus() {
-        Map<Integer, Boolean> allSimulationsStatus = new HashMap<>();
+    public SimulationsStatusDTO getAllSimulationsStatus() {
+        Map<Integer, Boolean> simulationsRunning = new HashMap<>();
+        Map<Integer, Boolean> simulationsValid = new HashMap<>();
         for (Integer key : simulationManager.getAllSimulationsID()) {
-            allSimulationsStatus.put(key, simulationManager.getSpecificWorld(key).getPastSimulation().isRunning());
+            simulationsRunning.put(key, simulationManager.getSpecificWorld(key).getPastSimulation().isRunning());
+            simulationsValid.put(key, simulationManager.getSpecificWorld(key).getPastSimulation().isValid());
         }
-        return allSimulationsStatus;
+        return new SimulationsStatusDTO(simulationsRunning, simulationsValid);
     }
 
     @Override
-    public void pauseSimulation(Integer id) {
-        simulationManager.getSpecificWorld(id).pauseSimulation();
-    }
+    public void pauseSimulation(Integer id) { simulationManager.getSpecificWorld(id).pauseSimulation(); }
 
     @Override
     public void resumeSimulation(Integer id) {

@@ -6,6 +6,8 @@ import components.main.PredictionsController;
 import components.queue.management.ThreadPoolDelegate;
 import components.results.ResultsController;
 import dto.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
